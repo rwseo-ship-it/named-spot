@@ -64,8 +64,10 @@ h2{font-size:20px;font-weight:800;line-height:1.3}
 .over{color:var(--red);font-weight:800}
 .st{display:inline-block;font-size:13px;font-weight:800;padding:4px 7px 3px;border-radius:2px;border:1.5px solid var(--fg);line-height:1;white-space:nowrap}
 .st.go{background:var(--fg);color:var(--bg)}
-.st.gat{background:var(--y)}
-.st.done{border-color:var(--mute);color:var(--sub)}
+.st.gat{border-width:2px;background:var(--paper)}
+.st.soon{border-color:var(--sub);color:var(--fg);font-weight:700}
+.st.pre{border-color:var(--hair);color:var(--sub);font-weight:700}
+.st.done{border-color:var(--hair);color:var(--mute);font-weight:600}
 
 /* details / accordion */
 details{border-top:1px solid var(--hair)}
@@ -84,7 +86,7 @@ ol.steps li:first-child{border-top:0}
 ol.steps .k{font-size:18px;font-weight:800;line-height:1.35}
 ol.steps b{display:block;font-weight:800;font-size:17px}
 .kv{display:grid;grid-template-columns:76px minmax(0,1fr);gap:8px 12px;margin:0;font-size:16px}
-.kv dt{font-weight:800}
+.kv dt{font-weight:600;color:var(--sub)}
 .kv dd{margin:0;min-width:0}
 .tbl{width:100%;border-collapse:collapse;font-size:15px}
 .tbl th,.tbl td{text-align:left;vertical-align:top;padding:8px 8px 8px 0;border-top:1px solid var(--hair)}
@@ -92,52 +94,61 @@ ol.steps b{display:block;font-weight:800;font-size:17px}
 .tbl th{font-weight:800;white-space:nowrap}
 
 /* NOW: clock */
-.clock{display:block;width:100%;text-align:left;background:none;border:0;padding:0;cursor:pointer}
-.clock .t{display:block;font-size:50px;font-weight:800;line-height:1;letter-spacing:-1.5px}
-.clock .cd{display:block;margin-top:6px;font-size:18px;font-weight:700}
-.clock .cd em{font-style:normal;font-weight:500;color:var(--sub);font-size:15px;margin-left:6px;text-decoration:underline;text-underline-offset:3px}
-.prev{background:var(--yl);padding:8px 12px;margin-top:10px;font-size:15px;font-weight:600;border-radius:2px}
-.mine{display:flex;width:100%;text-align:left;margin-top:12px;border:2px solid var(--fg);border-radius:3px;background:var(--paper);padding:0;cursor:pointer}
+.clock{display:flex;align-items:center;gap:8px;width:100%;min-height:44px;text-align:left;background:none;border:0;padding:0;cursor:pointer;font-size:16px;font-weight:600;color:var(--sub)}
+.clock em{font-style:normal;margin-left:auto;font-size:15px;font-weight:600;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.prev{background:var(--soft);padding:8px 12px;margin-top:4px;font-size:15px;font-weight:600;border-radius:2px}
+.ask{border:2px solid var(--fg);border-radius:3px;background:var(--paper);padding:14px 14px 6px;margin-top:4px}
+.ask h2{font-size:24px}
+.ask p{font-size:16px;color:var(--sub);margin:4px 0 12px}
+.ask .lnk{display:block;width:100%;text-align:center;color:var(--sub);font-weight:600}
+.mine{display:flex;width:100%;text-align:left;margin-top:4px;border:2px solid var(--fg);border-radius:3px;background:var(--paper);padding:0;cursor:pointer}
 .mine .bar{width:10px;flex:0 0 10px;background:var(--c)}
 .mine .in{padding:10px 12px;flex:1;min-width:0}
-.mine .k{display:block;font-size:14px;font-weight:700;color:var(--sub)}
-.mine .w{display:block;font-size:20px;font-weight:800;line-height:1.3;margin-top:2px}
-.mine .nx{display:block;font-size:15px;font-weight:600;margin-top:4px}
-.mine.ask{padding:12px 14px;display:block;border-style:dashed;font-weight:700}
-.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
-.tile{display:flex;flex-direction:column;align-items:flex-start;text-align:left;min-height:80px;padding:7px 10px;border:2px solid var(--fg);border-radius:3px;background:var(--paper);cursor:pointer;min-width:0}
-.tile .l{font-size:13px;font-weight:700;color:var(--sub);line-height:1.25}
-.tile .v{font-size:24px;font-weight:800;line-height:1.15;margin-top:4px;letter-spacing:-.5px}
-.tile .v.sm2{font-size:19px}
-.tile .s{font-size:13px;font-weight:600;color:var(--sub);line-height:1.3;margin-top:2px;overflow-wrap:anywhere}
+.mine .k{display:block;font-size:14px;font-weight:600;color:var(--sub)}
+.mine .w{display:block;font-size:21px;font-weight:800;line-height:1.3;margin-top:2px}
+.mine .w i{font-style:normal;font-size:16px;font-weight:600}
+.mine .nx{display:block;font-size:16px;font-weight:500;margin-top:4px}
+.mine .nx i{font-style:normal;color:var(--sub);font-size:14px;font-weight:600;margin-right:4px}
+.mine .wt{display:block;font-size:14px;font-weight:500;color:var(--sub);margin-top:4px}
+.mine.ask2{display:flex;align-items:center;min-height:48px;padding:6px 14px;border-style:dashed;border-width:1.5px;font-weight:600;font-size:16px}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;text-align:left;min-height:72px;padding:6px 10px;border:2px solid var(--fg);border-radius:3px;background:var(--paper);cursor:pointer;min-width:0}
+.tile .l{font-size:13px;font-weight:600;color:var(--sub);line-height:1.25}
+.tile .v{font-size:22px;font-weight:800;line-height:1.15;margin-top:2px;letter-spacing:-.5px}
+.tile .v.sm2{font-size:18px}
+.tile .s{font-size:13px;font-weight:500;color:var(--sub);line-height:1.3;margin-top:2px;overflow-wrap:anywhere}
 .tile:active{background:var(--soft)}
 
 /* NOW: board */
-.ends{font-size:13px;font-weight:800;color:var(--sub);padding:2px 0 6px}
-.ends.s{padding:8px 0 2px}
-.zone{border-left:8px solid var(--c);background:var(--cl);padding:6px 8px 8px;margin-top:5px;border-radius:2px}
+.ends{font-size:13px;font-weight:600;color:var(--sub);padding:0 0 4px}
+.ends.s{padding:6px 0 0}
+.zone{border-left:8px solid var(--c);background:var(--cl);padding:5px 8px 6px;margin-top:4px;border-radius:2px}
 .zone:first-child{margin-top:0}
-.zh{display:flex;align-items:baseline;gap:6px;font-size:14px;font-weight:600;color:var(--sub);margin-bottom:6px;line-height:1.25;flex-wrap:wrap}
-.zh b{font-size:16px;font-weight:800;color:var(--fg)}
+.zh{display:flex;align-items:baseline;gap:6px;font-size:14px;font-weight:600;color:var(--sub);margin-bottom:4px;line-height:1.25;flex-wrap:wrap}
+.zh b{font-size:15px;font-weight:800;color:var(--fg)}
+.zh .n{margin-left:auto;font-size:13px;font-weight:600}
 .zone.off{background:none;padding:4px 10px;border-left-width:4px}
 .zone.off .zh{margin:0;color:var(--mute)}
 .zone.off .zh b{color:var(--mute);font-size:14px}
-.zsub{border-top:1px solid color-mix(in srgb,var(--c) 80%,#fff);padding-top:6px;margin-top:6px}
+.zsub{border-top:1px solid color-mix(in srgb,var(--c) 80%,#fff);padding-top:4px;margin-top:5px}
 .zh+.zsub{border-top:0;padding-top:0;margin-top:0}
 .zsub.off{padding-top:4px;color:var(--mute);font-size:14px;font-weight:600}
-.zsub .sl{font-size:14px;font-weight:800;margin-bottom:4px}
-.zsub .sl span{font-weight:500;color:var(--sub)}
+.zsub .sl{font-size:14px;font-weight:600;color:var(--sub);margin-bottom:3px}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
 .pair .zone{margin-top:0}
 .chips{display:flex;flex-wrap:wrap;gap:5px}
-.chip{display:inline-flex;align-items:center;gap:5px;min-height:44px;padding:4px 9px;background:var(--paper);border:1.5px solid var(--fg);border-radius:3px;cursor:pointer;text-align:left;max-width:100%;line-height:1.2}
-.chip b{font-size:15px;font-weight:800}
+.cg{display:flex;flex-wrap:wrap;align-items:center;gap:5px 10px}
+.cg .g{display:inline-flex;flex-wrap:wrap;align-items:center;gap:5px;max-width:100%}
+.cg .gl{font-size:13px;font-weight:500;color:var(--sub);line-height:1.2;max-width:9em}
+.chip{display:inline-flex;align-items:center;gap:5px;min-height:44px;min-width:44px;justify-content:center;padding:2px 9px;background:var(--paper);border:1.5px solid var(--fg);border-radius:3px;cursor:pointer;text-align:left;max-width:100%;line-height:1.2;font-size:15px;font-weight:700}
 .chip span{font-size:13px;font-weight:500;color:var(--sub)}
 .chip:active{background:var(--fg);color:var(--bg)}
 .chip:active span{color:var(--bg)}
-.shops{margin-top:12px}
+.zemp{font-size:13px;font-weight:500;color:var(--sub);margin-top:5px;padding-top:4px;border-top:1px solid color-mix(in srgb,var(--c) 80%,#fff)}
+.shops{margin-top:8px}
 .shop{border:0;border-left:8px solid var(--p);background:var(--pl);border-radius:2px;margin-top:6px}
-.shop>summary{padding:4px 10px;min-height:52px;font-size:16px}
+.shop>summary{padding:2px 10px;min-height:48px;font-size:15px}
+.shop .sh2{font-size:13px;font-weight:600;color:var(--sub);padding:8px 0 2px}
 .shop>summary .r{margin-left:auto;font-size:14px;font-weight:700;white-space:nowrap}
 .shop>summary .r i{font-style:normal;color:var(--sub);font-weight:600}
 .shop .dbody{padding:0 10px 10px}
@@ -145,8 +156,8 @@ ol.steps b{display:block;font-weight:800;font-size:17px}
 .sline b{font-weight:800}
 .sline .h{margin-left:auto;font-size:14px;font-weight:600;white-space:nowrap}
 .sline.off{color:var(--mute)}
-.band{margin-top:14px;padding-top:10px;border-top:2px solid var(--fg)}
-.offline{font-size:14px;color:var(--mute);font-weight:600;padding:8px 0 0}
+.band{margin-top:10px;padding-top:6px;border-top:2px solid var(--fg)}
+.offline{font-size:13px;color:var(--sub);font-weight:500;padding:6px 0 0}
 
 /* rows */
 .rows{list-style:none;margin:0;padding:0}
@@ -154,7 +165,7 @@ ol.steps b{display:block;font-weight:800;font-size:17px}
 .rows>li:first-child{border-top:0}
 .row{display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px;padding:10px 0;width:100%;text-align:left;background:none;border:0;cursor:pointer}
 div.row{cursor:default}
-.row .tm{font-size:20px;font-weight:800;line-height:1.2}
+.row .tm{font-size:18px;font-weight:600;line-height:1.2}
 .row .tm small{display:block;font-size:13px;font-weight:600;color:var(--sub)}
 .row .ds{font-size:16px;line-height:1.4;min-width:0}
 .row .ds b{font-weight:800}
@@ -171,13 +182,13 @@ div.row{cursor:default}
 .card+.card{margin-top:8px}
 .card .bar{width:10px;flex:0 0 10px;background:var(--c)}
 .card .in{padding:12px 14px 14px;flex:1;min-width:0}
-.card .k{font-size:15px;font-weight:800}
+.card .k{font-size:14px;font-weight:600;color:var(--sub)}
 .card .k span{font-weight:600;color:var(--sub)}
-.card .w{font-size:22px;font-weight:800;line-height:1.3;margin:6px 0}
-.card .pl{font-size:16px;font-weight:700}
+.card .w{font-size:21px;font-weight:800;line-height:1.3;margin:4px 0 6px}
+.card .pl{font-size:16px;font-weight:500}
 .card .nt{font-size:15px;color:var(--sub);margin-top:6px}
 .card.nx{background:var(--paper)}
-.card.nx .w{font-size:20px}
+.card.nx .w{font-size:18px}
 .calls{display:grid;gap:8px;margin-top:14px}
 .callb{display:flex;align-items:center;gap:10px;min-height:56px;padding:6px 14px;border:2px solid var(--fg);border-radius:3px;background:var(--fg);color:var(--bg);text-decoration:none}
 .callb b{font-size:17px;font-weight:800}
@@ -223,9 +234,11 @@ div.row{cursor:default}
 .wcard.go{background:var(--bl)}
 .wcard .l1{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .wcard .no{font-size:24px;font-weight:800;line-height:1}
-.wcard .lf{margin-left:auto;font-size:16px;font-weight:800}
-.wcard .nm{display:block;font-size:17px;font-weight:700;line-height:1.35;margin-top:8px}
-.wcard .mt{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:15px;font-weight:600;margin-top:8px}
+.wcard .lf{margin-left:auto;font-size:15px;font-weight:600;color:var(--sub)}
+.wcard .nm{display:block;font-size:16px;font-weight:500;line-height:1.4;margin-top:6px}
+.wcard .mt{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:14px;font-weight:500;color:var(--sub);margin-top:6px}
+.wcard.done{border-color:var(--hair)}
+.wcard.done .no{color:var(--sub)}
 .wcard .mt span{white-space:nowrap}
 .wcard:active{background:var(--soft)}
 .wlist{list-style:none;margin:0;padding:0}
@@ -233,10 +246,13 @@ div.row{cursor:default}
 .wlist li:first-child{border-top:0}
 .wrow{display:grid;grid-template-columns:44px 52px 44px minmax(0,1fr) auto;align-items:center;gap:8px;width:100%;min-height:56px;padding:6px 0;background:none;border:0;text-align:left;cursor:pointer}
 .wrow .no{font-size:18px;font-weight:800}
-.wrow .tm{font-size:17px;font-weight:700}
+.wrow .tm{font-size:16px;font-weight:500}
+.wh{font-size:14px;font-weight:600;color:var(--sub);padding:12px 0 2px;border-bottom:1px solid var(--hair)}
+.wh:first-child{padding-top:4px}
 .wrow .tag{justify-self:start}
 .wrow .cnt{font-size:16px;font-weight:700;text-align:right;white-space:nowrap}
-.wrow.done{color:var(--sub)}
+.wrow.done{color:var(--mute)}
+.wrow.done .no{font-weight:600}
 .wrow:active{background:var(--soft)}
 .gantt{position:relative;margin:4px 0 4px;padding-bottom:20px}
 .gantt .axis{position:relative;height:18px;margin-left:36px;font-size:12px;color:var(--sub);font-weight:700}
@@ -256,6 +272,13 @@ div.row{cursor:default}
 .legend i{display:inline-block;width:14px;height:10px;border:1px solid #111;vertical-align:-1px;margin-right:4px}
 .rbtn{display:flex;align-items:center;justify-content:center;min-height:52px;padding:0 16px;background:#111;color:#fff;font-weight:800;font-size:17px;text-decoration:none;border-radius:3px}
 
+.memo{list-style:none;margin:14px 0 0;padding:0;border-top:1px solid var(--hair)}
+.memo li{position:relative;padding:8px 0 8px 18px;border-bottom:1px solid var(--hair);font-size:16px;line-height:1.45}
+.memo li::before{content:"";position:absolute;left:3px;top:17px;width:6px;height:6px;border-radius:50%;background:var(--mute)}
+.memo li.cau::before{left:2px;top:15px;width:9px;height:9px;border-radius:1px;background:var(--red)}
+.memo li.cau{font-weight:600}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.mh{font-size:14px;font-weight:600;color:var(--sub);margin-top:16px}
 /* SOS */
 .sos{background:var(--red);color:#fff;margin:0 calc(-1*var(--gut));padding:12px var(--gut) 14px}
 .sos h2{font-size:19px}
@@ -467,7 +490,7 @@ body.sheet-on .sheet{transform:none}
   "W-외부": {
    "zone": "산책",
    "name": "외부 집결",
-   "desc": "D02 징검다리만 · 이디야커피 서울여대점(화랑대 사거리) 앞",
+   "desc": "D02 화랑대 버거킹·이디야 서울여대 앞 · D13 경춘선힐링쉼터",
    "light": "#D6F0FC",
    "strong": "#69CDF4"
   },
@@ -522,24 +545,25 @@ body.sheet-on .sheet{transform:none}
     "행사보험 증권 사진"
    ],
    "note": [
-    "08~11시 상점 10곳 설치 감리 → 11시 숲길 최종 점검 → 12시부터 순회",
-    "VIP 연락이 오면 하던 일을 채은에게 넘기고 바로 이동"
+    "08~10시 상점 10곳 외부 연출 설치(테이블 타임즈) → 11:30 숲길 최종 점검 → 12시부터 순회",
+    "VIP 연락이 오면 하던 일을 채은에게 넘기고 바로 이동",
+    "19~20시 철거 순회 → 20~22:30 조명·간선 철거"
    ],
    "tasks": [
     {
      "s": "08:00",
-     "e": "11:00",
+     "e": "10:00",
      "place": "S",
-     "what": "테이블 타임즈 · 외부 연출물 설치 · 락원은 감리·최종 검수",
-     "note": "피플포유 설치 2명 · 다원 PPT(설치 위치) 기준",
+     "what": "상점 10곳 외부 연출물 설치",
+     "note": "외부 연출 위치 가이드",
      "short": "상점 설치"
     },
     {
-     "s": "11:00",
+     "s": "11:30",
      "e": "12:00",
      "place": "F",
-     "what": "맥주·와펜·안내부스 최종 점검 · 돗가비 앞 레모네이드 부스 확인 · 키링·모자·리플렛 세팅 · 현장 접수 태블릿·충전기·명찰·스탠바이미",
-     "note": "마실자리 · 자수공작소",
+     "what": "경춘선숲길 최종 점검",
+     "note": "",
      "short": "최종 점검"
     },
     {
@@ -547,23 +571,23 @@ body.sheet-on .sheet{transform:none}
      "e": "19:00",
      "place": "순회",
      "what": "최고 책임자 순회 · VIP·서울시 대응 · 중요 민원 최종 판단 · 디테일 조정",
-     "note": "거점: 돗가비 B1",
-     "short": "총괄"
+     "note": "",
+     "short": "최고 책임"
     },
     {
      "s": "19:00",
-     "e": "20:30",
-     "place": "S",
-     "what": "상점 10곳 외부·내부 사이니지 철거",
-     "note": "피플포유 남성 2명 (연장) · 다원 지원(제안)",
-     "short": "상점 철거"
+     "e": "20:00",
+     "place": "순회",
+     "what": "철거 순회",
+     "note": "",
+     "short": "철거 순회"
     },
     {
-     "s": "20:30",
-     "e": "22:00",
+     "s": "20:00",
+     "e": "22:30",
      "place": "F",
-     "what": "조명 철거",
-     "note": "현택",
+     "what": "조명 · 간선 철거",
+     "note": "현택 · 리드더룸 희연",
      "short": "조명 철거"
     }
    ],
@@ -574,7 +598,7 @@ body.sheet-on .sheet{transform:none}
    "name": "박채은",
    "team": "어반플레이",
    "title": "PD · 실무총괄",
-   "role": "현장 실무총괄. 현장 운영 전체 조율 · 이름 건 상점 10곳 · 중요 민원 1차 처리 · 교육 진행 · 락원 부재 시 대행",
+   "role": "현장 실무총괄. 돗가비마을 1층·3층 상주(재민과) · 현장 조율 · 중요 민원 1차 · OT 진행 · 락원 부재 시 대행",
    "call": "총괄",
    "ch": "CH1",
    "up": "서락원",
@@ -594,65 +618,73 @@ body.sheet-on .sheet{transform:none}
     "교육 자료 (이 매뉴얼)"
    ],
    "note": [
-    "07시 숲길 설치 → 10:45까지 돗가비마을로",
-    "11시 3층 교육은 자주 받는 질문과 사고 대응 5단계를 같이 읽는 것으로 진행"
+    "07~10시 숲길 집기 설치 감독 → 10시 슈퍼바이저 미팅 → 10:45 피플포유 배부 → 11시 3층 OT",
+    "19~20시 숲길 부스 철수 → 20~22:30 돗가비 물품 정리"
    ],
    "tasks": [
     {
      "s": "07:00",
-     "e": "10:30",
+     "e": "10:00",
      "place": "F",
-     "what": "현수기 10개소 · 한칸·테이블 타임즈 집기(현수막 포함) 설치 감독",
-     "note": "리드더룸 · 한칸",
-     "short": "숲길 설치"
+     "what": "집기 설치 감독 · 07~08 테이블 타임즈 팔레트 포토월 · 07~09 메탈라이브러리 집기(안내·맥주·레모네이드·와펜부스, DP CURVE·LINE 테이블) · 07~10 한칸 집기(셀러용 DP 박스·북페어 부스)",
+     "note": "리드더룸 · 한칸 · 메탈라이브러리 · 테이블 타임즈",
+     "short": "집기 설치"
     },
     {
-     "s": "10:30",
-     "e": "11:00",
+     "s": "10:00",
+     "e": "10:30",
      "place": "이동",
-     "what": "돗가비마을로 이동 (10:45까지 도착)",
-     "note": "",
-     "short": "이동"
+     "what": "10시 슈퍼바이저 IN · 개별 미팅 → 돗가비마을로 이동 (10:45까지)",
+     "note": "스태프 티셔츠·명찰 · OT 자료 · 무전기",
+     "short": "슈퍼바이저 미팅"
+    },
+    {
+     "s": "10:45",
+     "e": "11:00",
+     "place": "D-3F",
+     "what": "피플포유 행사 8명 스태프 티셔츠·명찰·무전기 배부",
+     "note": "슈퍼바이저 IN 시간 확인",
+     "short": "배부"
     },
     {
      "s": "11:00",
      "e": "11:30",
      "place": "D-3F",
-     "what": "피플포유 운영인력 교육 (이 매뉴얼로) · 산책 현장 접수 권유 · 사진작가 사전 논의",
-     "note": "현택 IN · 슈퍼바이저 IN",
-     "short": "교육"
+     "what": "전체 OT · 로컬랩·홈투게더·젤리장에 깃발·리워드 · 홈투게더 송수신기 전달",
+     "note": "",
+     "short": "OT"
     },
     {
      "s": "11:30",
      "e": "12:00",
      "place": "D",
-     "what": "운영 물품 세팅 (B1·1층·3층) · 젤리장·로컬랩에 산책 물품 전달 · 첫 회차 준비",
-     "note": "체크리스트 D-B1·1F·3F",
-     "short": "물품 세팅"
+     "what": "첫 회차 준비 (1층·3층)",
+     "note": "피플남3·4",
+     "short": "첫 회차"
     },
     {
      "s": "12:00",
      "e": "19:00",
-     "place": "순회",
-     "what": "실무총괄 · 현장 조율 · 이름 건 상점 10곳 순회 (서측 → 동측) · 중요 민원 1차",
-     "note": "이슈는 슈퍼바이저와 처리",
+     "place": "D-1F",
+     "what": "실무총괄 · 1층·3층 동선 정리 · 참여자 안내 · 현장 조율",
+     "note": "재민 · 피플남3·4",
      "short": "실무총괄"
     },
     {
      "s": "19:00",
-     "e": "20:30",
-     "place": "D",
-     "what": "무전기·송수신기 회수 · 지하 1층 물품 보관 · 폐기물 처리",
-     "note": "",
-     "short": "회수·정리"
+     "e": "20:00",
+     "place": "F",
+     "what": "맥주·와펜·안내부스 현수막·사이니지 철수 · 셀러 의자 정리",
+     "note": "피플남1·2 · 리드더룸 희연",
+     "short": "부스 철수"
     },
     {
-     "s": "20:30",
-     "e": "22:00",
-     "place": "F",
-     "what": "잔업 정리 · 마감 보고",
-     "note": "",
-     "short": "잔업"
+     "s": "20:00",
+     "e": "22:30",
+     "place": "D",
+     "what": "스태프 물품(명찰·무전기·티셔츠) 회수 · 지하 1층 물품 보관 · 폐기물 처리",
+     "note": "다원(21시부터)",
+     "short": "물품 정리"
     }
    ],
    "t23": [
@@ -677,7 +709,7 @@ body.sheet-on .sheet{transform:none}
    "name": "김보영",
    "team": "어반플레이",
    "title": "PD · 숲길·안내 책임",
-   "role": "경춘선숲길 현장 책임. 안내부스 ①·② · 이름시장 셀러 · 산책 현장 접수",
+   "role": "경춘선숲길 책임. 이름시장 셀러 응대 순회(레모네이드 부스 포함) · 안내부스 스텝 관리",
    "call": "인포",
    "ch": "CH1",
    "up": "박채은",
@@ -699,49 +731,57 @@ body.sheet-on .sheet{transform:none}
     "소진 안내 문구"
    ],
    "note": [
-    "산책 현장 접수는 회차 출발 30분 전에 닫기",
-    "현장 접수 받은 이름은 바로 단톡 [운영]방에 올리기"
+    "08~11시 이름시장 세팅 → 11시 D-B1 셀러 집결 → 11:30 숲길 최종 점검",
+    "18:30 셀러 철거 안내 → 19~20시 셀러 제품 정리"
    ],
    "tasks": [
     {
      "s": "08:00",
      "e": "11:00",
      "place": "F-시장",
-     "what": "셀러 소개 POP·포맥스·현수막 부착 · 의자 설치 · 안내부스 세팅",
-     "note": "피플포유 설치 2명 · 셀러 부스 1개 시연 후 디렉팅",
+     "what": "셀러 소개 POP·사진 · 의자 설치 · 백월 현수막",
+     "note": "A·B 구역 · C 구역 셀러 위치·의자 개수 · 백월 시안",
      "short": "시장 세팅"
     },
     {
      "s": "11:00",
-     "e": "12:00",
+     "e": "11:30",
      "place": "D-B1",
-     "what": "셀러 이름표 배부 · 짐 보관 · 핫팩·물 배부 · 부스 DP 물품 전달 · 레몬에이드 DP",
-     "note": "피플포유 설치 4명 · 11시 셀러 집결",
+     "what": "셀러 명찰 배부 · 짐 보관 · 핫팩·물 · 부스 DP 물품 · 레모네이드 공간 연출",
+     "note": "11:30 보영 숲길로 · 나머지는 피플설치남3·4",
      "short": "셀러 집결"
     },
     {
+     "s": "11:30",
+     "e": "12:00",
+     "place": "F",
+     "what": "경춘선숲길 최종 점검",
+     "note": "",
+     "short": "최종 점검"
+    },
+    {
      "s": "12:00",
+     "e": "18:30",
+     "place": "F",
+     "what": "숲길 순회 · 셀러 응대 (레모네이드 부스 포함)",
+     "note": "셀러 질의응답 · 레모네이드 운영",
+     "short": "셀러 응대"
+    },
+    {
+     "s": "18:30",
      "e": "19:00",
-     "place": "F-안내",
-     "what": "안내부스 ①·② · 산책 현장 접수 (출발 30분 전 마감) · 셀러 응대 · 17:00 숲길 조명 켜기 확인",
-     "note": "피플포유 3명 · 젤리장 수하",
-     "short": "안내·접수"
+     "place": "F",
+     "what": "셀러 철거 안내",
+     "note": "",
+     "short": "철거 안내"
     },
     {
      "s": "19:00",
-     "e": "20:30",
+     "e": "20:00",
      "place": "F",
-     "what": "현수막·사이니지 철수 · 셀러 의자 정리 · 스탠바이미 철수",
-     "note": "피플포유 남성 2명 (연장)",
-     "short": "숲길 철수"
-    },
-    {
-     "s": "20:30",
-     "e": "22:00",
-     "place": "F",
-     "what": "잔업 정리 · 마감 보고",
-     "note": "",
-     "short": "잔업"
+     "what": "셀러 제품 정리",
+     "note": "리드더룸 인주",
+     "short": "셀러 정리"
     }
    ],
    "t23": [
@@ -773,7 +813,7 @@ body.sheet-on .sheet{transform:none}
    "name": "박재민",
    "team": "어반플레이",
    "title": "PD · 걷다 책임",
-   "role": "이름 건 산책 13개 책임 · 1층 집결 담당. 집결 확인 · 깃발 · 동시 출발 정리 · 종료 보고 취합 (진행·후미는 각 팀)",
+   "role": "이름 건 산책 책임 · 돗가비마을 1층·3층 동선·집결 · D13 후미",
    "call": "걷다",
    "ch": "CH2 (산책) · 필요 시 CH1",
    "up": "박채은",
@@ -795,57 +835,89 @@ body.sheet-on .sheet{transform:none}
     "출석부"
    ],
    "note": [
-    "집결 담당은 접수하지 않음 · 명단 대조와 정리만. 문의자는 F-안내로",
-    "동시 출발 3번: 12:00 D03(1F)+D07(3F) · 14:00 D06(1F)+D13(3F) · 17:00 D04(1F)+D11(3F) → 1층 팀 출발 뒤 3층 팀 내려오기",
-    "13:00 교차: D08은 12:55 1층 안 대기, D03 복귀는 1층 앞"
+    "08시 3층 짐색·깃발 → 09시 맥주부스(마실자리) 세팅 → 11시 OT",
+    "13:50~15:00 D13 후미 (송수신기 전달·회수 · 공릉청춘카페 법인카드 결제)",
+    "20~22:30 조명·간선 철거"
    ],
    "tasks": [
     {
+     "s": "08:00",
+     "e": "09:00",
+     "place": "D-3F",
+     "what": "산책 참여자용 짐색 포장 · 깃발 나누기(젤리장·로컬랩·홈투게더 전달용) · B1 운영본부 물품 체크",
+     "note": "짐색: 물·리플렛·키링·핫팩 / 운영본부: 물·스태프 명찰·티셔츠·무전기·구급함 · 수량 추가 최종 확인",
+     "short": "짐색·깃발"
+    },
+    {
      "s": "09:00",
-     "e": "11:00",
+     "e": "10:30",
      "place": "F-맥주",
-     "what": "맥주부스 IN · 공간 연출·세팅",
-     "note": "마실자리",
+     "what": "마실자리 IN · 맥주부스 연출·세팅",
+     "note": "마실자리 부스 현수막",
      "short": "맥주 세팅"
     },
     {
      "s": "11:00",
      "e": "11:30",
      "place": "D-3F",
-     "what": "피플포유 운영인력 교육 (이 매뉴얼로) · 산책 현장 접수 권유 · 사진작가 사전 논의",
-     "note": "현택 IN · 슈퍼바이저 IN",
-     "short": "교육"
+     "what": "전체 OT · 로컬랩·홈투게더·젤리장에 깃발·리워드 · 홈투게더 송수신기 전달",
+     "note": "",
+     "short": "OT"
     },
     {
      "s": "11:30",
      "e": "12:00",
      "place": "D",
-     "what": "운영 물품 세팅 (B1·1층·3층) · 젤리장·로컬랩에 산책 물품 전달 · 첫 회차 준비",
-     "note": "체크리스트 D-B1·1F·3F",
-     "short": "물품 세팅"
+     "what": "첫 회차 준비 (1층·3층)",
+     "note": "피플남3·4",
+     "short": "첫 회차"
     },
     {
      "s": "12:00",
+     "e": "13:50",
+     "place": "D-1F",
+     "what": "1층·3층 동선 정리 · 집결 확인 · 참여자 안내",
+     "note": "채은 · 피플남3·4",
+     "short": "집결"
+    },
+    {
+     "s": "13:50",
+     "e": "14:00",
+     "place": "W-외부",
+     "what": "D13 집결 (경춘선힐링쉼터) · 송수신기 전달",
+     "note": "홈투게더",
+     "short": "D13 집결"
+    },
+    {
+     "s": "14:00",
+     "e": "15:00",
+     "place": "W-투어",
+     "what": "D13 후미 · 송수신기 회수 · 공릉청춘카페 법인카드 결제",
+     "note": "홈투게더",
+     "short": "D13 후미"
+    },
+    {
+     "s": "15:00",
      "e": "19:00",
      "place": "D-1F",
-     "what": "1층 집결 담당 · 명단 대조 · 깃발 전달 · 출발 시각 기록 · 종료 보고 취합",
-     "note": "3층 집결: 피플포유 산책 1명 (D07·D09·D13·D11)",
-     "short": "1층 집결"
+     "what": "1층·3층 동선 정리 · 집결 확인 · 참여자 안내",
+     "note": "채은 · 피플남3·4",
+     "short": "집결"
     },
     {
      "s": "19:00",
-     "e": "20:30",
-     "place": "D",
-     "what": "무전기·송수신기 회수 · 지하 1층 물품 보관 · 폐기물 처리",
-     "note": "",
-     "short": "회수·정리"
+     "e": "20:00",
+     "place": "F",
+     "what": "맥주·와펜·안내부스 현수막·사이니지 철수 · 셀러 의자 정리",
+     "note": "피플남1·2 · 리드더룸 희연",
+     "short": "부스 철수"
     },
     {
-     "s": "20:30",
-     "e": "22:00",
+     "s": "20:00",
+     "e": "22:30",
      "place": "F",
-     "what": "조명 철거",
-     "note": "현택",
+     "what": "조명 · 간선 철거",
+     "note": "현택 · 리드더룸 희연",
      "short": "조명 철거"
     }
    ],
@@ -856,7 +928,7 @@ body.sheet-on .sheet{transform:none}
    "name": "최서진",
    "team": "어반플레이",
    "title": "PD · 부스 책임",
-   "role": "맥주부스와 와펜부스(숲길 남쪽, 나란히) 책임 · 돗가비마을 앞 레모네이드 부스 확인 · 굿즈(키링·와펜·모자) 수량",
+   "role": "숲길 순회·셀러 응대 · 안내·맥주·와펜부스 세팅 · 굿즈 수량 · 17시부터 D01 준비·참여",
    "call": "부스",
    "ch": "CH1",
    "up": "박채은",
@@ -877,49 +949,82 @@ body.sheet-on .sheet{transform:none}
     "소진 안내판"
    ],
    "note": [
-    "09시 맥주부스는 재민이 먼저 세팅 → 10시 서진 와펜부스 IN",
-    "10:30 모자 도착(자수공작소) 수령"
+    "08시 3층 짐색·깃발 → 09시 안내부스 → 10시 와펜부스 → 11:30 안내부스 최종 점검",
+    "17시 이후 숲길 순회는 다원이 대신",
+    "20~22:30 돗가비 물품 정리"
    ],
    "tasks": [
     {
+     "s": "08:00",
+     "e": "09:00",
+     "place": "D-3F",
+     "what": "산책 참여자용 짐색 포장 · 깃발 나누기(젤리장·로컬랩·홈투게더 전달용) · B1 운영본부 물품 체크",
+     "note": "짐색: 물·리플렛·키링·핫팩 / 운영본부: 물·스태프 명찰·티셔츠·무전기·구급함 · 수량 추가 최종 확인",
+     "short": "짐색·깃발"
+    },
+    {
+     "s": "09:00",
+     "e": "10:00",
+     "place": "F-안내",
+     "what": "안내부스 연출·세팅 (스탠바이미 · 리플렛 · 태블릿·충전기·거치대 · 산책 참여자 명찰)",
+     "note": "안내부스 현수막",
+     "short": "안내 세팅"
+    },
+    {
      "s": "10:00",
-     "e": "11:00",
+     "e": "10:30",
      "place": "F-와펜",
-     "what": "와펜부스 IN · 연출·세팅 · 도슨트용 사전 와펜 만들기 · 10:30 모자 수령",
-     "note": "자수공작소",
+     "what": "자수공작소 IN · 와펜부스 연출·세팅",
+     "note": "와펜부스 현수막",
      "short": "와펜 세팅"
     },
     {
-     "s": "11:00",
+     "s": "11:30",
      "e": "12:00",
-     "place": "F",
-     "what": "맥주·와펜·안내부스 최종 점검 · 돗가비 앞 레모네이드 부스 확인 · 키링·모자·리플렛 세팅 · 현장 접수 태블릿·충전기·명찰·스탠바이미",
-     "note": "마실자리 · 자수공작소",
-     "short": "최종 점검"
+     "place": "F-안내",
+     "what": "안내부스 최종 점검 (숲길 시작·끝 2부스)",
+     "note": "피플여1~3",
+     "short": "안내 점검"
     },
     {
      "s": "12:00",
+     "e": "17:00",
+     "place": "F",
+     "what": "숲길 순회 · 셀러 응대 (레모네이드 부스 포함)",
+     "note": "17시부터 다원이 이어받음",
+     "short": "셀러 응대"
+    },
+    {
+     "s": "17:00",
+     "e": "17:50",
+     "place": "D-1F",
+     "what": "D01 바람개비 산책 준비 (17:50 1층 집결)",
+     "note": "숲길 순회는 다원이 대신",
+     "short": "D01 준비"
+    },
+    {
+     "s": "17:50",
      "e": "19:00",
-     "place": "F-맥주",
-     "what": "맥주 결제 · 초성 판정 · 19세 확인 · 옆 와펜부스 관리 · 레모네이드 부스(돗가비 앞) 수시 확인",
-     "note": "피플포유 맥주 2 · 와펜 1 · 자수공작소 2 · 레몬에이드 보이들",
-     "short": "맥주·와펜"
+     "place": "W-투어",
+     "what": "D01 바람개비 산책 참여 → 경춘선숲길 방문자센터",
+     "note": "가영 후미",
+     "short": "D01 참여"
     },
     {
      "s": "19:00",
-     "e": "20:30",
+     "e": "20:00",
      "place": "F",
-     "what": "맥주·와펜부스 정산 · 굿즈 남은 수량 집계",
-     "note": "",
-     "short": "정산"
+     "what": "셀러 제품 정리",
+     "note": "리드더룸 인주",
+     "short": "셀러 정리"
     },
     {
-     "s": "20:30",
-     "e": "22:00",
-     "place": "F",
-     "what": "잔업 정리 · 마감 보고",
-     "note": "",
-     "short": "잔업"
+     "s": "20:00",
+     "e": "22:30",
+     "place": "D",
+     "what": "스태프 물품(명찰·무전기·티셔츠) 회수 · 지하 1층 물품 보관 · 폐기물 처리",
+     "note": "다원(21시부터)",
+     "short": "물품 정리"
     }
    ],
    "t23": []
@@ -929,7 +1034,7 @@ body.sheet-on .sheet{transform:none}
    "name": "정다원",
    "team": "어반플레이",
    "title": "PD · 전날 세팅 · 오후 지원",
-   "role": "10/23 상점 10곳 내부 연출 설치 · 10/24 17시 합류 후 산책 집결 보조와 철거 지원",
+   "role": "17시 합류 · 서진 자리(숲길 순회·셀러 응대) · 철거",
    "call": "다원",
    "ch": "CH1",
    "up": "박채은",
@@ -946,24 +1051,48 @@ body.sheet-on .sheet{transform:none}
     "구매 물품"
    ],
    "note": [
-    "10/24는 17:00 합류 · 17시 이후 배정은 제안(확정 필요)"
+    "18:30 셀러 철거 안내(보영과) → 19시 부스 철수 → 20시 상점 철거 → 21시 돗가비 정리"
    ],
    "tasks": [
     {
      "s": "17:00",
+     "e": "18:30",
+     "place": "F",
+     "what": "17시 합류 · 서진 자리 · 숲길 순회 · 셀러 응대",
+     "note": "서진은 D01 바람개비 산책 참여",
+     "short": "셀러 응대"
+    },
+    {
+     "s": "18:30",
      "e": "19:00",
-     "place": "D-1F",
-     "what": "17시 합류 · 산책 집결 보조 (17시대 1층 집결 3회차 D04·D12·D01)",
-     "note": "제안 · 확정 필요",
-     "short": "집결 보조"
+     "place": "F",
+     "what": "셀러 철거 안내",
+     "note": "",
+     "short": "철거 안내"
     },
     {
      "s": "19:00",
-     "e": "20:30",
+     "e": "20:00",
+     "place": "F",
+     "what": "맥주·와펜·안내부스 현수막·사이니지 철수 · 셀러 의자 정리",
+     "note": "피플남1·2 · 리드더룸 희연",
+     "short": "부스 철수"
+    },
+    {
+     "s": "20:00",
+     "e": "21:00",
      "place": "S",
-     "what": "상점 10곳 외부·내부 사이니지 철거",
-     "note": "피플포유 남성 2명 (연장) · 다원 지원(제안)",
+     "what": "상점 10곳 철거 합류",
+     "note": "슈퍼바이저 · 피플남3·4",
      "short": "상점 철거"
+    },
+    {
+     "s": "21:00",
+     "e": "22:30",
+     "place": "D",
+     "what": "스태프 물품 회수 · 지하 1층 보관 · 폐기물 처리",
+     "note": "채은 · 서진",
+     "short": "물품 정리"
     }
    ],
    "t23": [
@@ -1030,7 +1159,7 @@ body.sheet-on .sheet{transform:none}
    "name": "피플포유 슈퍼바이저",
    "team": "피플포유",
    "title": "슈퍼바이저 (관리 1명)",
-   "role": "피플포유 인력 관리 · 교대·식사 · 상점 10곳 이슈 1차 처리 · 방문객 계수",
+   "role": "맥주·와펜부스 상주 · 피플포유 인력 관리 · 교대 식사 13:30~15:30 · 상점 철거 지휘",
    "call": "슈퍼",
    "ch": "CH1",
    "up": "박채은",
@@ -1050,33 +1179,41 @@ body.sheet-on .sheet{transform:none}
     "인력 명단"
    ],
    "note": [
-    "운영시간부터 철거 끝까지 상주",
-    "정각 계수: 12 · 14 · 16 · 18시 각 10분"
+    "10시 IN · 채은과 개별 미팅",
+    "19~21시 상점 10곳 철거 (피플남3·4 · 다원 · 리드더룸 인주)"
    ],
    "tasks": [
+    {
+     "s": "10:00",
+     "e": "10:30",
+     "place": "이동",
+     "what": "10시 슈퍼바이저 IN · 개별 미팅 → 돗가비마을로 이동 (10:45까지)",
+     "note": "스태프 티셔츠·명찰 · OT 자료 · 무전기",
+     "short": "슈퍼바이저 미팅"
+    },
     {
      "s": "11:00",
      "e": "11:30",
      "place": "D-3F",
-     "what": "피플포유 운영인력 교육 (이 매뉴얼로) · 산책 현장 접수 권유 · 사진작가 사전 논의",
-     "note": "현택 IN · 슈퍼바이저 IN",
-     "short": "교육"
+     "what": "전체 OT · 로컬랩·홈투게더·젤리장에 깃발·리워드 · 홈투게더 송수신기 전달",
+     "note": "",
+     "short": "OT"
     },
     {
      "s": "12:00",
      "e": "19:00",
-     "place": "순회",
-     "what": "인력 관리 · 교대 · 상점 이슈 1차 · 방문객 계수 (12·14·16·18시 정각 10분)",
-     "note": "식사 교대 13:30~15:30",
-     "short": "관리·계수"
+     "place": "F-맥주",
+     "what": "맥주·와펜부스 상주 · 피플포유 인력 관리 · 교대 식사 13:30~15:30",
+     "note": "피플남1·2 · 피플여4",
+     "short": "부스·인력"
     },
     {
      "s": "19:00",
-     "e": "22:00",
-     "place": "순회",
-     "what": "철거 인력 관리 · 연장 4명 확인",
-     "note": "",
-     "short": "철거 관리"
+     "e": "21:00",
+     "place": "S",
+     "what": "상점 10곳 내부 사이니지 · 외부 포맥스 철거 (칼로 자르거나 부숴서 회수)",
+     "note": "피플남3·4 · 다원(20시부터) · 리드더룸 인주",
+     "short": "상점 철거"
     }
    ],
    "t23": []
@@ -1086,17 +1223,17 @@ body.sheet-on .sheet{transform:none}
    "name": "피플남1",
    "team": "피플포유",
    "title": "운영 스텝 · 남성 · 맥주",
-   "role": "맥주 포지션 · 맥주 · 신분증 확인 · 초성 판정 · 결제",
+   "role": "맥주 포지션 · 맥주 · 신분증 확인 · 초성 판정(1시간마다) · 결제",
    "call": "피플남1",
    "ch": "CH1",
-   "up": "최서진 (포지션) · 슈퍼바이저 (근태)",
+   "up": "최서진 · 슈퍼바이저 (포지션) · 슈퍼바이저 (근태)",
    "down": "—",
    "decide": [
     "길 안내 · 배부 · 줄 정리처럼 정해진 일",
     "물품이 떨어지면 소진 문구로 안내"
    ],
    "raise_": [
-    "판단이 안 서면 바로 최서진",
+    "판단이 안 서면 바로 최서진 · 슈퍼바이저",
     "다친 사람 · 미아 · 큰소리 → 무전 CH1로 돌려 「긴급, 긴급」 · 아니면 담당 PD"
    ],
    "carry": [
@@ -1106,32 +1243,40 @@ body.sheet-on .sheet{transform:none}
     "이 매뉴얼 (현황판)"
    ],
    "note": [
-    "식사 13:30~14:00 · 그동안 피플남2와 서진이 대신",
-    "19:00~20:30 철거 연장 · 숲길 철수 (보영)"
+    "식사 13:30~14:00 · 그동안 피플남2와 슈퍼바이저가 대신",
+    "철거 연장 · 부스 철수 19:00~20:00 (숲길)"
    ],
    "tasks": [
+    {
+     "s": "10:45",
+     "e": "11:00",
+     "place": "D-3F",
+     "what": "스태프 티셔츠·명찰·무전기 받기",
+     "note": "채은",
+     "short": "배부"
+    },
     {
      "s": "11:00",
      "e": "11:30",
      "place": "D-3F",
-     "what": "교육 (이 매뉴얼) · 무전 시험",
-     "note": "슈퍼바이저 · 채은",
-     "short": "교육"
+     "what": "전체 OT (이 매뉴얼) · 무전 시험",
+     "note": "채은 · 슈퍼바이저",
+     "short": "OT"
     },
     {
      "s": "11:30",
      "e": "12:00",
      "place": "F-맥주",
-     "what": "맥주 자리로 이동 · 포지션 교육",
-     "note": "최서진",
-     "short": "배치"
+     "what": "맥주 자리 최종 점검",
+     "note": "최서진 · 슈퍼바이저",
+     "short": "점검"
     },
     {
      "s": "12:00",
      "e": "13:30",
      "place": "F-맥주",
-     "what": "맥주 · 신분증 확인 · 초성 판정 · 결제",
-     "note": "담당 최서진",
+     "what": "맥주 · 신분증 확인 · 초성 판정(1시간마다) · 결제",
+     "note": "담당 최서진 · 슈퍼바이저",
      "short": "맥주"
     },
     {
@@ -1139,22 +1284,22 @@ body.sheet-on .sheet{transform:none}
      "e": "14:00",
      "place": "D-B1",
      "what": "식사 (30분)",
-     "note": "대신: 피플남2와 서진",
+     "note": "대신: 피플남2와 슈퍼바이저",
      "short": "식사"
     },
     {
      "s": "14:00",
      "e": "19:00",
      "place": "F-맥주",
-     "what": "맥주 · 신분증 확인 · 초성 판정 · 결제",
-     "note": "담당 최서진",
+     "what": "맥주 · 신분증 확인 · 초성 판정(1시간마다) · 결제",
+     "note": "담당 최서진 · 슈퍼바이저",
      "short": "맥주"
     },
     {
      "s": "19:00",
-     "e": "20:30",
+     "e": "20:00",
      "place": "F",
-     "what": "숲길 철수 (보영)",
+     "what": "부스 철수 · 맥주·와펜·안내부스 현수막·사이니지 · 셀러 의자",
      "note": "연장 근무",
      "short": "철거"
     }
@@ -1169,14 +1314,14 @@ body.sheet-on .sheet{transform:none}
    "role": "맥주 포지션 · 맥주 · 줄 정리 · 컵·쓰레기",
    "call": "피플남2",
    "ch": "CH1",
-   "up": "최서진 (포지션) · 슈퍼바이저 (근태)",
+   "up": "최서진 · 슈퍼바이저 (포지션) · 슈퍼바이저 (근태)",
    "down": "—",
    "decide": [
     "길 안내 · 배부 · 줄 정리처럼 정해진 일",
     "물품이 떨어지면 소진 문구로 안내"
    ],
    "raise_": [
-    "판단이 안 서면 바로 최서진",
+    "판단이 안 서면 바로 최서진 · 슈퍼바이저",
     "다친 사람 · 미아 · 큰소리 → 무전 CH1로 돌려 「긴급, 긴급」 · 아니면 담당 PD"
    ],
    "carry": [
@@ -1186,32 +1331,40 @@ body.sheet-on .sheet{transform:none}
     "이 매뉴얼 (현황판)"
    ],
    "note": [
-    "식사 14:00~14:30 · 그동안 피플남1과 서진이 대신",
-    "19:00~20:30 철거 연장 · 숲길 철수 (보영)"
+    "식사 14:00~14:30 · 그동안 피플남1과 슈퍼바이저가 대신",
+    "철거 연장 · 부스 철수 19:00~20:00 (숲길)"
    ],
    "tasks": [
+    {
+     "s": "10:45",
+     "e": "11:00",
+     "place": "D-3F",
+     "what": "스태프 티셔츠·명찰·무전기 받기",
+     "note": "채은",
+     "short": "배부"
+    },
     {
      "s": "11:00",
      "e": "11:30",
      "place": "D-3F",
-     "what": "교육 (이 매뉴얼) · 무전 시험",
-     "note": "슈퍼바이저 · 채은",
-     "short": "교육"
+     "what": "전체 OT (이 매뉴얼) · 무전 시험",
+     "note": "채은 · 슈퍼바이저",
+     "short": "OT"
     },
     {
      "s": "11:30",
      "e": "12:00",
      "place": "F-맥주",
-     "what": "맥주 자리로 이동 · 포지션 교육",
-     "note": "최서진",
-     "short": "배치"
+     "what": "맥주 자리 최종 점검",
+     "note": "최서진 · 슈퍼바이저",
+     "short": "점검"
     },
     {
      "s": "12:00",
      "e": "14:00",
      "place": "F-맥주",
      "what": "맥주 · 줄 정리 · 컵·쓰레기",
-     "note": "담당 최서진",
+     "note": "담당 최서진 · 슈퍼바이저",
      "short": "맥주"
     },
     {
@@ -1219,7 +1372,7 @@ body.sheet-on .sheet{transform:none}
      "e": "14:30",
      "place": "D-B1",
      "what": "식사 (30분)",
-     "note": "대신: 피플남1과 서진",
+     "note": "대신: 피플남1과 슈퍼바이저",
      "short": "식사"
     },
     {
@@ -1227,14 +1380,14 @@ body.sheet-on .sheet{transform:none}
      "e": "19:00",
      "place": "F-맥주",
      "what": "맥주 · 줄 정리 · 컵·쓰레기",
-     "note": "담당 최서진",
+     "note": "담당 최서진 · 슈퍼바이저",
      "short": "맥주"
     },
     {
      "s": "19:00",
-     "e": "20:30",
+     "e": "20:00",
      "place": "F",
-     "what": "숲길 철수 (보영)",
+     "what": "부스 철수 · 맥주·와펜·안내부스 현수막·사이니지 · 셀러 의자",
      "note": "연장 근무",
      "short": "철거"
     }
@@ -1246,17 +1399,17 @@ body.sheet-on .sheet{transform:none}
    "name": "피플남3",
    "team": "피플포유",
    "title": "운영 스텝 · 남성 · 1층",
-   "role": "1층 포지션 · 1층 집결 보조 · 깃발 · 명단 대조 · 늦은 참가자 안내 · 입구 계수",
+   "role": "1층 포지션 · 1층 동선 정리 · 집결 확인 · 참여자 안내 · 늦은 참가자 안내",
    "call": "피플남3",
    "ch": "CH2",
-   "up": "박재민 (포지션) · 슈퍼바이저 (근태)",
+   "up": "박재민 · 박채은 (포지션) · 슈퍼바이저 (근태)",
    "down": "—",
    "decide": [
     "길 안내 · 배부 · 줄 정리처럼 정해진 일",
     "물품이 떨어지면 소진 문구로 안내"
    ],
    "raise_": [
-    "판단이 안 서면 바로 박재민",
+    "판단이 안 서면 바로 박재민 · 박채은",
     "다친 사람 · 미아 · 큰소리 → 무전 CH1로 돌려 「긴급, 긴급」 · 아니면 담당 PD"
    ],
    "carry": [
@@ -1266,32 +1419,40 @@ body.sheet-on .sheet{transform:none}
     "이 매뉴얼 (현황판)"
    ],
    "note": [
-    "식사 14:30~15:00 · 그동안 재민이 대신",
-    "19:00~20:30 철거 연장 · 상점 철거 (락원)"
+    "식사 14:30~15:00 · 그동안 피플남4가 대신",
+    "철거 연장 · 상점 철거 19:00~21:00 (슈퍼바이저)"
    ],
    "tasks": [
+    {
+     "s": "10:45",
+     "e": "11:00",
+     "place": "D-3F",
+     "what": "스태프 티셔츠·명찰·무전기 받기",
+     "note": "채은",
+     "short": "배부"
+    },
     {
      "s": "11:00",
      "e": "11:30",
      "place": "D-3F",
-     "what": "교육 (이 매뉴얼) · 무전 시험",
-     "note": "슈퍼바이저 · 채은",
-     "short": "교육"
+     "what": "전체 OT (이 매뉴얼) · 무전 시험",
+     "note": "채은 · 슈퍼바이저",
+     "short": "OT"
     },
     {
      "s": "11:30",
      "e": "12:00",
      "place": "D-1F",
-     "what": "1층 자리로 이동 · 포지션 교육",
-     "note": "박재민",
-     "short": "배치"
+     "what": "1층 자리 최종 점검",
+     "note": "박재민 · 박채은",
+     "short": "점검"
     },
     {
      "s": "12:00",
      "e": "14:30",
      "place": "D-1F",
-     "what": "1층 집결 보조 · 깃발 · 명단 대조 · 늦은 참가자 안내 · 입구 계수",
-     "note": "담당 박재민",
+     "what": "1층 동선 정리 · 집결 확인 · 참여자 안내 · 늦은 참가자 안내",
+     "note": "담당 박재민 · 박채은",
      "short": "1층"
     },
     {
@@ -1299,22 +1460,22 @@ body.sheet-on .sheet{transform:none}
      "e": "15:00",
      "place": "D-B1",
      "what": "식사 (30분)",
-     "note": "대신: 재민",
+     "note": "대신: 피플남4",
      "short": "식사"
     },
     {
      "s": "15:00",
      "e": "19:00",
      "place": "D-1F",
-     "what": "1층 집결 보조 · 깃발 · 명단 대조 · 늦은 참가자 안내 · 입구 계수",
-     "note": "담당 박재민",
+     "what": "1층 동선 정리 · 집결 확인 · 참여자 안내 · 늦은 참가자 안내",
+     "note": "담당 박재민 · 박채은",
      "short": "1층"
     },
     {
      "s": "19:00",
-     "e": "20:30",
+     "e": "21:00",
      "place": "S",
-     "what": "상점 철거 (락원)",
+     "what": "상점 철거 · 상점 10곳 내부 사이니지·외부 포맥스",
      "note": "연장 근무",
      "short": "철거"
     }
@@ -1326,17 +1487,17 @@ body.sheet-on .sheet{transform:none}
    "name": "피플남4",
    "team": "피플포유",
    "title": "운영 스텝 · 남성 · 3층",
-   "role": "3층 포지션 · 3층 집결 (D07·D09·D13·D11) · D13 송수신기 배부 · D11 신분증 · 3층 팀 하강 순서",
+   "role": "3층 포지션 · 3층 집결 (D03·D09·D10·D11) · D11 신분증 · 3층 팀 하강 순서",
    "call": "피플남4",
    "ch": "CH2",
-   "up": "박재민 (포지션) · 슈퍼바이저 (근태)",
+   "up": "박재민 · 박채은 (포지션) · 슈퍼바이저 (근태)",
    "down": "—",
    "decide": [
     "길 안내 · 배부 · 줄 정리처럼 정해진 일",
     "물품이 떨어지면 소진 문구로 안내"
    ],
    "raise_": [
-    "판단이 안 서면 바로 박재민",
+    "판단이 안 서면 바로 박재민 · 박채은",
     "다친 사람 · 미아 · 큰소리 → 무전 CH1로 돌려 「긴급, 긴급」 · 아니면 담당 PD"
    ],
    "carry": [
@@ -1347,31 +1508,39 @@ body.sheet-on .sheet{transform:none}
    ],
    "note": [
     "식사 15:00~15:30 · 15:00~15:30 3층 비움 · 급하면 피플남3",
-    "19:00~20:30 철거 연장 · 상점 철거 (락원)"
+    "철거 연장 · 상점 철거 19:00~21:00 (슈퍼바이저)"
    ],
    "tasks": [
+    {
+     "s": "10:45",
+     "e": "11:00",
+     "place": "D-3F",
+     "what": "스태프 티셔츠·명찰·무전기 받기",
+     "note": "채은",
+     "short": "배부"
+    },
     {
      "s": "11:00",
      "e": "11:30",
      "place": "D-3F",
-     "what": "교육 (이 매뉴얼) · 무전 시험",
-     "note": "슈퍼바이저 · 채은",
-     "short": "교육"
+     "what": "전체 OT (이 매뉴얼) · 무전 시험",
+     "note": "채은 · 슈퍼바이저",
+     "short": "OT"
     },
     {
      "s": "11:30",
      "e": "12:00",
      "place": "D-3F",
-     "what": "3층 자리로 이동 · 포지션 교육",
-     "note": "박재민",
-     "short": "배치"
+     "what": "3층 자리 최종 점검",
+     "note": "박재민 · 박채은",
+     "short": "점검"
     },
     {
      "s": "12:00",
      "e": "15:00",
      "place": "D-3F",
-     "what": "3층 집결 (D07·D09·D13·D11) · D13 송수신기 배부 · D11 신분증 · 3층 팀 하강 순서",
-     "note": "담당 박재민",
+     "what": "3층 집결 (D03·D09·D10·D11) · D11 신분증 · 3층 팀 하강 순서",
+     "note": "담당 박재민 · 박채은",
      "short": "3층"
     },
     {
@@ -1386,15 +1555,15 @@ body.sheet-on .sheet{transform:none}
      "s": "15:30",
      "e": "19:00",
      "place": "D-3F",
-     "what": "3층 집결 (D07·D09·D13·D11) · D13 송수신기 배부 · D11 신분증 · 3층 팀 하강 순서",
-     "note": "담당 박재민",
+     "what": "3층 집결 (D03·D09·D10·D11) · D11 신분증 · 3층 팀 하강 순서",
+     "note": "담당 박재민 · 박채은",
      "short": "3층"
     },
     {
      "s": "19:00",
-     "e": "20:30",
+     "e": "21:00",
      "place": "S",
-     "what": "상점 철거 (락원)",
+     "what": "상점 철거 · 상점 10곳 내부 사이니지·외부 포맥스",
      "note": "연장 근무",
      "short": "철거"
     }
@@ -1405,8 +1574,8 @@ body.sheet-on .sheet{transform:none}
    "id": "P5",
    "name": "피플여1",
    "team": "피플포유",
-   "title": "운영 스텝 · 여성 · 안내①",
-   "role": "안내① 포지션 · 리플렛·키링 배부 · 모자 규칙 · 길 안내 · 북쪽 입구 계수",
+   "title": "운영 스텝 · 여성 · 안내",
+   "role": "안내 포지션 · 리플렛·키링 제공 · 참여자 확인 · 길 안내 · 방문객 계수(12·14·16·18시)",
    "call": "피플여1",
    "ch": "CH1",
    "up": "김보영 (포지션) · 슈퍼바이저 (근태)",
@@ -1431,28 +1600,36 @@ body.sheet-on .sheet{transform:none}
    ],
    "tasks": [
     {
+     "s": "10:45",
+     "e": "11:00",
+     "place": "D-3F",
+     "what": "스태프 티셔츠·명찰·무전기 받기",
+     "note": "채은",
+     "short": "배부"
+    },
+    {
      "s": "11:00",
      "e": "11:30",
      "place": "D-3F",
-     "what": "교육 (이 매뉴얼) · 무전 시험",
-     "note": "슈퍼바이저 · 채은",
-     "short": "교육"
+     "what": "전체 OT (이 매뉴얼) · 무전 시험",
+     "note": "채은 · 슈퍼바이저",
+     "short": "OT"
     },
     {
      "s": "11:30",
      "e": "12:00",
      "place": "F-안내",
-     "what": "안내① 자리로 이동 · 포지션 교육",
+     "what": "안내 자리 최종 점검",
      "note": "김보영",
-     "short": "배치"
+     "short": "점검"
     },
     {
      "s": "12:00",
      "e": "13:30",
      "place": "F-안내",
-     "what": "리플렛·키링 배부 · 모자 규칙 · 길 안내 · 북쪽 입구 계수",
+     "what": "리플렛·키링 제공 · 참여자 확인 · 길 안내 · 방문객 계수(12·14·16·18시)",
      "note": "담당 김보영",
-     "short": "안내①"
+     "short": "안내"
     },
     {
      "s": "13:30",
@@ -1466,9 +1643,9 @@ body.sheet-on .sheet{transform:none}
      "s": "14:00",
      "e": "19:00",
      "place": "F-안내",
-     "what": "리플렛·키링 배부 · 모자 규칙 · 길 안내 · 북쪽 입구 계수",
+     "what": "리플렛·키링 제공 · 참여자 확인 · 길 안내 · 방문객 계수(12·14·16·18시)",
      "note": "담당 김보영",
-     "short": "안내①"
+     "short": "안내"
     }
    ],
    "t23": []
@@ -1477,8 +1654,8 @@ body.sheet-on .sheet{transform:none}
    "id": "P6",
    "name": "피플여2",
    "team": "피플포유",
-   "title": "운영 스텝 · 여성 · 안내①",
-   "role": "안내① 포지션 · 리플렛·키링 배부 · 분실물·미아 1차 접수 · 상점 영업시간 안내",
+   "title": "운영 스텝 · 여성 · 안내",
+   "role": "안내 포지션 · 리플렛·키링 제공 · 분실물·미아 1차 접수 · 상점 영업시간 안내",
    "call": "피플여2",
    "ch": "CH1",
    "up": "김보영 (포지션) · 슈퍼바이저 (근태)",
@@ -1503,28 +1680,36 @@ body.sheet-on .sheet{transform:none}
    ],
    "tasks": [
     {
+     "s": "10:45",
+     "e": "11:00",
+     "place": "D-3F",
+     "what": "스태프 티셔츠·명찰·무전기 받기",
+     "note": "채은",
+     "short": "배부"
+    },
+    {
      "s": "11:00",
      "e": "11:30",
      "place": "D-3F",
-     "what": "교육 (이 매뉴얼) · 무전 시험",
-     "note": "슈퍼바이저 · 채은",
-     "short": "교육"
+     "what": "전체 OT (이 매뉴얼) · 무전 시험",
+     "note": "채은 · 슈퍼바이저",
+     "short": "OT"
     },
     {
      "s": "11:30",
      "e": "12:00",
      "place": "F-안내",
-     "what": "안내① 자리로 이동 · 포지션 교육",
+     "what": "안내 자리 최종 점검",
      "note": "김보영",
-     "short": "배치"
+     "short": "점검"
     },
     {
      "s": "12:00",
      "e": "14:00",
      "place": "F-안내",
-     "what": "리플렛·키링 배부 · 분실물·미아 1차 접수 · 상점 영업시간 안내",
+     "what": "리플렛·키링 제공 · 분실물·미아 1차 접수 · 상점 영업시간 안내",
      "note": "담당 김보영",
-     "short": "안내①"
+     "short": "안내"
     },
     {
      "s": "14:00",
@@ -1538,9 +1723,9 @@ body.sheet-on .sheet{transform:none}
      "s": "14:30",
      "e": "19:00",
      "place": "F-안내",
-     "what": "리플렛·키링 배부 · 분실물·미아 1차 접수 · 상점 영업시간 안내",
+     "what": "리플렛·키링 제공 · 분실물·미아 1차 접수 · 상점 영업시간 안내",
      "note": "담당 김보영",
-     "short": "안내①"
+     "short": "안내"
     }
    ],
    "t23": []
@@ -1549,8 +1734,8 @@ body.sheet-on .sheet{transform:none}
    "id": "P7",
    "name": "피플여3",
    "team": "피플포유",
-   "title": "운영 스텝 · 여성 · 안내②",
-   "role": "안내② 포지션 · 산책 현장 접수 (태블릿) · 명찰 · 남은 자리 보드",
+   "title": "운영 스텝 · 여성 · 안내 접수",
+   "role": "안내 접수 포지션 · 산책 현장 접수 (태블릿 · 출발 30분 전 마감) · 명찰 · 남은 자리",
    "call": "피플여3",
    "ch": "CH1",
    "up": "김보영 (포지션) · 슈퍼바이저 (근태)",
@@ -1575,28 +1760,36 @@ body.sheet-on .sheet{transform:none}
    ],
    "tasks": [
     {
+     "s": "10:45",
+     "e": "11:00",
+     "place": "D-3F",
+     "what": "스태프 티셔츠·명찰·무전기 받기",
+     "note": "채은",
+     "short": "배부"
+    },
+    {
      "s": "11:00",
      "e": "11:30",
      "place": "D-3F",
-     "what": "교육 (이 매뉴얼) · 무전 시험",
-     "note": "슈퍼바이저 · 채은",
-     "short": "교육"
+     "what": "전체 OT (이 매뉴얼) · 무전 시험",
+     "note": "채은 · 슈퍼바이저",
+     "short": "OT"
     },
     {
      "s": "11:30",
      "e": "12:00",
      "place": "F-안내",
-     "what": "안내② 자리로 이동 · 포지션 교육",
+     "what": "안내 접수 자리 최종 점검",
      "note": "김보영",
-     "short": "배치"
+     "short": "점검"
     },
     {
      "s": "12:00",
      "e": "15:00",
      "place": "F-안내",
-     "what": "산책 현장 접수 (태블릿) · 명찰 · 남은 자리 보드",
+     "what": "산책 현장 접수 (태블릿 · 출발 30분 전 마감) · 명찰 · 남은 자리",
      "note": "담당 김보영",
-     "short": "안내②"
+     "short": "안내 접수"
     },
     {
      "s": "15:00",
@@ -1610,9 +1803,9 @@ body.sheet-on .sheet{transform:none}
      "s": "15:30",
      "e": "19:00",
      "place": "F-안내",
-     "what": "산책 현장 접수 (태블릿) · 명찰 · 남은 자리 보드",
+     "what": "산책 현장 접수 (태블릿 · 출발 30분 전 마감) · 명찰 · 남은 자리",
      "note": "담당 김보영",
-     "short": "안내②"
+     "short": "안내 접수"
     }
    ],
    "t23": []
@@ -1622,17 +1815,17 @@ body.sheet-on .sheet{transform:none}
    "name": "피플여4",
    "team": "피플포유",
    "title": "운영 스텝 · 여성 · 와펜",
-   "role": "와펜 포지션 · 스탬프 3개 확인 · 와펜 고르기 · 모자 수량 · 남쪽 입구 계수",
+   "role": "와펜 포지션 · 스탬프 3개 확인 · 와펜 고르기 · 모자 수량",
    "call": "피플여4",
    "ch": "CH1",
-   "up": "최서진 (포지션) · 슈퍼바이저 (근태)",
+   "up": "최서진 · 슈퍼바이저 (포지션) · 슈퍼바이저 (근태)",
    "down": "—",
    "decide": [
     "길 안내 · 배부 · 줄 정리처럼 정해진 일",
     "물품이 떨어지면 소진 문구로 안내"
    ],
    "raise_": [
-    "판단이 안 서면 바로 최서진",
+    "판단이 안 서면 바로 최서진 · 슈퍼바이저",
     "다친 사람 · 미아 · 큰소리 → 무전 CH1로 돌려 「긴급, 긴급」 · 아니면 담당 PD"
    ],
    "carry": [
@@ -1642,32 +1835,40 @@ body.sheet-on .sheet{transform:none}
     "이 매뉴얼 (현황판)"
    ],
    "note": [
-    "식사 14:30~15:00 · 그동안 서진과 자수공작소가 대신",
+    "식사 14:30~15:00 · 그동안 슈퍼바이저와 자수공작소가 대신",
     "19:00 퇴근 (철거 연장 없음)"
    ],
    "tasks": [
     {
+     "s": "10:45",
+     "e": "11:00",
+     "place": "D-3F",
+     "what": "스태프 티셔츠·명찰·무전기 받기",
+     "note": "채은",
+     "short": "배부"
+    },
+    {
      "s": "11:00",
      "e": "11:30",
      "place": "D-3F",
-     "what": "교육 (이 매뉴얼) · 무전 시험",
-     "note": "슈퍼바이저 · 채은",
-     "short": "교육"
+     "what": "전체 OT (이 매뉴얼) · 무전 시험",
+     "note": "채은 · 슈퍼바이저",
+     "short": "OT"
     },
     {
      "s": "11:30",
      "e": "12:00",
      "place": "F-와펜",
-     "what": "와펜 자리로 이동 · 포지션 교육",
-     "note": "최서진",
-     "short": "배치"
+     "what": "와펜 자리 최종 점검",
+     "note": "최서진 · 슈퍼바이저",
+     "short": "점검"
     },
     {
      "s": "12:00",
      "e": "14:30",
      "place": "F-와펜",
-     "what": "스탬프 3개 확인 · 와펜 고르기 · 모자 수량 · 남쪽 입구 계수",
-     "note": "담당 최서진",
+     "what": "스탬프 3개 확인 · 와펜 고르기 · 모자 수량",
+     "note": "담당 최서진 · 슈퍼바이저",
      "short": "와펜"
     },
     {
@@ -1675,15 +1876,15 @@ body.sheet-on .sheet{transform:none}
      "e": "15:00",
      "place": "D-B1",
      "what": "식사 (30분)",
-     "note": "대신: 서진과 자수공작소",
+     "note": "대신: 슈퍼바이저와 자수공작소",
      "short": "식사"
     },
     {
      "s": "15:00",
      "e": "19:00",
      "place": "F-와펜",
-     "what": "스탬프 3개 확인 · 와펜 고르기 · 모자 수량 · 남쪽 입구 계수",
-     "note": "담당 최서진",
+     "what": "스탬프 3개 확인 · 와펜 고르기 · 모자 수량",
+     "note": "담당 최서진 · 슈퍼바이저",
      "short": "와펜"
     }
    ],
@@ -1694,7 +1895,7 @@ body.sheet-on .sheet{transform:none}
    "name": "피플설치남1",
    "team": "피플포유",
    "title": "설치 스텝 · 남성 · 상점",
-   "role": "08~11시 상점 설치 → 11~12시 셀러 이름표·짐 보관 → 12시 퇴장",
+   "role": "08~10시 상점 외부 연출 → 숲길 지원·마무리 → 12시 퇴장",
    "call": "피플설치남1",
    "ch": "CH1",
    "up": "서락원",
@@ -1713,25 +1914,33 @@ body.sheet-on .sheet{transform:none}
    "tasks": [
     {
      "s": "08:00",
-     "e": "11:00",
+     "e": "10:00",
      "place": "S",
-     "what": "상점 설치 · 테이블 타임즈 · 외부 연출물",
-     "note": "담당 서락원",
-     "short": "설치"
+     "what": "상점 10곳 외부 연출물 설치",
+     "note": "외부 연출 위치 가이드",
+     "short": "상점 설치"
+    },
+    {
+     "s": "10:00",
+     "e": "11:00",
+     "place": "F",
+     "what": "숲길 설치 지원",
+     "note": "배정 확인 필요",
+     "short": "숲길 지원"
     },
     {
      "s": "11:00",
-     "e": "12:00",
-     "place": "D-B1",
-     "what": "셀러 이름표 배부 · 짐 보관 · 핫팩·물",
-     "note": "김보영",
-     "short": "셀러 집결"
+     "e": "11:30",
+     "place": "F",
+     "what": "세팅 마무리 · 현장 점검 · 전기 마감 체크",
+     "note": "",
+     "short": "마무리"
     },
     {
      "s": "12:00",
      "e": "12:00",
      "place": "이동",
-     "what": "퇴장 · 무전기 반납",
+     "what": "퇴장 · 무전기 반납 (D-B1)",
      "note": "",
      "short": "퇴장"
     }
@@ -1743,7 +1952,7 @@ body.sheet-on .sheet{transform:none}
    "name": "피플설치남2",
    "team": "피플포유",
    "title": "설치 스텝 · 남성 · 상점",
-   "role": "08~11시 상점 설치 → 11~12시 셀러 이름표·짐 보관 → 12시 퇴장",
+   "role": "08~10시 상점 외부 연출 → 숲길 지원·마무리 → 12시 퇴장",
    "call": "피플설치남2",
    "ch": "CH1",
    "up": "서락원",
@@ -1762,25 +1971,33 @@ body.sheet-on .sheet{transform:none}
    "tasks": [
     {
      "s": "08:00",
-     "e": "11:00",
+     "e": "10:00",
      "place": "S",
-     "what": "상점 설치 · 테이블 타임즈 · 외부 연출물",
-     "note": "담당 서락원",
-     "short": "설치"
+     "what": "상점 10곳 외부 연출물 설치",
+     "note": "외부 연출 위치 가이드",
+     "short": "상점 설치"
+    },
+    {
+     "s": "10:00",
+     "e": "11:00",
+     "place": "F",
+     "what": "숲길 설치 지원",
+     "note": "배정 확인 필요",
+     "short": "숲길 지원"
     },
     {
      "s": "11:00",
-     "e": "12:00",
-     "place": "D-B1",
-     "what": "셀러 이름표 배부 · 짐 보관 · 핫팩·물",
-     "note": "김보영",
-     "short": "셀러 집결"
+     "e": "11:30",
+     "place": "F",
+     "what": "세팅 마무리 · 현장 점검 · 전기 마감 체크",
+     "note": "",
+     "short": "마무리"
     },
     {
      "s": "12:00",
      "e": "12:00",
      "place": "이동",
-     "what": "퇴장 · 무전기 반납",
+     "what": "퇴장 · 무전기 반납 (D-B1)",
      "note": "",
      "short": "퇴장"
     }
@@ -1792,7 +2009,7 @@ body.sheet-on .sheet{transform:none}
    "name": "피플설치남3",
    "team": "피플포유",
    "title": "설치 스텝 · 남성 · 이름시장",
-   "role": "08~11시 이름시장 설치 → 11~12시 셀러 이름표·짐 보관 → 12시 퇴장",
+   "role": "08~11시 이름시장 세팅 → 11~12시 셀러 명찰·짐 보관·레모네이드 세팅 → 12시 퇴장",
    "call": "피플설치남3",
    "ch": "CH1",
    "up": "김보영",
@@ -1813,23 +2030,23 @@ body.sheet-on .sheet{transform:none}
      "s": "08:00",
      "e": "11:00",
      "place": "F-시장",
-     "what": "이름시장 설치 · 셀러 POP·포맥스·현수막 · 의자 · 안내부스",
-     "note": "담당 김보영",
-     "short": "설치"
+     "what": "셀러 소개 POP·사진 · 의자 설치 · 백월 현수막",
+     "note": "A·B 구역 · C 구역 셀러 위치·의자 개수 · 백월 시안",
+     "short": "시장 세팅"
     },
     {
      "s": "11:00",
      "e": "12:00",
      "place": "D-B1",
-     "what": "셀러 이름표 배부 · 짐 보관 · 핫팩·물",
-     "note": "김보영",
+     "what": "셀러 명찰 배부 · 짐 보관 · 핫팩·물 · 레모네이드 부스 연출·세팅",
+     "note": "11:30부터 보영 없이 응대 · 레몬에이드 부스 현수막",
      "short": "셀러 집결"
     },
     {
      "s": "12:00",
      "e": "12:00",
      "place": "이동",
-     "what": "퇴장 · 무전기 반납",
+     "what": "퇴장 · 무전기 반납 (D-B1)",
      "note": "",
      "short": "퇴장"
     }
@@ -1841,7 +2058,7 @@ body.sheet-on .sheet{transform:none}
    "name": "피플설치남4",
    "team": "피플포유",
    "title": "설치 스텝 · 남성 · 이름시장",
-   "role": "08~11시 이름시장 설치 → 11~12시 셀러 이름표·짐 보관 → 12시 퇴장",
+   "role": "08~11시 이름시장 세팅 → 11~12시 셀러 명찰·짐 보관·레모네이드 세팅 → 12시 퇴장",
    "call": "피플설치남4",
    "ch": "CH1",
    "up": "김보영",
@@ -1862,23 +2079,23 @@ body.sheet-on .sheet{transform:none}
      "s": "08:00",
      "e": "11:00",
      "place": "F-시장",
-     "what": "이름시장 설치 · 셀러 POP·포맥스·현수막 · 의자 · 안내부스",
-     "note": "담당 김보영",
-     "short": "설치"
+     "what": "셀러 소개 POP·사진 · 의자 설치 · 백월 현수막",
+     "note": "A·B 구역 · C 구역 셀러 위치·의자 개수 · 백월 시안",
+     "short": "시장 세팅"
     },
     {
      "s": "11:00",
      "e": "12:00",
      "place": "D-B1",
-     "what": "셀러 이름표 배부 · 짐 보관 · 핫팩·물",
-     "note": "김보영",
+     "what": "셀러 명찰 배부 · 짐 보관 · 핫팩·물 · 레모네이드 부스 연출·세팅",
+     "note": "11:30부터 보영 없이 응대 · 레몬에이드 부스 현수막",
      "short": "셀러 집결"
     },
     {
      "s": "12:00",
      "e": "12:00",
      "place": "이동",
-     "what": "퇴장 · 무전기 반납",
+     "what": "퇴장 · 무전기 반납 (D-B1)",
      "note": "",
      "short": "퇴장"
     }
@@ -1914,15 +2131,15 @@ body.sheet-on .sheet{transform:none}
     {
      "s": "11:00",
      "e": "11:30",
-     "place": "D-1F",
-     "what": "11시 콜 · 젤리장 스태프 1층 집결·디렉터 브리핑 · 로컬랩·홈투게더 도착 확인 · 명찰·깃발 수령",
-     "note": "도착하면 젤리장 스태프방·문자로 재민에게 보고 (재민은 11:30까지 3층 교육)",
-     "short": "11시 콜"
+     "place": "D-3F",
+     "what": "전체 OT · 로컬랩·홈투게더·젤리장에 깃발·리워드 · 홈투게더 송수신기 전달",
+     "note": "",
+     "short": "OT"
     },
     {
      "s": "11:50",
      "e": "12:00",
-     "place": "D-3F",
+     "place": "D-1F",
      "what": "D07 집결 · 명단 대조",
      "note": "",
      "short": "D07 집결"
@@ -1970,7 +2187,7 @@ body.sheet-on .sheet{transform:none}
     {
      "s": "15:50",
      "e": "16:00",
-     "place": "D-1F",
+     "place": "D-3F",
      "what": "D10 집결 · 명단 대조",
      "note": "",
      "short": "D10 집결"
@@ -2047,15 +2264,15 @@ body.sheet-on .sheet{transform:none}
     {
      "s": "11:00",
      "e": "11:30",
-     "place": "D-1F",
-     "what": "11시 콜 · 젤리장 스태프 1층 집결·디렉터 브리핑 · 로컬랩·홈투게더 도착 확인 · 명찰·깃발 수령",
-     "note": "도착하면 젤리장 스태프방·문자로 재민에게 보고 (재민은 11:30까지 3층 교육)",
-     "short": "11시 콜"
+     "place": "D-3F",
+     "what": "전체 OT · 로컬랩·홈투게더·젤리장에 깃발·리워드 · 홈투게더 송수신기 전달",
+     "note": "",
+     "short": "OT"
     },
     {
      "s": "11:20",
      "e": "11:50",
-     "place": "D-1F",
+     "place": "D-3F",
      "what": "D03 기물 세팅 · 체크인",
      "note": "",
      "short": "D03 세팅"
@@ -2063,7 +2280,7 @@ body.sheet-on .sheet{transform:none}
     {
      "s": "11:50",
      "e": "12:00",
-     "place": "D-1F",
+     "place": "D-3F",
      "what": "D03 집결 · 명단 대조",
      "note": "",
      "short": "D03 집결"
@@ -2072,7 +2289,7 @@ body.sheet-on .sheet{transform:none}
      "s": "12:00",
      "e": "13:00",
      "place": "W-투어",
-     "what": "D03 모든 바퀴 달린 일상을 응원하는 산책 진행 → 돗가비마을 (복귀)",
+     "what": "D03 모든 바퀴 달린 일상을 응원하는 산책 진행 → 돗가비마을 주차장",
      "note": "도슨트 주민 3팀 · 후미 지수 + 가영",
      "short": "D03 투어"
     },
@@ -2223,9 +2440,17 @@ body.sheet-on .sheet{transform:none}
    "note": [],
    "tasks": [
     {
+     "s": "11:00",
+     "e": "11:30",
+     "place": "D-3F",
+     "what": "전체 OT · 로컬랩·홈투게더·젤리장에 깃발·리워드 · 홈투게더 송수신기 전달",
+     "note": "",
+     "short": "OT"
+    },
+    {
      "s": "13:50",
      "e": "14:00",
-     "place": "D-3F",
+     "place": "W-외부",
      "what": "D13 집결 · 명단 대조",
      "note": "",
      "short": "D13 집결"
@@ -2235,7 +2460,7 @@ body.sheet-on .sheet{transform:none}
      "e": "15:00",
      "place": "W-투어",
      "what": "D13 공릉 어르신 생활복지 도슨트 진행 → 공릉청춘카페",
-     "note": "도슨트 최정인 · 김신우 · 후미 홈투게더 자체",
+     "note": "도슨트 최정인 · 김신우 · 후미 박재민",
      "short": "D13 투어"
     }
    ],
@@ -2259,28 +2484,76 @@ body.sheet-on .sheet{transform:none}
    "note": [],
    "tasks": [
     {
-     "s": "05:00",
-     "e": "10:00",
+     "s": "05:30",
+     "e": "07:30",
      "place": "F",
-     "what": "조명 · 간선 설치 · 부스 가이드라인 마킹",
+     "what": "간선 설치 · 부스 가이드라인 마킹",
      "note": "한칸 · 마실자리 · 자수공작소 동시 진입",
-     "short": "조명·마킹"
+     "short": "간선·마킹"
     },
     {
      "s": "07:00",
-     "e": "10:30",
+     "e": "10:00",
      "place": "F",
-     "what": "현수기 10개소 · 한칸·테이블 타임즈 집기(현수막 포함) 설치 감독",
-     "note": "리드더룸 · 한칸",
-     "short": "숲길 설치"
+     "what": "집기 설치 감독 · 07~08 테이블 타임즈 팔레트 포토월 · 07~09 메탈라이브러리 집기(안내·맥주·레모네이드·와펜부스, DP CURVE·LINE 테이블) · 07~10 한칸 집기(셀러용 DP 박스·북페어 부스)",
+     "note": "리드더룸 · 한칸 · 메탈라이브러리 · 테이블 타임즈",
+     "short": "집기 설치"
+    },
+    {
+     "s": "08:00",
+     "e": "10:00",
+     "place": "F",
+     "what": "조명 설치 · 현수기 설치",
+     "note": "현수기 인력 1명 · 조명 설치 인력 2명 · 현수기 시안 · 조명 제품",
+     "short": "조명·현수기"
     },
     {
      "s": "11:00",
      "e": "11:30",
      "place": "F",
-     "what": "세팅 마무리 · 현장 점검 · 전기 마감 노티 · 모두의주차장",
+     "what": "세팅 마무리 · 현장 점검 · 전기 마감 체크",
      "note": "",
-     "short": "점검"
+     "short": "마무리"
+    },
+    {
+     "s": "19:00",
+     "e": "20:00",
+     "place": "F",
+     "what": "셀러 제품 정리",
+     "note": "리드더룸 인주",
+     "short": "셀러 정리"
+    },
+    {
+     "s": "19:00",
+     "e": "20:00",
+     "place": "F",
+     "what": "맥주·와펜·안내부스 현수막·사이니지 철수 · 셀러 의자 정리",
+     "note": "피플남1·2 · 리드더룸 희연",
+     "short": "부스 철수"
+    },
+    {
+     "s": "19:00",
+     "e": "21:00",
+     "place": "S",
+     "what": "상점 10곳 내부 사이니지 · 외부 포맥스 철거 (칼로 자르거나 부숴서 회수)",
+     "note": "피플남3·4 · 다원(20시부터) · 리드더룸 인주",
+     "short": "상점 철거"
+    },
+    {
+     "s": "20:00",
+     "e": "22:30",
+     "place": "F",
+     "what": "조명 · 간선 철거",
+     "note": "현택 · 리드더룸 희연",
+     "short": "조명 철거"
+    },
+    {
+     "s": "21:30",
+     "e": "23:00",
+     "place": "F",
+     "what": "DP 박스 · 북페어 키트 · DP Curve · DP LINE · 테이블 타임즈 철수",
+     "note": "리드더룸 인주",
+     "short": "집기 철수"
     }
    ],
    "t23": []
@@ -2296,12 +2569,12 @@ body.sheet-on .sheet{transform:none}
    "gather": "11:50",
    "dep": "12:00",
    "end": "13:00",
-   "place": "D-1F",
-   "endp": "돗가비마을 (복귀)",
+   "place": "D-3F",
+   "endp": "돗가비마을 주차장",
    "cap": 6,
    "route": "1층 앞 → 3층 피켓 제작 → 숲길 폭포 → 도깨비시장 후문 → 꽁릉이 광장 → 돗가비 복귀",
    "kit": "깃발 · 젤리장 송수신기·핀마이크 · 명찰 (코디 40분 전 세팅 · 20분 전 체크인) · 박스·피켓 재료 · 체험용 바퀴",
-   "memo": "12:00 D07과 동시 출발 → D07은 3층 · 13:00 복귀 때 D08 출발과 교차",
+   "memo": "체험용 바퀴 전량 확인 · 3층 엘리베이터 확보\n보험 면책: 자전거·킥보드·인라인 등 탑승 사고는 보장 안 됨 → 밀거나 들고 걷기\n도로 → 숲길 → 시장 행진 · 후미 2명(지수·가영) 반드시 유지\n복귀 마무리는 주차장에서 (13:05 D09 집결과 겹치지 않게)",
    "cut": "11:30",
    "signed": 4
   },
@@ -2314,12 +2587,12 @@ body.sheet-on .sheet{transform:none}
    "gather": "11:50",
    "dep": "12:00",
    "end": "13:30",
-   "place": "D-3F",
+   "place": "D-1F",
    "endp": "지동닭갈비",
    "cap": 10,
    "route": "돗가비 → 그대로양과점 → 미라쥬양과점 → 오어낫 → 꽃피앙 → 호이폴로이 → 지동닭갈비",
    "kit": "깃발 · 참가자 명단 · 가게별 안내 멘트",
-   "memo": "D03 출발 뒤 3층에서 내려와 출발",
+   "memo": "12:00 D03(3층)과 동시 출발 · D07은 1층",
    "cut": "11:30",
    "signed": 11
   },
@@ -2337,7 +2610,7 @@ body.sheet-on .sheet{transform:none}
    "cap": 5,
    "route": "돗가비 → 경춘포레스트 → 바나실공방 → 버터키튼",
    "kit": "깃발 · 참가자 명단 · 가게별 안내 멘트 · 체험 재료(바나실)",
-   "memo": "12:55 1층 안에서 대기 (D03 복귀와 교차 방지) · 체험형 3시간",
+   "memo": "3시간 최장 코스 · 중간 화장실·휴식 확보\n바늘 사용 → 찔림 주의 · 구급 키트\n12:55 1층 안쪽 대기 (D03 복귀와 교차 방지)",
    "cut": "12:30",
    "signed": 6
   },
@@ -2355,7 +2628,7 @@ body.sheet-on .sheet{transform:none}
    "cap": 10,
    "route": "돗가비 → 도깨비시장 후문 → 말베르크 → 주부상회 → 시장 한 바퀴 → 고객지원센터",
    "kit": "깃발 · 참가자 명단 · 가게별 안내 멘트",
-   "memo": "13:12 3층에서 내려옴 · 시장 안 한 줄 이동 · 후미 한기홍은 D07(~13:30)과 겹침 → 초반은 김동환",
+   "memo": "시장 안 한 줄 이동 필수 · 오토바이·카트 통행\n상인 영업 방해 없게 설명은 넓은 통로에서\n후미 한기홍은 D07(~13:30)과 겹침 → 초반은 김동환",
    "cut": "12:45",
    "signed": 14
   },
@@ -2373,7 +2646,7 @@ body.sheet-on .sheet{transform:none}
    "cap": 8,
    "route": "돗가비 → 걷기 명상 구간 → 화랑대 새 둥지 스폿",
    "kit": "깃발 · 젤리장 송수신기·핀마이크 · 명찰 (코디 40분 전 세팅 · 20분 전 체크인) · 노트·그림 패드·펜·큰 가방",
-   "memo": "14:00 D13과 동시 출발 → D13은 3층",
+   "memo": "출발 전 참가자 손 비우기 · 소지품은 담당 가방 → 종료 후 반환\n위를 올려다보며 걷는 구간 → 차량 진출입 주의\n기록물에 이름 쓰기",
    "cut": "13:30",
    "signed": 6
   },
@@ -2382,16 +2655,16 @@ body.sheet-on .sheet{transform:none}
    "name": "공릉 어르신 생활복지 도슨트",
    "team": "홈투게더",
    "lead": "최정인 · 김신우",
-   "tail": "홈투게더 자체",
+   "tail": "박재민",
    "gather": "13:50",
    "dep": "14:00",
    "end": "15:00",
-   "place": "D-3F",
+   "place": "W-외부",
    "endp": "공릉청춘카페",
    "cap": 5,
-   "route": "돗가비 → 경춘선힐링쉼터 → 공릉2동 주민센터·청춘극장 → 공릉청춘카페",
-   "kit": "깃발 · 송수신기 2대 (13:50 3층 배부 → 15:00 1층 반납)",
-   "memo": "어르신 · 엘리베이터 · 보행 느림 · 전화 접수 회차 (현장 접수는 홈투게더 확인 후)",
+   "route": "경춘선힐링쉼터 → 공릉2동 주민센터·청춘극장 → 공릉청춘카페",
+   "kit": "깃발 · 송수신기 2대 (13:50 경춘선힐링쉼터에서 재민 전달 → 15:00 1층 반납)",
+   "memo": "경춘선힐링쉼터 집결 · 어르신 보행 느림\n송수신기 전달·회수 (재민) · 공릉청춘카페 법인카드 결제 (재민)\n전화 접수 회차 · 현장 접수는 홈투게더 확인 후",
    "cut": "13:30",
    "signed": 3
   },
@@ -2409,7 +2682,7 @@ body.sheet-on .sheet{transform:none}
    "cap": 8,
    "route": "이디야커피 서울여대점(화랑대 사거리) → 버거킹 → 공원 사잇길 → 묵동천 징검다리 → 태릉역 청춘카페",
    "kit": "깃발 · 젤리장 송수신기·핀마이크 · 명찰 (코디 40분 전 세팅 · 20분 전 체크인) · 구급 키트",
-   "memo": "유일한 외부 집결 · 가영 14:20 이디야 앞 세팅 · 반려견 동반 가능 · 우천·수위 상승 시 취소",
+   "memo": "화랑대 버거킹 앞 · 이디야 서울여대 앞 집결 · 구급 키트·송수신기·명단(코디에게 사전 수령)\n보험 면책: 수상위험 「아니오」 가입 → 물에 빠지는 사고 보장 밖. 징검다리는 한 명씩, 후미가 전수 확인\n비 오거나 수위 오르면 즉시 취소 · 반려견 목줄·거리 확인",
    "cut": "14:10",
    "signed": 5
   },
@@ -2422,12 +2695,12 @@ body.sheet-on .sheet{transform:none}
    "gather": "15:50",
    "dep": "16:00",
    "end": "17:30",
-   "place": "D-1F",
+   "place": "D-3F",
    "endp": "지구불시착",
    "cap": 10,
    "route": "돗가비 → 책인감 → 지구불시착",
    "kit": "깃발 · 참가자 명단 · 가게별 안내 멘트",
-   "memo": "강지은 D08(~16:00) 끝나고 바로 합류 · 시간 확인",
+   "memo": "후미 강지은은 D08을 16:00에 끝냄 → 김동환 대표 초반 지원\n초상화 = 얼굴이 결과물로 남음 · 촬영·활용 동의 확인",
    "cut": "15:30",
    "signed": 4
   },
@@ -2445,7 +2718,7 @@ body.sheet-on .sheet{transform:none}
    "cap": 8,
    "route": "돗가비 → 공릉1동 주민센터 근처 구옥 → 부잣집 → 해오라기공원 → 철길 발자취 → 동학 → 샘말공원",
    "kit": "깃발 · 젤리장 송수신기·핀마이크 · 명찰 (코디 40분 전 세팅 · 20분 전 체크인) · 오픈채팅 QR",
-   "memo": "사진 수합은 오픈채팅방(지수)",
+   "memo": "오픈채팅 QR 출력본 · 블루투스 스피커 · 골목에선 핀마이크 끄고 스피커로\n주민 거주 골목 → 소음·촬영 범위 안내 · 창문·대문 안쪽 촬영 금지\n종료 때 파노라마 사진 전송 요청",
    "cut": "16:00",
    "signed": 7
   },
@@ -2463,7 +2736,7 @@ body.sheet-on .sheet{transform:none}
    "cap": 8,
    "route": "돗가비 → 묵동천 → 천변 물멍 30분 → 책인감 (퀴즈·책 선물)",
    "kit": "깃발 · 젤리장 송수신기·핀마이크 · 명찰 (코디 40분 전 세팅 · 20분 전 체크인) · 퀴즈 노트 · 책 선물",
-   "memo": "17:00 D11과 동시 출발 → D11은 3층 · 일몰 무렵 물가 거리 유지",
+   "memo": "일몰 17:43 · 복귀 구간 어두움 → 후미 라이트\n천변 보행로 · 물가 거리 유지 · 난간 없는 구간 확인\n보험 소재지 「공릉동 일대」 → 묵동천 중랑구 구간 보장 불확실 · 구 경계 확인\n구간별 시간 체크",
    "cut": "16:30",
    "signed": 6
   },
@@ -2481,7 +2754,7 @@ body.sheet-on .sheet{transform:none}
    "cap": 6,
    "route": "돗가비 → 마실자리 → 책인감",
    "kit": "깃발 · 참가자 명단 · 가게별 안내 멘트 · 신분증 확인",
-   "memo": "성인만 · 3층 집결 때 신분증 (2007년생까지)",
+   "memo": "성인만 · 3층 집결 때 전원 신분증 (2007년생까지) · 미성년 동반은 정중히 거절\n보험 면책: 음식물 섭취 사고 보장 밖\n18:30 종료 · 음주 후 어두운 길 → 해산 지점에서 안전 안내",
    "cut": "16:30",
    "signed": 8
   },
@@ -2499,7 +2772,7 @@ body.sheet-on .sheet{transform:none}
    "cap": 5,
    "route": "돗가비 → 국수거리(노원청년가게) → 그래시룸",
    "kit": "깃발 · 참가자 명단 · 가게별 안내 멘트 · 체험 재료(그래시룸)",
-   "memo": "해 진 뒤 복귀 · 리플렉터 키링",
+   "memo": "해 진 뒤 복귀 · 19:00 종료로 가장 늦음 · 리플렉터 키링\n화분 들고 이동 → 무게·흘림 · 양손 비는 가방 안내",
    "cut": "17:00",
    "signed": 6
   },
@@ -2517,7 +2790,7 @@ body.sheet-on .sheet{transform:none}
    "cap": 8,
    "route": "돗가비 → 경춘선숲길 바람개비 걷기 → 방문자센터 (돗자리 쉼)",
    "kit": "깃발 · 젤리장 송수신기·핀마이크 · 명찰 (코디 40분 전 세팅 · 20분 전 체크인) · 바람개비·집게핀 · 돗자리 · 후미 라이트",
-   "memo": "16:00 돗자리 방문자센터 선배치 · 일몰 후 · 우천 시 취소",
+   "memo": "돗자리 16:00 방문자센터 선배치 · 후미 라이트\n완전히 해 진 뒤 진행 · 뛰는 구간 간격 유지 + 리플렉터 필수\n우천 시 취소 · 마무리 후 돗자리 회수 · 서진 참여",
    "cut": "17:30",
    "signed": 1
   }
@@ -3037,7 +3310,11 @@ body.sheet-on .sheet{transform:none}
   ],
   [
    "산책은 어디서 모이나요?",
-   "출발 10분 전 돗가비마을. 3층: D07·D09·D11·D13 / 1층: 나머지. D02 징검다리만 이디야커피 서울여대점(화랑대 사거리) 앞."
+   "출발 10분 전 돗가비마을. 3층: D03·D09·D10·D11 / 1층: 나머지. D02 징검다리는 화랑대 버거킹·이디야 서울여대 앞, D13은 경춘선힐링쉼터."
+  ],
+  [
+   "화장실은요?",
+   "돗가비마을 지하 1층, 도깨비시장 앞 화장실이에요."
   ],
   [
    "주차할 수 있나요?",
@@ -3077,8 +3354,8 @@ body.sheet-on .sheet{transform:none}
  "booths": [
   {
    "name": "F-안내 ① 배부·안내",
-   "pd": "김보영",
-   "n": "피플포유 2",
+   "pd": "김보영 (순회 관리)",
+   "n": "피플여1·2",
    "rules": [
     "리플렛 1인 1부 · 키링 1인 1개",
     "모자 규칙 설명 (스팟 3곳 → 와펜부스)",
@@ -3088,8 +3365,8 @@ body.sheet-on .sheet{transform:none}
   },
   {
    "name": "F-안내 ② 산책 접수",
-   "pd": "김보영",
-   "n": "피플포유 1 · 젤리장 수하",
+   "pd": "김보영 (순회 관리)",
+   "n": "피플여3 · 젤리장 수하",
    "rules": [
     "태블릿 폼 접수 (이름·연락처·회차·인원·촬영 동의) · 정원 안에서만",
     "명찰에 이름·회차 코드 → 남은 자리 보드 바로 갱신",
@@ -3100,8 +3377,8 @@ body.sheet-on .sheet{transform:none}
   },
   {
    "name": "F-맥주 · 맥주 (와펜부스 옆)",
-   "pd": "최서진",
-   "n": "피플포유 2",
+   "pd": "슈퍼바이저 상주 · 최서진",
+   "n": "피플남1·2",
    "rules": [
     "신분증 확인 먼저 (2007년생까지)",
     "초성 같으면 무료 · 아니면 1,000원",
@@ -3111,7 +3388,7 @@ body.sheet-on .sheet{transform:none}
   },
   {
    "name": "D-레몬 · 레모네이드 (돗가비 앞)",
-   "pd": "최서진 (수시 확인)",
+   "pd": "김보영·최서진 (순회 확인)",
    "n": "레몬에이드 보이들",
    "rules": [
     "초성 같으면 무료 · 아니면 1,000원",
@@ -3122,8 +3399,8 @@ body.sheet-on .sheet{transform:none}
   },
   {
    "name": "F-와펜 · 모자 완성",
-   "pd": "최서진",
-   "n": "피플포유 1 · 자수공작소 2",
+   "pd": "슈퍼바이저 상주 · 최서진",
+   "n": "피플여4 · 자수공작소 2",
    "rules": [
     "스탬프 3개 확인 → 와펜 3개까지 고르기",
     "모자 1인 1개 · 남은 수량 30개부터 보고",
@@ -3133,8 +3410,8 @@ body.sheet-on .sheet{transform:none}
   },
   {
    "name": "D-1F · D-3F 산책 집결",
-   "pd": "박재민 (1층)",
-   "n": "피플포유 2 (1층 보조 · 3층 집결)",
+   "pd": "박재민 · 박채은",
+   "n": "피플남3 (1층) · 피플남4 (3층)",
    "rules": [
     "접수 안 함 · 명단 대조 · 깃발 전달 · 출발 시각 기록만",
     "젤리장 회차는 코디와 10분 전 인원만 확인",
@@ -3150,8 +3427,8 @@ body.sheet-on .sheet{transform:none}
   "18:00"
  ],
  "countGates": [
-  "숲길 북쪽 입구 (F-안내 쪽) · 피플여1",
-  "숲길 남쪽 입구 (F-와펜 쪽) · 피플여4",
+  "안내부스 앞 (F-안내) · 피플여1",
+  "와펜·맥주부스 앞 (F-와펜) · 피플여4",
   "돗가비마을 1층 입구 · 피플남3"
  ],
  "flags": [],
@@ -3223,18 +3500,22 @@ var $=function(id){return document.getElementById(id)};
 function m(s){if(!s)return null;var a=String(s).split(':');return (+a[0])*60+(+a[1])}
 function hm(n){n=((n%1440)+1440)%1440;return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')}
 function dur(n){n=Math.max(0,Math.round(n));var h=Math.floor(n/60),mm=n%60;return h?(h+'시간'+(mm?' '+mm+'분':'')):mm+'분'}
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function soft(s){return String(s==null?'':s).replace(/\[\s*확인\s*필요\s*\]/g,'확인 중').replace(/확인\s*필요/g,'확인 중')}
+function esc(s){return soft(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function pc(c){return P[c]||P['기타']}
 function cv(c){var x=pc(c);return '--c:'+x.strong+';--cl:'+x.light}
 function tag(c){return '<span class="tag" style="'+cv(c)+'">'+esc(c)+'</span>'}
 function pname(c){var x=pc(c);return x.name===c?'':x.name}
 function where(c){var n=pname(c);return tag(c)+(n?' '+esc(n):'')}
 function isOrg(p){return p.team===p.name}
+function sn(p){return p.name.replace(/^피플포유\s+/,'')}
+var EXTG={};D.walks.forEach(function(w){if(w.place!=='W-외부'||!w.memo)return;var ln=String(w.memo).split('\n').filter(function(l){return /집결/.test(l)})[0];if(!ln)return;var seg=ln.split(' · '),out=[];for(var i=0;i<seg.length;i++){out.push(seg[i]);if(/집결/.test(seg[i]))break}EXTG[w.no]=out.join(' · ').replace(/\s*집결\s*$/,'')});
 function tel(c){return 'tel:'+c.tel.replace(/[^0-9]/g,'')}
 
 /* ---------- time ---------- */
 var dm=/(\d+)\/(\d+)/.exec(D.day),MON=+dm[1],DAY=+dm[2],YEAR=2026;
-var OPEN=720,END=1140,SUN=m(D.sunset);
+var OPEN=720,END=1140,SUN=m(D.sunset),FIRST=1440,LAST=0;
+D.people.forEach(function(p){p.tasks.forEach(function(x){var s=m(x.s),e=m(x.e);if(s!=null&&s<FIRST)FIRST=s;if(e!=null&&e>LAST)LAST=e})});
 function kst(){var n=new Date();return new Date(n.getTime()+(n.getTimezoneOffset()+540)*60000)}
 function kmin(){var k=kst();return k.getHours()*60+k.getMinutes()}
 var k0=kst(),isDay=k0.getFullYear()===YEAR&&k0.getMonth()+1===MON&&k0.getDate()===DAY;
@@ -3276,15 +3557,18 @@ function keep(el,html){var o={};el.querySelectorAll('details[open]').forEach(fun
   el.innerHTML=html;
   el.querySelectorAll('details[data-k]').forEach(function(d){if(o[d.dataset.k])d.open=true;else if(c[d.dataset.k])d.open=false})}
 function segbar(v){return '<div class="segmark"></div><div class="seg"><div class="in" role="tablist" aria-label="보기 선택">'+SEGS[v].map(function(s){return '<button role="tab" data-seg="'+s[0]+'" aria-selected="'+(SEG[v]===s[0])+'">'+s[1]+'</button>'}).join('')+'</div></div>'}
-function chip(a,zn){var sh=a.x.short||a.x.what;if(typeof zn==='string'&&zn&&sh&&zn.indexOf(sh)>=0)sh='';return '<button class="chip" data-pp="'+a.p.id+'"><b>'+esc(a.p.name)+'</b>'+(sh?'<span>'+esc(sh)+'</span>':'')+'</button>'}
-function chipsZ(l,zn){return l.map(function(a){return chip(a,zn)}).join('')}
+function chipN(p){return '<button class="chip" data-pp="'+p.id+'">'+esc(sn(p))+'</button>'}
+function chipsZ(l,zn){var g={},ord=[];l.forEach(function(a){var sh=a.x.short||a.x.what;if(!g[sh]){g[sh]={sh:sh,ps:[],ids:{}};ord.push(sh)}if(!g[sh].ids[a.p.id]){g[sh].ids[a.p.id]=1;g[sh].ps.push(a.p)}});
+  return '<div class="cg">'+ord.map(function(k){var x=g[k],cap=x.sh;if(zn&&cap===zn)cap='';return '<span class="g">'+x.ps.map(chipN).join('')+(cap?'<span class="gl">'+esc(cap)+'</span>':'')+'</span>'}).join('')+'</div>'}
+function npeople(l){var o={};l.forEach(function(a){o[a.p.id]=1});return Object.keys(o).length}
 function occ(t){var o={};PEOPLE.forEach(function(p){active(p,t).forEach(function(x){(o[x.place]=o[x.place]||[]).push({p:p,x:x})})});return o}
 function storeOpen(s,t){var h=/(\d+:\d+)\s*~\s*(\d+:\d+)/.exec(s.hours);if(!h)return null;return t>=m(h[1])&&t<m(h[2])}
 var W=D.walks.map(function(w){return Object.assign({},w,{g:m(w.gather),d:m(w.dep),e:m(w.end)})}).sort(function(a,b){return a.d-b.d||a.g-b.g});
 function refreshW(){D.walks.forEach(function(x){W.forEach(function(w){if(w.no===x.no)w.signed=x.signed})})}
-function wst(w,t){return t>=w.e?'done':t>=w.d?'go':t>=w.g?'gat':'pre'}
-var WSL={pre:'예정',gat:'집결 중',go:'걷는 중',done:'끝남'};
-function wleft(w,t){var s=wst(w,t);return s==='go'?dur(w.e-t)+' 남음':s==='gat'?'출발까지 '+dur(w.d-t):s==='pre'?dur(w.g-t)+' 뒤 집결':''}
+function wst(w,t){return t>=w.e?'done':t>=w.d?'go':t>=w.g?'gat':(w.g-t<=30?'soon':'pre')}
+var WSL={pre:'예정',soon:'곧',gat:'집결 중',go:'걷는 중',done:'끝'},WRK={go:0,gat:1,soon:2,pre:3,done:4};
+function wsort(l,t){return l.slice().sort(function(a,b){return WRK[wst(a,t)]-WRK[wst(b,t)]||a.g-b.g||a.d-b.d})}
+function wleft(w,t){var s=wst(w,t);return s==='go'?dur(w.e-t)+' 남음':s==='gat'?'출발까지 '+dur(w.d-t):(s==='pre'||s==='soon')?dur(w.g-t)+' 뒤 집결':w.end+' 끝남'}
 function floor(c){return c==='W-외부'?'외부':(pname(c)||c).replace('층','F').replace('지하 1F','B1')}
 function soonList(t){var g={},ord=[];PEOPLE.forEach(function(p){p.tasks.forEach(function(x){var s=m(x.s);if(s==null||s<=t||s>t+30)return;var key=x.s+'|'+x.place+'|'+(x.short||x.what);if(!g[key]){g[key]={s:s,x:x,ps:[]};ord.push(key)}g[key].ps.push(p)})});ord.sort(function(a,b){return g[a].s-g[b].s});return ord.map(function(k){return g[k]})}
 function nextAny(t){var nn=null;PEOPLE.forEach(function(p){p.tasks.forEach(function(x){var s=m(x.s);if(s!=null&&s>t&&(!nn||s<nn.s))nn={s:s,x:x}})});return nn}
@@ -3300,24 +3584,39 @@ function renderTop(){
 
 /* ---------- NOW ---------- */
 function countdown(t){
-  if(t<OPEN)return '오픈 12:00까지 '+dur(OPEN-t);
+  if(t<FIRST)return '설치 '+hm(FIRST)+' 시작까지 '+dur(FIRST-t);
+  if(t<OPEN)return '오픈 '+hm(OPEN)+'까지 '+dur(OPEN-t);
   if(t<SUN)return '일몰 '+D.sunset+'까지 '+dur(SUN-t);
-  if(t<END)return '종료 19:00까지 '+dur(END-t);
-  if(t<1320)return '행사 끝 · 철거·마감 중';
+  if(t<END)return '종료 '+hm(END)+'까지 '+dur(END-t);
+  if(t<LAST)return '행사 끝 · 철거 '+hm(LAST)+'까지';
   return '오늘 일정 끝';
 }
-function zone(code,o,label){var l=o[code]||[],n=label||pname(code);
-  if(!l.length)return '<div class="zone off" style="'+cv(code)+'"><div class="zh"><b>'+esc(code)+'</b>'+esc(n)+' · 스텝 배정 없음</div></div>';
-  return '<div class="zone" style="'+cv(code)+'"><div class="zh"><b>'+esc(code)+'</b>'+esc(n)+' <span class="tn">'+l.length+'</span></div><div class="chips">'+chipsZ(l,n)+'</div></div>'}
+function zone(code,o,label,extra){var l=o[code]||[],n=label||pname(code);
+  if(!l.length&&!extra)return '<div class="zone off" style="'+cv(code)+'"><div class="zh"><b>'+esc(code)+'</b>'+esc(n)+' · 지금 비어 있음</div></div>';
+  return '<div class="zone" style="'+cv(code)+'"><div class="zh"><b>'+esc(code)+'</b>'+esc(n)+(l.length?'<span class="n tn">'+npeople(l)+'명</span>':'')+'</div>'+(extra||'')+(l.length?chipsZ(l,n):'')+'</div>'}
+function tourZone(o,t){var code='W-투어',go=W.filter(function(w){return wst(w,t)==='go'}),l=(o[code]||[]).filter(function(a){return !isOrg(a.p)});
+  if(!go.length&&!l.length)return '';
+  var g={},ord=[];go.forEach(function(w){if(!g[w.team]){g[w.team]=[];ord.push(w.team)}g[w.team].push(w)});
+  var h='<div class="zone" style="'+cv(code)+'"><div class="zh"><b>'+esc(code)+'</b>'+esc(pname(code))+'<span class="n tn">'+go.length+'팀</span></div><div class="cg">'+ord.map(function(k){return '<span class="g">'+g[k].map(function(w){return '<button class="chip tn" data-w="'+w.no+'">'+esc(w.no)+'</button>'}).join('')+'<span class="gl">'+esc(k)+'</span></span>'}).join('')+'</div>';
+  if(l.length)h+='<div class="zsub">'+chipsZ(l,'')+'</div>';
+  return h+'</div>'}
 function dZone(o){
   var pref=['D-레몬','D-B1','D-1F','D-3F'],subs=pref.filter(function(c){return P[c]}).concat(Object.keys(P).filter(function(c){return /^D-/.test(c)&&pref.indexOf(c)<0}));
   if(P.D)subs.push('D');
   var n=0,h='';subs.forEach(function(c){n+=(o[c]||[]).length});
-  if(!n)return '<div class="zone off" style="'+cv('D')+'"><div class="zh"><b>D</b>돗가비마을 · 스텝 배정 없음</div></div>';
-  subs.forEach(function(c){var l=o[c]||[],lb=c==='D'?'건물 전체':c.replace('D-',''),nm=c==='D'?'':pname(c);
-    if(!l.length){if(c!=='D')h+='<div class="zsub off">'+esc(lb)+' '+esc(nm)+' · 스텝 배정 없음</div>';return}
-    h+='<div class="zsub"><div class="sl">'+esc(lb)+' <span>'+esc(nm)+'</span></div><div class="chips">'+chipsZ(l,nm)+'</div></div>'});
-  return '<div class="zone" style="'+cv('D')+'"><div class="zh"><b>D</b>돗가비마을 <span class="tn">'+n+'</span></div>'+h+'</div>';
+  if(!n)return '<div class="zone off" style="'+cv('D')+'"><div class="zh"><b>D</b>'+esc(P.D?P.D.zone:'돗가비마을')+' · 지금 비어 있음</div></div>';
+  var emp=[],all=[];
+  subs.forEach(function(c){var l=o[c]||[],nm=c==='D'?pname('D'):pname(c);all=all.concat(l);
+    if(!l.length){if(c!=='D')emp.push(nm);return}
+    h+='<div class="zsub"><div class="sl">'+esc(c)+' · '+esc(nm)+'</div>'+chipsZ(l,nm)+'</div>'});
+  if(emp.length)h+='<div class="zemp">비어 있음 · '+emp.map(esc).join(' · ')+'</div>';
+  return '<div class="zone" style="'+cv('D')+'"><div class="zh"><b>D</b>'+esc(P.D?P.D.zone:'돗가비마을')+'<span class="n tn">'+npeople(all)+'명</span></div>'+h+'</div>';
+}
+function shopsAll(o,t){
+  var codes=['S-서','S-동'].filter(function(c){return P[c]}),op=0,cl=0,rows='';
+  codes.forEach(function(code){var st=D.spots.filter(function(s){return s.place===code});rows+='<div class="sh2">'+esc(code)+' · '+esc(pname(code))+'</div>'+st.map(function(s){var x=storeOpen(s,t);if(x===false)cl++;else op++;return '<div class="sline'+(x===false?' off':'')+'"><b>'+esc(s.no)+'</b>'+esc(s.name)+'<span class="h tn">'+(x===false?'닫힘':'열림')+' · '+esc(s.hours)+'</span></div>'}).join('')});
+  var zn=P.S?P.S.zone:'이름 건 상점';
+  return '<details class="shop" data-k="shops" style="'+cv('S')+'"><summary><b>S</b> <span class="sm">'+esc(zn)+' '+D.spots.length+'곳</span><span class="r tn">열림 '+op+(cl?' · <i>닫힘 '+cl+'</i>':'')+'</span></summary><div class="dbody">'+rows+'</div></details>';
 }
 function shopBox(code,o,t){
   var st=D.spots.filter(function(s){return s.place===code}),op=0,cl=0,l=o[code]||[];
@@ -3328,45 +3627,50 @@ function board(t){
   var o=occ(t),used={},h='';
   function u(c){used[c]=1}
   h+='<div class="ends">북쪽 끝 · 숲길 안내부스 쪽</div>';
-  if(P.F){u('F');if((o.F||[]).length)h+=zone('F',o)}
+  if(P.F){u('F');if((o.F||[]).length)h+=zone('F',o,P.F.zone)}
   ['F-안내','F-시장'].forEach(function(c){if(P[c]){u(c);h+=zone(c,o)}});
   h+=dZone(o);Object.keys(P).forEach(function(c){if(c==='D'||/^D-/.test(c))u(c)});
   var pr=['F-와펜','F-맥주'].filter(function(c){return P[c]});pr.forEach(u);
   if(pr.length)h+='<div class="pair">'+pr.map(function(c){return zone(c,o)}).join('')+'</div>';
   h+='<div class="ends s">남쪽 끝 · 도깨비시장 입구 쪽</div>';
   // shops
-  h+='<div class="shops">';if(P.S){u('S');if((o.S||[]).length)h+=zone('S',o)}
-  ['S-서','S-동'].forEach(function(c){if(P[c]){u(c);h+=shopBox(c,o,t)}});h+='</div>';
+  h+='<div class="shops">';if(P.S){u('S');if((o.S||[]).length)h+=zone('S',o,P.S.zone)}
+  ['S-서','S-동'].forEach(function(c){if(P[c]){u(c);if((o[c]||[]).length)h+=zone(c,o)}});h+=shopsAll(o,t)+'</div>';
   // band: everything else, from places data
-  var rest=Object.keys(P).filter(function(c){return !used[c]}),full=rest.filter(function(c){return (o[c]||[]).length}),emp=rest.filter(function(c){return !(o[c]||[]).length});
-  h+='<div class="band">'+full.map(function(c){return zone(c,o)}).join('')+(emp.length?'<p class="offline">스텝 배정 없음 · '+emp.map(function(c){return esc(c)}).join(' · ')+'</p>':'')+'</div>';
+  u('W-투어');var tz=tourZone(o,t);
+  var rest=Object.keys(P).filter(function(c){return !used[c]}),full=rest.filter(function(c){return (o[c]||[]).length});
+  if(tz||full.length)h+='<div class="band">'+tz+full.map(function(c){return zone(c,o,c==='순회'||c==='이동'||c==='기타'?pname(c):'')}).join('')+'</div>';
   return h;
 }
 function walkCard(w,t){var s=wst(w,t),ov=w.signed>w.cap;
-  return '<button class="wcard'+(s==='go'?' go':'')+'" data-w="'+w.no+'"><span class="l1"><span class="no">'+esc(w.no)+'</span><span class="st '+s+'">'+WSL[s]+'</span><span class="lf tn">'+wleft(w,t)+'</span></span><span class="nm">'+esc(w.name)+'</span><span class="mt tn"><span>집결 '+w.gather+' '+tag(w.place)+'</span><span>걷기 '+w.dep+'–'+w.end+'</span><span'+(ov?' class="over"':'')+'>신청 '+w.signed+'/'+w.cap+'</span></span></button>'}
+  return '<button class="wcard'+(s==='go'?' go':s==='done'?' done':'')+'" data-w="'+w.no+'"><span class="l1"><span class="no">'+esc(w.no)+'</span><span class="st '+s+'">'+WSL[s]+'</span><span class="lf tn">'+wleft(w,t)+'</span></span><span class="nm">'+esc(w.name)+'</span><span class="mt tn"><span>집결 '+w.gather+' '+tag(w.place)+(EXTG[w.no]?' '+esc(EXTG[w.no]):'')+'</span><span>걷기 '+w.dep+'–'+w.end+'</span><span'+(ov?' class="over"':'')+'>신청 '+w.signed+'/'+w.cap+'</span></span></button>'}
+function lab(x){var s=x.short||x.what,pn=pname(x.place)||'';return (!s||s===x.place||(pn&&(pn.indexOf(s)>=0||s.indexOf(pn)>=0)))?x.what:s}
 function renderNow(){
-  var t=T,me=getMe(),h='<div class="head">';
-  h+='<button class="clock" data-time="1" aria-label="보는 시각 바꾸기"><span class="t tn">'+hm(t)+'</span><span class="cd tn">'+countdown(t)+'<em>시각 바꾸기</em></span></button>';
-  if(mode==='preview')h+='<div class="prev">오늘은 '+MON+'/'+DAY+'이 아니라서 12:00으로 미리 보여 줘요.</div>';
-  else if(mode==='manual'&&isDay)h+='<div class="prev">'+hm(t)+' 시각을 보는 중이에요. 실제 시각이 아니에요.</div>';
-  if(me){var mp=BY[me],mc=active(mp,t),mn=nextT(mp,t),c0=mc[0];
-    h+='<button class="mine" data-gome="1" style="'+cv(c0?c0.place:(mn?mn.place:'기타'))+'"><span class="bar"></span><span class="in"><span class="k">나 · '+esc(mp.name)+' · 지금</span><span class="w">'+(c0?esc(c0.short||c0.what)+' '+tag(c0.place):'배정된 일 없음')+'</span>'+(mn?'<span class="nx tn">다음 '+mn.s+' · '+esc(mn.short||mn.what)+' · '+esc(mn.place)+'</span>':'<span class="nx">오늘 남은 일 없음</span>')+'</span></button>'}
-  else h+='<button class="mine ask" data-gome="1">내 이름을 고르면 내 할 일이 여기 떠요</button>';
-  var go=W.filter(function(w){return wst(w,t)==='go'}),nx=W.filter(function(w){var s=wst(w,t);return s==='gat'||s==='pre'}).sort(function(a,b){return a.g-b.g}),n0=nx[0],sl=soonList(t);
+  var t=T,me=getMe(),h='<div class="head" style="padding-top:2px">';
+  h+='<button class="clock tn" data-time="1" aria-label="보는 시각 바꾸기"><span>'+countdown(t)+'</span><em>시각 바꾸기</em></button>';
+  if(mode==='preview')h+='<div class="prev">오늘은 '+MON+'/'+DAY+'가 아니라서 '+hm(T)+' 기준으로 미리 보여 줘요.</div>';
+  else if(mode==='fixed')h+='<div class="prev">미리보기 · '+hm(t)+' 기준이에요.</div>';
+  else if(mode==='manual'&&isDay)h+='<div class="prev">'+hm(t)+' 기준으로 보는 중 · 실제 시각이 아니에요.</div>';
+  if(me){var mp=BY[me],mc=active(mp,t),mn=nextT(mp,t),c0=mc[0],with_=[];
+    if(c0){var oc=occ(t)[c0.place]||[],seen={};oc.forEach(function(a){if(c0.place==='W-투어'&&isOrg(a.p))return;if(a.p.id!==me&&!seen[a.p.id]){seen[a.p.id]=1;with_.push(sn(a.p))}})}
+    h+='<button class="mine" data-gome="1" style="'+cv(c0?c0.place:(mn?mn.place:'기타'))+'"><span class="bar"></span><span class="in"><span class="k tn">나 · '+esc(sn(mp))+' · 지금'+(c0&&c0.e&&c0.e!==c0.s?' ~'+c0.e:'')+'</span><span class="w">'+(c0?esc(lab(c0))+' <i>'+where(c0.place)+'</i>':!mp.tasks.some(function(x){return x.s&&m(x.s)<=t})?'아직 시작 전':mn?'지금 배정된 일 없음':'오늘 일 끝 · 수고했어요')+'</span>'+(mn?'<span class="nx tn"><i>다음</i>'+mn.s+' '+esc(lab(mn))+' · '+esc(mn.place)+(pname(mn.place)?' '+esc(pname(mn.place)):'')+'</span>':'<span class="nx">오늘 남은 일 없음</span>')+(with_.length?'<span class="wt">같은 곳 · '+with_.slice(0,6).map(esc).join(' · ')+(with_.length>6?' 외 '+(with_.length-6):'')+'</span>':'')+'</span></button>'}
+  else if(!lsGet('nf_skip'))h+='<div class="ask"><h2>나는 누구?</h2><p>이름을 고르면 지금 할 일과 다음 일이 맨 위에 떠요. 이 휴대폰이 기억해요.</p><button class="btn dark full" data-pickopen="home">내 이름 고르기</button><button class="lnk" data-skip="1">건너뛰고 현황판만 보기</button></div>';
+  else h+='<button class="mine ask2" data-pickopen="home">내 이름 고르기 · 내 할 일이 여기 떠요</button>';
+  var go=W.filter(function(w){return wst(w,t)==='go'}),nx=W.filter(function(w){var s=wst(w,t);return s==='gat'||s==='pre'||s==='soon'}).sort(function(a,b){return a.g-b.g}),n0=nx[0],sl=soonList(t);
   h+='<div class="tiles">';
   h+='<button class="tile" data-jump="walk"><span class="l">걷는 중 산책</span><span class="v tn">'+go.length+'</span><span class="s">'+(go.length?go.map(function(w){return w.no}).join(' · '):'지금은 없어요')+'</span></button>';
-  h+=n0?'<button class="tile" data-w="'+n0.no+'"><span class="l">다음 집결</span><span class="v sm2 tn">'+n0.no+' '+n0.gather+'</span><span class="s">'+esc(floor(n0.place))+(wst(n0,t)==='gat'?' · 집결 중':'')+'</span></button>':'<button class="tile" data-jump="walk"><span class="l">다음 집결</span><span class="v sm2">없음</span><span class="s">산책 모두 끝</span></button>';
+  h+=n0?'<button class="tile" data-w="'+n0.no+'"><span class="l">다음 집결</span><span class="v sm2 tn">'+n0.no+' '+n0.gather+'</span><span class="s">'+esc(floor(n0.place))+(wst(n0,t)==='gat'?' · 집결 중':wst(n0,t)==='soon'?' · 곧':'')+'</span></button>':'<button class="tile" data-jump="walk"><span class="l">다음 집결</span><span class="v sm2">없음</span><span class="s">남은 집결 없음</span></button>';
   h+='<button class="tile" data-jump="soon"><span class="l">30분 안 할 일</span><span class="v tn">'+sl.length+'</span><span class="s tn">'+(sl.length?'첫 일 '+sl[0].x.s:'새로 시작 없음')+'</span></button>';
   h+='</div></div>';
   var b='',s=SEG.now;
-  if(s==='board'){b+=board(t);b+='<p class="small" style="margin-top:8px">이름을 누르면 할 일과 전화번호가 떠요.</p>'}
+  if(s==='board'){b+=board(t);b+='<p class="small" style="margin-top:6px;font-weight:500">이름을 누르면 할 일과 전화번호, 번호를 누르면 산책이 떠요.</p>'}
   else if(s==='walk'){
     if(go.length)b+='<h3 class="h3">걷는 중 '+go.length+'팀</h3>'+go.map(function(w){return walkCard(w,t)}).join('');
-    if(nx.length)b+='<h3 class="h3">다음 집결</h3>'+nx.slice(0,3).map(function(w){return walkCard(w,t)}).join('');
+    if(nx.length)b+='<h3 class="h3">다음 집결</h3>'+wsort(nx,t).slice(0,3).map(function(w){return walkCard(w,t)}).join('');
     if(!go.length&&!nx.length)b+='<p class="empty">오늘 산책은 모두 끝났어요. 기록은 <button class="lnk" data-go="walk">산책 탭</button>에서 봐요.</p>';
-    else b+='<p style="margin-top:12px"><button class="btn full" data-go="walk">산책 13회 전체 보기</button></p>';
+    else b+='<p style="margin-top:12px"><button class="btn full" data-go="walk">산책 '+W.length+'회 전체 보기</button></p>';
   }else{
-    if(sl.length)b+='<ul class="rows">'+sl.map(function(a){return '<li><div class="row"><div class="tm tn">'+a.x.s+'<small>'+dur(a.s-t)+' 뒤</small></div><div class="ds">'+where(a.x.place)+'<div style="margin-top:4px"><b>'+esc(a.x.short||a.x.what)+'</b></div><div class="mt">'+esc(a.x.what)+'</div><div class="chips" style="margin-top:6px">'+a.ps.map(function(p){return '<button class="chip" data-pp="'+p.id+'"><b>'+esc(p.name)+'</b></button>'}).join('')+'</div></div></div></li>'}).join('')+'</ul>';
+    if(sl.length)b+='<ul class="rows">'+sl.map(function(a){return '<li><div class="row"><div class="tm tn">'+a.x.s+'<small>'+dur(a.s-t)+' 뒤</small></div><div class="ds">'+where(a.x.place)+'<div style="margin-top:4px"><b>'+esc(a.x.short||a.x.what)+'</b></div>'+(a.x.short&&a.x.short!==a.x.what?'<div class="mt">'+esc(a.x.what)+'</div>':'')+'<div class="chips" style="margin-top:6px">'+a.ps.map(chipN).join('')+'</div></div></div></li>'}).join('')+'</ul>';
     else{var nn=nextAny(t);b+='<p class="empty">30분 안에 새로 시작하는 일은 없어요.'+(nn?'<br>다음은 <b class="tn">'+nn.x.s+'</b> '+esc(nn.x.short||nn.x.what)+' ('+esc(nn.x.place)+')예요.':'')+'</p>'}
   }
   return {head:h,body:b};
@@ -3428,7 +3732,7 @@ function renderMe(){
 /* ---------- WALK ---------- */
 var G0=720,G1=1140;
 function gx(n){return Math.max(0,Math.min(100,(n-G0)/(G1-G0)*100))}
-function liveNote(){return LIVE.at?'신청 인원은 시트에서 '+hm(LIVE.at.getHours()*60+LIVE.at.getMinutes())+'에 가져왔어요.':'신청 인원은 10/22 기준이에요. 연결되면 1분마다 바뀌어요.'}
+function liveNote(){return LIVE.at?'신청 인원은 시트에서 '+hm(LIVE.at.getHours()*60+LIVE.at.getMinutes())+'에 가져왔어요.':'신청 인원은 10/22 기준이에요. 인터넷이 되면 시트에서 1분마다 새로 가져와요.'}
 function gantt(t){
   var h='<div class="gantt" aria-hidden="true"><div class="axis tn">';
   for(var i=12;i<=19;i++)h+='<span style="left:'+gx(i*60)+'%">'+i+'</span>';
@@ -3441,18 +3745,21 @@ function gantt(t){
 function wrow(w,t){var s=wst(w,t),ov=w.signed>w.cap;return '<li><button class="wrow'+(s==='done'?' done':'')+'" data-w="'+w.no+'" aria-label="'+esc(w.no+' '+w.gather+' 집결 '+WSL[s]+' 신청 '+w.signed+' 정원 '+w.cap)+'"><span class="no">'+esc(w.no)+'</span><span class="tm tn">'+w.gather+'</span>'+'<span class="tag" style="'+cv(w.place)+'">'+esc(floor(w.place))+'</span><span><span class="st '+s+'">'+WSL[s]+'</span></span><span class="cnt tn'+(ov?' over':'')+'">'+w.signed+'/'+w.cap+'</span></button></li>'}
 function renderWalk(){
   var t=T,h='<div class="head" style="padding-bottom:10px"><h1 style="font-size:24px;font-weight:800">산책 '+W.length+'회</h1><p class="small" style="margin-top:2px">집결은 출발 10분 전 · 회차를 누르면 자세히 떠요</p></div>',b='',s=SEG.walk;
-  var go=W.filter(function(w){return wst(w,t)==='go'}),nx=W.filter(function(w){var x=wst(w,t);return x==='gat'||x==='pre'}).sort(function(a,b){return a.g-b.g});
+  var go=W.filter(function(w){return wst(w,t)==='go'}),nx=wsort(W.filter(function(w){var x=wst(w,t);return x==='gat'||x==='pre'||x==='soon'}),t);
   if(s==='now'){
     if(go.length)b+='<h3 class="h3">걷는 중 '+go.length+'팀</h3>'+go.map(function(w){return walkCard(w,t)}).join('');
     if(nx.length)b+='<h3 class="h3">다음 '+Math.min(2,nx.length)+'회</h3>'+nx.slice(0,2).map(function(w){return walkCard(w,t)}).join('');
     if(!go.length&&!nx.length)b+='<p class="empty">오늘 산책은 모두 끝났어요. 지난 회차는 <button class="lnk" data-seg2="all">전체</button>에서 봐요.</p>';
     else if(nx.length>2)b+='<p style="margin-top:12px"><button class="btn full" data-seg2="all">그 뒤 '+(nx.length-2)+'회 더 보기</button></p>';
   }else if(s==='all'){
-    var live=W.filter(function(w){return wst(w,t)!=='done'}),done=W.filter(function(w){return wst(w,t)==='done'});
+    var live=wsort(W.filter(function(w){return wst(w,t)!=='done'}),t),done=W.filter(function(w){return wst(w,t)==='done'});
     b+=gantt(t);
-    b+='<ul class="wlist" style="margin-top:10px">'+live.map(function(w){return wrow(w,t)}).join('')+'</ul>';
-    if(!live.length)b+='<p class="empty">남은 회차가 없어요.</p>';
-    if(done.length)b+='<details class="pastd" data-k="wdone" style="border-top:1px solid var(--hair)"><summary>끝난 회차 <span class="sm tn">'+done.length+'</span></summary><ul class="wlist">'+done.map(function(w){return wrow(w,t)}).join('')+'</ul></details>';
+    var GH={go:'걷는 중',gat:'집결 중',soon:'곧 · 30분 안 집결',pre:'예정'},cur='',ul='';
+    live.forEach(function(w){var k=wst(w,t);if(k!==cur){if(cur)ul+='</ul>';cur=k;var n=live.filter(function(x){return wst(x,t)===k}).length;ul+='<div class="wh">'+GH[k]+' <span class="tn">'+n+'</span></div><ul class="wlist">'}ul+=wrow(w,t)});
+    if(cur)ul+='</ul>';
+    b+='<div style="margin-top:8px">'+ul+'</div>';
+    if(!live.length)b+='<p class="empty">남은 회차가 없어요. 끝난 회차는 아래에서 열어 봐요.</p>';
+    if(done.length)b+='<details class="pastd" data-k="wdone" style="border-top:1px solid var(--hair)"><summary>끝난 회차 <span class="sm tn">'+done.length+' · 눌러서 보기</span></summary><ul class="wlist">'+done.map(function(w){return wrow(w,t)}).join('')+'</ul></details>';
     b+='<p style="margin-top:14px"><a class="rbtn" href="'+ROSTER+'" target="_blank" rel="noopener">예약 명단 열기</a></p><p class="small" style="margin-top:6px">명단은 권한 있는 구글 계정으로만 열려요. '+liveNote()+'</p>';
   }else{
     var cs=(D.contacts||[]).filter(function(c){return /산책/.test(c.role)});
@@ -3462,11 +3769,14 @@ function renderWalk(){
   }
   return {head:h,body:b};
 }
+var CAU=/보험|면책|주의|금지|취소|위험|반드시|필수|거절|성인만|미성년|찔림|119|난간|어두|수위|조심|라이트|리플렉터/;
 function walkSheet(no){
   var w=W.filter(function(x){return x.no===no})[0];if(!w)return {t:'',b:''};
   var t=T,s=wst(w,t),ov=w.signed>w.cap,cut=m(w.cut),cs=(D.contacts||[]).filter(function(c){return c.name===w.team||c.role.indexOf(w.team)>=0});
-  var b='<p style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="st '+s+'">'+WSL[s]+'</span><b class="tn" style="font-size:17px">'+wleft(w,t)+'</b></p><p style="font-size:19px;font-weight:800;line-height:1.35;margin:8px 0 12px">'+esc(w.name)+'</p>';
-  b+='<dl class="kv"><dt>집결</dt><dd><b class="tn" style="font-size:20px">'+w.gather+'</b> '+where(w.place)+'</dd><dt>걷기</dt><dd class="tn"><b>'+w.dep+'–'+w.end+'</b></dd><dt>끝나는 곳</dt><dd>'+esc(w.endp)+'</dd><dt>신청</dt><dd class="tn"><span class="'+(ov?'over':'')+'">'+w.signed+' / 정원 '+w.cap+(ov?' · '+(w.signed-w.cap)+'명 넘음':'')+'</span></dd><dt>접수 마감</dt><dd class="tn">'+w.cut+(t>=cut?' · 마감됨':'')+'</dd><dt>운영</dt><dd>'+esc(w.team)+'</dd><dt>도슨트</dt><dd>'+esc(w.lead)+'</dd><dt>후미</dt><dd>'+esc(w.tail)+'</dd>'+(w.memo?'<dt>메모</dt><dd>'+esc(w.memo)+'</dd>':'')+'</dl>';
+  var b='<p style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="st '+s+'">'+WSL[s]+'</span><span class="tn" style="font-size:16px;font-weight:600;color:var(--sub)">'+wleft(w,t)+'</span></p><p style="font-size:19px;font-weight:800;line-height:1.35;margin:8px 0 12px">'+esc(w.name)+'</p>';
+  b+='<dl class="kv"><dt>집결</dt><dd><span class="tn" style="font-size:18px;font-weight:700">'+w.gather+'</span> '+where(w.place)+(EXTG[w.no]?'<br>'+esc(EXTG[w.no]):'')+'</dd><dt>걷기</dt><dd class="tn">'+w.dep+'–'+w.end+'</dd><dt>끝나는 곳</dt><dd>'+esc(w.endp)+'</dd><dt>신청</dt><dd class="tn"><span class="'+(ov?'over':'')+'">'+w.signed+' / 정원 '+w.cap+(ov?' · '+(w.signed-w.cap)+'명 넘음':'')+'</span></dd><dt>접수 마감</dt><dd class="tn">'+w.cut+(t>=cut?' · 마감됨':'')+'</dd><dt>운영</dt><dd>'+esc(w.team)+'</dd><dt>도슨트</dt><dd>'+esc(w.lead)+'</dd><dt>후미</dt><dd>'+esc(w.tail)+'</dd></dl>';
+  var ml=String(w.memo||'').split('\n').map(function(x){return x.trim()}).filter(Boolean);
+  if(ml.length)b+='<p class="mh">주의 · 메모 <span class="tn">'+ml.length+'</span></p><ul class="memo">'+ml.map(function(x){var c=CAU.test(x);return '<li'+(c?' class="cau"':'')+'>'+(c?'<span class="sr">주의 </span>':'')+esc(x)+'</li>'}).join('')+'</ul>';
   b+='<div class="acc" style="margin-top:12px;border-top:1px solid var(--hair)"><details data-k="route"><summary>동선</summary><div class="dbody">'+esc(w.route)+'</div></details><details data-k="kit"><summary>준비물</summary><div class="dbody">'+esc(w.kit)+'</div></details></div>';
   b+='<p style="margin-top:14px"><a class="rbtn" href="'+ROSTER+'" target="_blank" rel="noopener">'+esc(w.no)+' 예약 명단 열기</a></p>';
   if(cs.length)b+='<div class="calls">'+cs.map(function(c){return callBtn(c,true)}).join('')+'</div>';
@@ -3479,7 +3789,7 @@ function renderSos(){
   var h='<div class="sos"><h2>긴급하면 119<span>주소를 누르면 복사돼요</span></h2><div class="addrs">';
   h+='<button class="addr" data-copy="'+esc(D.addr.dot)+'"><small>돗가비마을</small><span>'+esc(D.addr.dot.replace('서울 노원구 ',''))+'</span></button>';
   h+='<button class="addr" data-copy="'+esc(D.addr.forest)+'"><small>경춘선숲길</small><span>'+esc(D.addr.forest.replace('서울 노원구 ',''))+'</span></button></div>';
-  h+='<div class="callrow"><a href="tel:119">119</a><a class="o" href="tel:112">112</a>'+(ert?'<a class="o" href="tel:'+ert.replace(/-/g,'')+'">응급실<small>'+esc(er[1].split('·')[0].trim().replace(' 응급실',''))+'</small></a>':'')+'</div></div>';
+  h+='<div class="callrow"><a href="tel:119">119</a><a class="o" href="tel:112">112</a>'+(ert?'<a class="o" href="tel:'+ert.replace(/-/g,'')+'">원자력병원<small>대표번호</small></a>':'')+'</div></div>';
   var b='',s=SEG.sos;
   if(s==='acc'){
     b+='<h2 style="font-size:18px;margin-bottom:4px">사고 나면 이 순서로</h2><ol class="steps">'+D.emergency5.map(function(x){var mm=/^(\d+)\.\s*(.*)$/.exec(x[0])||[0,'',x[0]];return '<li><span class="k tn">'+mm[1]+'</span><div><b>'+esc(mm[2])+'</b>'+esc(x[1])+'</div></li>'}).join('')+'</ol>';
@@ -3516,7 +3826,7 @@ b+='<h3 class="h3" style="margin-top:20px">부스 규칙</h3><div class="acc">'+
   else if(s==='code'){
     var Z={},zo=[];Object.keys(P).forEach(function(c){var z=P[c].zone;if(!Z[z]){Z[z]=[];zo.push(z)}Z[z].push(c)});
     b+='<p class="small" style="margin-bottom:8px">무전에서 위치는 코드로 말해요.</p>';
-    zo.forEach(function(z){b+='<div class="zone-h">'+esc(z)+'</div>'+Z[z].map(function(c){var x=P[c];return '<div class="pl-row"><div>'+tag(c)+'</div><div><div class="nm">'+esc(x.name)+'</div>'+(x.desc?'<div class="dsc">'+esc(x.desc)+'</div>':'')+'</div></div>'}).join('')});
+    zo.forEach(function(z){b+='<div class="zone-h">'+esc(z)+'</div>'+Z[z].map(function(c){var x=P[c],ds=x.desc;if(c==='W-외부'&&Object.keys(EXTG).length)ds=W.filter(function(w){return EXTG[w.no]}).map(function(w){return w.no+' '+EXTG[w.no]}).join(' / ');return '<div class="pl-row"><div>'+tag(c)+'</div><div><div class="nm">'+esc(x.name)+'</div>'+(ds?'<div class="dsc">'+esc(ds)+'</div>':'')+'</div></div>'}).join('')});
   }else{
     var op=0,cl=0;D.spots.forEach(function(x){storeOpen(x,t)===false?cl++:op++});
     b+='<p class="sum tn">'+hm(t)+' 기준 · 열림 '+op+' · <span class="mute">닫힘 '+cl+'</span></p>';
@@ -3536,9 +3846,9 @@ function personSheet(id){
 }
 function timeSheet(){
   var b='<div class="bigt tn" id="tsv">'+hm(T)+'</div><p class="small" id="tsm" style="margin-top:4px"></p>';
-  b+='<div class="slider"><input type="range" id="sl" min="300" max="1320" step="10" value="'+Math.round(T/10)*10+'" aria-label="보는 시각"></div><div class="ticks tn"><span style="left:0">05</span><span style="left:23.5%">09</span><span style="left:41.2%">12</span><span style="left:58.8%">15</span><span style="left:82.4%">19</span><span style="left:100%">22</span></div>';
-  b+='<div class="quick tn">'+['08:00','12:00','14:00','16:00','17:30','19:00','20:30'].map(function(x){return '<button data-tq="'+x+'"'+(hm(T)===x?' aria-pressed="true"':'')+'>'+x+'</button>'}).join('')+(isDay?'<button data-golive="1">지금</button>':'')+'</div>';
-  b+='<p class="small" style="margin-top:12px">'+(isDay?'시각을 옮기면 모든 탭이 그 시각 기준으로 바뀌어요.':'오늘은 '+MON+'/'+DAY+'이 아니라서 미리보기예요. 그날이 되면 실제 시각으로 움직여요.')+'</p>';
+  b+='<div class="slider"><input type="range" id="sl" min="300" max="1380" step="10" value="'+Math.round(T/10)*10+'" aria-label="보는 시각"></div><div class="ticks tn"><span style="left:0">05</span><span style="left:'+(240/1080*100)+'%">09</span><span style="left:'+(420/1080*100)+'%">12</span><span style="left:'+(600/1080*100)+'%">15</span><span style="left:'+(840/1080*100)+'%">19</span><span style="left:100%">23</span></div>';
+  b+='<div class="quick tn">'+['06:00','08:00','12:00','14:00','17:30','19:00','21:00'].map(function(x){return '<button data-tq="'+x+'"'+(hm(T)===x?' aria-pressed="true"':'')+'>'+x+'</button>'}).join('')+(isDay?'<button data-golive="1">지금</button>':'')+'</div>';
+  b+='<p class="small" style="margin-top:12px">'+(isDay?'시각을 옮기면 모든 탭이 그 시각 기준으로 바뀌어요.':'오늘은 '+MON+'/'+DAY+'가 아니라서 미리보기예요. 그날이 되면 실제 시각으로 움직여요.')+'</p>';
   b+='<p style="margin-top:12px"><button class="btn dark full" data-close="1">이 시각으로 보기</button></p>';
   return {t:'보는 시각',b:b,time:true};
 }
@@ -3547,16 +3857,23 @@ function tsLabel(){var v=$('tsv');if(v)v.textContent=hm(T);var mm=$('tsm');if(mm
 /* ---------- sheet ---------- */
 var sheetFn=null,lastFocus=null,shTimer;
 function drawSheet(){if(!sheetFn)return;var r=sheetFn();$('shT').textContent=r.t;keep($('shB'),r.b);if(r.time)tsLabel()}
+var shPushed=false,afterPop=null;
 function openSheet(fn){
-  clearTimeout(shTimer);lastFocus=document.activeElement;sheetFn=fn;drawSheet();$('shB').scrollTop=0;
+  clearTimeout(shTimer);if(!sheetFn)lastFocus=document.activeElement;var was=!!sheetFn;sheetFn=fn;drawSheet();$('shB').scrollTop=0;
+  if(!was&&!shPushed){try{history.pushState({nfSheet:1},'',location.href);shPushed=true}catch(e){}}
   $('sheet').hidden=false;$('scrim').hidden=false;document.body.classList.add('lock');void $('sheet').offsetHeight;document.body.classList.add('sheet-on');
   setTimeout(function(){try{$('shX').focus({preventScroll:true})}catch(e){}},30);
   if(fn===timeSheet)bindSlider();
 }
-function closeSheet(){if(!sheetFn)return;sheetFn=null;document.body.classList.remove('sheet-on','lock');shTimer=setTimeout(function(){$('sheet').hidden=true;$('scrim').hidden=true},230);if(lastFocus&&lastFocus.focus)try{lastFocus.focus({preventScroll:true})}catch(e){}}
+function closeSheet(then){
+  if(!sheetFn){if(then)then();return}
+  if(shPushed){shPushed=false;afterPop=then||null;try{history.back();return}catch(e){}}
+  hideSheet();if(then)then()}
+window.addEventListener('popstate',function(){if(shPushed||sheetFn){shPushed=false;hideSheet();var f=afterPop;afterPop=null;if(f)f()}});
+function hideSheet(){if(!sheetFn)return;sheetFn=null;document.body.classList.remove('sheet-on','lock');shTimer=setTimeout(function(){$('sheet').hidden=true;$('scrim').hidden=true},230);if(lastFocus&&lastFocus.focus)try{lastFocus.focus({preventScroll:true})}catch(e){}}
 function bindSlider(){var sl=$('sl');if(!sl)return;sl.addEventListener('input',function(){mode=isDay?'manual':'fixed';T=+sl.value;tsLabel();renderLight()})}
-$('shX').onclick=closeSheet;$('scrim').onclick=closeSheet;
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSheet()});
+$('shX').onclick=function(){closeSheet()};$('scrim').onclick=function(){closeSheet()};
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&sheetFn)closeSheet()});
 
 /* ---------- router ---------- */
 var R={now:renderNow,me:renderMe,walk:renderWalk,sos:renderSos,map:renderMap};
@@ -3576,7 +3893,8 @@ function setSeg(k){
   afterNav();
 }
 function show(v,noHash){
-  closeSheet();view=v;
+  if(sheetFn&&shPushed){closeSheet(function(){show(v,noHash)});return}
+  hideSheet();view=v;
   document.querySelectorAll('.tabs button').forEach(function(b){b.setAttribute('aria-selected',b.dataset.v===v?'true':'false')});
   Object.keys(R).forEach(function(k){$('v-'+k).hidden=k!==v});
   render();window.scrollTo(0,0);afterNav();
@@ -3590,14 +3908,15 @@ function fromHash(){
 }
 document.querySelector('.tabs').addEventListener('click',function(e){var b=e.target.closest('button[data-v]');if(!b)return;if(b.dataset.v==='me'&&view!=='me')meView='';show(b.dataset.v)});
 document.addEventListener('click',function(e){
-  var b=e.target.closest('[data-seg],[data-seg2],[data-p],[data-pp],[data-pick],[data-pickopen],[data-setme],[data-back],[data-copy],[data-w],[data-go],[data-gome],[data-jump],[data-time],[data-tq],[data-golive],[data-close]');if(!b)return;
+  var b=e.target.closest('[data-seg],[data-seg2],[data-p],[data-pp],[data-pick],[data-pickopen],[data-setme],[data-back],[data-copy],[data-w],[data-go],[data-gome],[data-jump],[data-time],[data-tq],[data-golive],[data-close],[data-skip]');if(!b)return;
   var d=b.dataset;
   if(d.seg){if(SEG[view]!==d.seg)setSeg(d.seg)}
   else if(d.seg2){setSeg(d.seg2)}
   else if(d.pp){openSheet(function(){return personSheet(d.pp)})}
   else if(d.p){meView=d.p===getMe()?'':d.p;SEG.me=d.all?'all':'now';saveSeg();show('me')}
-  else if(d.pickopen){var kind=d.pickopen;openSheet(function(){return {t:kind==='me'?'내 이름 고르기':'누구 일정을 볼까요?',b:pickerHtml(kind)}})}
-  else if(d.pick){if(d.kind==='other'){meView=d.pick===getMe()?'':d.pick}else{setMe(d.pick);meView=''}SEG.me='now';saveSeg();show('me')}
+  else if(d.pickopen){var kind=d.pickopen;openSheet(function(){return {t:kind==='other'?'누구 일정을 볼까요?':'내 이름 고르기',b:pickerHtml(kind)}})}
+  else if(d.pick){if(d.kind==='home'){setMe(d.pick);meView='';show('now');return}if(d.kind==='other'){meView=d.pick===getMe()?'':d.pick}else{setMe(d.pick);meView=''}SEG.me='now';saveSeg();show('me')}
+  else if(d.skip){lsSet('nf_skip','1');render()}
   else if(d.setme){setMe(d.setme);meView='';show('me')}
   else if(d.back){meView='';show('me')}
   else if(d.copy){copy(d.copy)}
