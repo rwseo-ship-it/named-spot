@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>OPEN HOUSE 사진첩 · PRESS CLUB SEONAM</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --paper:#000; --paper2:#1c1c1c; --ink:#fff; --mute:#9a9a9a;
+  --c:#00a0e2; --m:#e6007e; --y:#ffe500; --k:#fff;
+  --line:rgba(255,255,255,.16);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{overflow-x:hidden;background:var(--paper);color:var(--ink);font-family:Pretendard,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{min-height:100dvh;overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* 상단 */
+.hero{display:block;max-width:560px;margin:0 auto;padding:14px 14px 0}
+.hero img{display:block;width:100%;height:auto}
+.oh{max-width:560px;margin:0 auto;padding:14px 14px 18px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.oh b{display:block;font-size:30px;font-weight:900;letter-spacing:-.01em;line-height:1}
+.oh span{display:block;font-size:13px;font-weight:600;color:var(--mute);margin-top:6px}
+header{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 8px;gap:12px}
+.top img{height:30px;width:auto;display:block;opacity:0;transition:opacity .25s}
+header.stuck .top img{opacity:1}
+.live{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;white-space:nowrap}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--m);animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.25}}
+.count{font-variant-numeric:tabular-nums}
+nav{display:flex;border-top:1px solid var(--line)}
+nav button{flex:1;padding:11px 0;font-size:14px;font-weight:700;color:var(--mute);border-bottom:3px solid transparent}
+nav button.on{color:var(--ink);border-color:var(--ink)}
+.bar{height:4px;display:flex}.bar b{flex:1}
+
+/* 사진 벽 */
+#wall{padding:12px 10px 120px;display:grid;grid-template-columns:repeat(var(--cols,2),minmax(0,1fr));gap:10px;align-items:start}
+.col{display:flex;flex-direction:column;gap:10px;min-width:0}
+.print{background:#fff;color:#141414;padding:7px 7px 9px;box-shadow:0 1px 0 rgba(0,0,0,.08),0 6px 14px -8px rgba(0,0,0,.35);position:relative;transform:rotate(var(--r,0deg));transition:transform .3s}
+.print img{display:block;width:100%;height:auto;background:#e9e3d6;aspect-ratio:var(--ar,3/4);object-fit:cover}
+.print .meta{display:flex;justify-content:space-between;align-items:baseline;gap:6px;margin-top:6px;font-size:10px;color:#77746d;font-variant-numeric:tabular-nums}
+.print .meta b{color:#141414;font-weight:800;letter-spacing:.02em}
+.print .cap{font-size:12px;line-height:1.35;margin-top:3px;word-break:keep-all;overflow-wrap:anywhere}
+.print .who{font-weight:700}
+/* 재단선 */
+.print:before,.print:after{content:"";position:absolute;width:10px;height:10px;border-color:#fff;opacity:.55}
+.print:before{top:-5px;left:-5px;border-top:1px solid;border-left:1px solid}
+.print:after{bottom:-5px;right:-5px;border-bottom:1px solid;border-right:1px solid}
+/* 새 사진: 판이 찍히듯 */
+.print.new{animation:press .9s cubic-bezier(.2,.9,.25,1) both}
+.print.new img{animation:reg 1.1s ease-out both}
+@keyframes press{0%{transform:translateY(-40px) scale(1.12) rotate(var(--r,0deg));opacity:0}55%{transform:translateY(0) scale(.97) rotate(var(--r,0deg));opacity:1}100%{transform:scale(1) rotate(var(--r,0deg))}}
+@keyframes reg{0%{filter:drop-shadow(6px 0 0 rgba(0,160,198,.7)) drop-shadow(-6px 2px 0 rgba(229,0,126,.6)) saturate(0) contrast(1.4)}100%{filter:none}}
+.empty{grid-column:1/-1;text-align:center;padding:80px 20px;color:var(--mute);font-size:14px;line-height:1.7}
+.empty b{display:block;font-size:20px;color:var(--ink);margin-bottom:6px}
+
+/* 올리기 버튼 */
+.shoot{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:30;
+  display:flex;align-items:center;gap:10px;background:var(--y);color:#000;padding:15px 26px;border-radius:999px;
+  font-size:16px;font-weight:800;box-shadow:0 10px 30px -6px rgba(0,0,0,.9),0 0 0 3px #000}
+.shoot svg{width:22px;height:22px}
+.shoot:active{transform:translateX(-50%) scale(.97)}
+#file{display:none}
+
+/* 올리기 시트 */
+.sheet{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.75);display:none;align-items:flex-end;justify-content:center}
+.sheet.on{display:flex}
+.sheet .box{background:#111;width:100%;max-width:520px;padding:18px 16px calc(18px + env(safe-area-inset-bottom));border-top:3px solid var(--y)}
+.sheet img{width:100%;max-height:46dvh;object-fit:contain;background:var(--paper2);display:block}
+.sheet label{display:block;font-size:12px;font-weight:700;color:var(--mute);margin:12px 0 4px}
+.sheet input{width:100%;font:inherit;font-size:16px;padding:11px 12px;border:1.5px solid #555;background:#000;color:#fff;border-radius:0}
+.sheet .note{font-size:12px;color:var(--mute);line-height:1.5;margin-top:10px}
+.sheet .row{display:flex;gap:8px;margin-top:14px}
+.sheet .row button{flex:1;padding:14px;font-weight:800;border:2px solid #fff}
+.sheet .go{background:var(--y);color:#000;border-color:var(--y)!important}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--y);color:#000;padding:9px 14px;font-size:13px;font-weight:700;z-index:60;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.on{opacity:1}
+
+/* 행사 안내 */
+#info{display:none;padding:18px 16px 60px;max-width:640px;margin:0 auto}
+#info h2{font-size:30px;font-weight:900;line-height:1.1;letter-spacing:-.02em}
+#info .lead{font-size:15px;line-height:1.6;margin:12px 0 22px;word-break:keep-all}
+#info h3{font-size:12px;font-weight:800;letter-spacing:.04em;margin:26px 0 8px;padding-bottom:6px;border-bottom:2px solid var(--ink)}
+.tl{list-style:none}
+.tl li{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:15px}
+.tl time{font-weight:800;font-variant-numeric:tabular-nums}
+.tl small{display:block;color:var(--mute);font-size:12px;margin-top:2px}
+.tl li.now{background:linear-gradient(90deg,rgba(255,229,0,.28),transparent)}
+.place{padding:12px 0;border-bottom:1px solid var(--line)}
+.place b{font-size:15px}.place p{font-size:13px;color:var(--mute);margin-top:3px}
+.place a{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;border:1.5px solid #fff;padding:6px 10px;color:#fff;text-decoration:none}
+.fine{font-size:12px;color:var(--mute);line-height:1.6;margin-top:24px}
+
+/* 큰 화면 모드 */
+body.screen header nav,body.screen .shoot,body.screen .hero,body.screen .oh{display:none}
+body.screen .top img{opacity:1;height:56px}
+body.screen #wall{height:calc(100dvh - 80px);overflow:hidden;padding-bottom:10px}
+body.screen .col{animation:drift linear infinite;animation-duration:var(--dur,90s)}
+body.screen .col:nth-child(even){animation-direction:reverse}
+@keyframes drift{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+.qr{display:none}
+body.screen .qr{display:flex;position:fixed;right:24px;bottom:24px;z-index:40;background:#fff;color:#000;padding:12px;gap:12px;align-items:center;border:3px solid var(--y)}
+.qr canvas,.qr img{width:120px;height:120px}
+.qr p{font-size:18px;font-weight:800;line-height:1.25}
+.more{position:fixed;left:50%;top:104px;transform:translate(-50%,-20px);z-index:25;background:#fff;color:#000;font-size:13px;font-weight:800;padding:9px 16px;border-radius:999px;box-shadow:0 6px 18px -6px rgba(0,0,0,.8);opacity:0;pointer-events:none;transition:.25s}
+.more.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.justin{display:none}
+body.screen .justin{display:block;position:fixed;left:50%;top:50%;z-index:45;background:#fff;color:#000;padding:16px 16px 14px;width:min(46vw,620px);box-shadow:0 30px 80px rgba(0,0,0,.9);opacity:0;transform:translate(-50%,-50%) scale(.7) rotate(-2deg);pointer-events:none;transition:opacity .5s,transform .7s cubic-bezier(.2,.9,.25,1)}
+body.screen .justin.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-1deg)}
+.justin img{display:block;width:100%;max-height:70vh;object-fit:contain;background:#eee}
+.justin figcaption{font-size:20px;margin-top:10px}
+.justin figcaption b{margin-right:6px}
+@media (min-width:700px){#wall{--cols:3}}
+@media (min-width:1100px){#wall{--cols:4}}
+@media (min-width:1500px){#wall{--cols:5}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<a class="hero" href="#wall"><img src="kv-hero.jpg" alt="PRESS CLUB SEONAM" width="1000" height="1063"></a>
+<div class="oh"><div><b>OPEN HOUSE</b><span>11.20 FRI 14:00–18:00 · 서남동 인쇄거리</span></div></div>
+<header id="hd">
+  <div class="top">
+    <img src="kv-logo.png" alt="PRESS CLUB SEONAM" width="900" height="288">
+    <div class="live"><i></i>사진 <span class="count" id="cnt">0</span>장</div>
+  </div>
+  <div class="bar"><b style="background:var(--c)"></b><b style="background:var(--m)"></b><b style="background:var(--y)"></b><b style="background:var(--k)"></b></div>
+  <nav><button class="on" data-tab="wall">사진첩</button><button data-tab="info">행사 안내</button></nav>
+</header>
+
+<main id="wall"></main>
+
+<section id="info">
+  <h2>서남동 인쇄거리에서<br>여는 하루짜리 집들이</h2>
+  <p class="lead">인쇄 장인과 학생 8팀이 한 마당에 모입니다. 부스를 돌며 작업을 구경하고, 먹고 마시고, 찍은 사진은 여기 사진첩에 바로 올려 주세요.</p>
+
+  <h3>11월 20일 금요일 · 14:00~18:00</h3>
+  <ul class="tl" id="tl">
+    <li data-t="14:00"><time>14:00</time><div>OPEN HOUSE 문 열어요<small>학생 8팀 부스, 라운지</small></div></li>
+    <li data-t="15:00"><time>15:00</time><div>웰컴 푸드</div></li>
+    <li data-t="16:00"><time>16:00</time><div>막걸리 시음회<small>17:30까지 · 성인만, 신분증 확인</small></div></li>
+    <li data-t="18:00"><time>18:00</time><div>마무리</div></li>
+  </ul>
+
+  <h3>어디서</h3>
+  <div class="place"><b>OPEN HOUSE</b><p>광주 동구 백서로125번길 26 (CU 금동점 옆 주차장)</p>
+    <a href="https://map.naver.com/p/search/%EA%B4%91%EC%A3%BC%20%EB%8F%99%EA%B5%AC%20%EB%B0%B1%EC%84%9C%EB%A1%9C125%EB%B2%88%EA%B8%B8%2026" target="_blank" rel="noopener">지도 열기</a></div>
+  <div class="place"><b>전시 A · PRESS ARCHIVE</b><p>광주 동구 문화전당로23번길 1 · 11:00~18:00</p>
+    <a href="https://map.naver.com/p/search/%EA%B4%91%EC%A3%BC%20%EB%8F%99%EA%B5%AC%20%EB%AC%B8%ED%99%94%EC%A0%84%EB%8B%B9%EB%A1%9C23%EB%B2%88%EA%B8%B8%201" target="_blank" rel="noopener">지도 열기</a></div>
+  <div class="place"><b>전시 B · PRESS STUDIO</b><p>광주 동구 문화전당로23번길 8 · 11:00~18:00 · 달력 만들기</p>
+    <a href="https://map.naver.com/p/search/%EA%B4%91%EC%A3%BC%20%EB%8F%99%EA%B5%AC%20%EB%AC%B8%ED%99%94%EC%A0%84%EB%8B%B9%EB%A1%9C23%EB%B2%88%EA%B8%B8%208" target="_blank" rel="noopener">지도 열기</a></div>
+  <div class="place"><b>PRESS WALK</b><p>인쇄거리 도슨트 투어 90분 · 13:00, 16:00 · 문화전당역 1번 출구 집결</p></div>
+
+  <p class="fine">전시는 11/22(일)까지 열려요. 사진에 다른 사람이 나오면 올리기 전에 한 번 물어봐 주세요. 운영팀이 사진을 내릴 수 있어요.<br>IBK기업은행 희망디자인 10주년 · PRESS CLUB SEONAM</p>
+</section>
+
+<button class="shoot" id="shoot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.6"/></svg>사진 올리기</button>
+<input type="file" id="file" accept="image/*">
+
+<div class="sheet" id="sheet"><div class="box">
+  <img id="preview" alt="">
+  <label for="who">이름 또는 별명 (안 써도 돼요)</label>
+  <input id="who" maxlength="20" placeholder="예: 활판 3팀">
+  <label for="cap">한 줄 남기기</label>
+  <input id="cap" maxlength="60" placeholder="예: 처음 찍어본 도장">
+  <p class="note">다른 사람이 나온 사진은 그분께 먼저 물어봐 주세요.</p>
+  <div class="row"><button id="cancel">취소</button><button class="go" id="send">올리기</button></div>
+</div></div>
+<button class="more" id="more"></button>
+<figure class="justin" id="justin"><img alt=""><figcaption></figcaption></figure>
+<div class="toast" id="toast"></div>
+<div class="qr" id="qr"><div id="qrbox"></div><p>찍고<br>바로 올리기</p></div>
+
+<script type="module">
+/* ── 설정: 저장소를 붙이면 여기만 채운다 ── */
+const CFG = {
+  supabaseUrl: 'https://lkrkwkojqxfkgpvvceth.supabase.co',
+  supabaseKey: 'sb_publishable_2fmTzU9PG0_hu9Zr_rqGYQ_2ZzQxqr0',
+  bucket: 'photos',
+  table: 'photos'
+};
+const DEMO = !CFG.supabaseUrl || new URLSearchParams(location.search).has('demo');
+
+const $ = s => document.querySelector(s);
+const wall = $('#wall');
+const params = new URLSearchParams(location.search);
+const SCREEN = params.has('screen');
+if (SCREEN) document.body.classList.add('screen');
+
+let photos = [];            // {id,url,w,h,who,cap,at}
+let backend = null;
+
+/* ── 헤더: 히어로를 지나면 로고 표시 ── */
+new IntersectionObserver(([e]) => $('#hd').classList.toggle('stuck', !e.isIntersecting)).observe($('.oh'));
+/* ── 탭 ── */
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b));
+  const w = b.dataset.tab === 'wall';
+  const top = wallTop();
+  wall.style.display = w ? '' : 'none';
+  $('#info').style.display = w ? 'none' : 'block';
+  $('#shoot').style.display = w ? '' : 'none';
+  window.scrollTo(0, Math.min(scrollY, top));
+});
+(function markNow(){
+  const d = new Date(), hm = d.getHours()*60+d.getMinutes();
+  if (d.getMonth()!==10 || d.getDate()!==20) return;
+  const li = [...document.querySelectorAll('#tl li')];
+  let cur = null;
+  li.forEach(l => { const [h,m]=l.dataset.t.split(':').map(Number); if (h*60+m<=hm) cur=l; });
+  if (cur) cur.classList.add('now');
+})();
+
+/* ── 벽 그리기 ── */
+function cols(){ return parseInt(getComputedStyle(wall).getPropertyValue('--cols')) || 2; }
+let colEls = [];
+function layout(){
+  const n = cols(); lastCols = n; waiting = []; if (typeof pill==='function') pill();
+  wall.innerHTML = '';
+  colEls = [];
+  if (!photos.length){ wall.innerHTML = '<div class="empty"><b>첫 장을 기다리는 중</b>아래 버튼으로 찍어서 올리면<br>여기 바로 붙어요.</div>'; return; }
+  for (let i=0;i<n;i++){ const c=document.createElement('div'); c.className='col'; wall.appendChild(c); colEls.push(c); }
+  const list = SCREEN ? photos : [...photos].reverse();
+  list.forEach(p => place(p, false));
+  if (SCREEN) loopScreen();
+}
+function shortest(){ return colEls.reduce((a,b)=> a.offsetHeight<=b.offsetHeight?a:b); }
+function card(p, fresh){
+  const el = document.createElement('figure');
+  el.className = 'print' + (fresh ? ' new' : '');
+  const r = ((hash(p.id)%7)-3)*0.5;
+  el.style.setProperty('--r', r+'deg');
+  if (p.w && p.h) el.style.setProperty('--ar', p.w+'/'+p.h);
+  const t = new Date(p.at);
+  const hh = String(t.getHours()).padStart(2,'0')+':'+String(t.getMinutes()).padStart(2,'0');
+  el.innerHTML = `<img loading="lazy" alt="" src="${p.url}"><div class="meta"><b>No.${String(p.n).padStart(3,'0')}</b><span>${hh}</span></div>`
+    + (p.who||p.cap ? `<div class="cap">${p.who?`<span class="who">${esc(p.who)}</span> `:''}${esc(p.cap||'')}</div>` : '');
+  return el;
+}
+function place(p, fresh){
+  if (!colEls.length){ layout(); return; }
+  const el = card(p, fresh);
+  if (fresh && !SCREEN) shortest().prepend(el);   // 새 사진은 가장 짧은 열 맨 위에
+  else shortest().appendChild(el);
+}
+/* 아래쪽을 보고 있을 때는 화면이 밀리지 않게 모아뒀다가 버튼으로 보여준다 */
+let waiting = [];
+const wallTop = () => wall.offsetTop - $('#hd').offsetHeight;   // 헤더는 sticky라 offsetTop 대신 벽 위치로 계산
+const atTop = () => scrollY < wallTop() + 160;
+function flush(){
+  const list = waiting; waiting = []; pill();
+  list.forEach(p => place(p, true));
+}
+function pill(){
+  const b = $('#more');
+  b.textContent = '새 사진 ' + waiting.length + '장 보기';
+  b.classList.toggle('on', waiting.length > 0);
+}
+addEventListener('scroll', () => { if (waiting.length && atTop()) flush(); }, {passive:true});
+function add(p, fresh=true){
+  if (photos.some(x=>x.id===p.id)) return;
+  p.n = photos.length + 1;
+  photos.push(p);
+  $('#cnt').textContent = photos.length;
+  if (photos.length===1) { layout(); return; }
+  if (SCREEN) { if (fresh) screenNew(p); return; }   // 처음 불러오는 사진은 띄우지 않음
+  if (fresh && !atTop()) { waiting.push(p); pill(); return; }
+  place(p, fresh);
+}
+/* 큰 화면: 흐르는 벽은 1분마다 다시 짜고, 새 사진은 크게 한 번 띄운다 */
+let screenTimer = null, shows = [], showing = false;
+function screenNew(p){
+  shows.push(p); if (!showing) showNext();
+  if (!screenTimer) screenTimer = setTimeout(() => { screenTimer = null; layout(); }, 60000);
+}
+function showNext(){
+  const p = shows.shift(); if (!p) { showing = false; return; }
+  showing = true;
+  const o = $('#justin');
+  o.querySelector('img').src = p.url;
+  o.querySelector('figcaption').innerHTML = `<b>No.${String(p.n).padStart(3,'0')}</b> ${p.who?esc(p.who)+' ':''}${esc(p.cap||'')}`;
+  o.classList.remove('on'); void o.offsetWidth; o.classList.add('on');
+  setTimeout(() => { o.classList.remove('on'); setTimeout(showNext, 700); }, 5000);
+}
+function loopScreen(){
+  // 큰 화면: 각 열을 두 번 이어 붙여 끊김 없이 흐르게
+  colEls.forEach((c,i)=>{
+    [...c.children].forEach(ch=>c.appendChild(ch.cloneNode(true)));
+    c.style.setProperty('--dur', (60 + c.children.length*4 + i*7)+'s');
+  });
+}
+const esc = s => String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const hash = s => [...String(s)].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
+function toast(t){ const el=$('#toast'); el.textContent=t; el.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove('on'),2200); }
+let rz, lastCols = 0;
+addEventListener('resize',()=>{ clearTimeout(rz); rz=setTimeout(()=>{
+  // 주소창이 접히고 펴지는 높이 변화는 무시하고, 열 개수가 바뀔 때만 다시 짠다
+  const n = cols(); if (n === lastCols) return;
+  const ratio = scrollY / Math.max(1, document.body.scrollHeight);
+  layout(); scrollTo(0, ratio * document.body.scrollHeight);
+},200); });
+
+/* ── 올리기 ── */
+let pending = null;
+$('#shoot').onclick = () => $('#file').click();
+$('#file').onchange = async e => {
+  const f = e.target.files[0]; e.target.value='';
+  if (!f) return;
+  try { pending = await shrink(f, 1600, .82); }
+  catch { toast('이 사진은 열 수 없어요'); return; }
+  $('#preview').src = pending.url;
+  $('#sheet').classList.add('on');
+};
+$('#more').onclick = () => { flush(); scrollTo({top:wallTop()}); };
+$('#cancel').onclick = () => { $('#sheet').classList.remove('on'); pending=null; };
+$('#send').onclick = async () => {
+  if (!pending) return;
+  const btn=$('#send'); btn.disabled=true; btn.textContent='올리는 중';
+  try{
+    const meta = { who:$('#who').value.trim(), cap:$('#cap').value.trim(), w:pending.w, h:pending.h };
+    try{ localStorage.setItem('oh_who', meta.who); }catch{}
+    if (DEMO) add({ id:'local'+Date.now(), url:pending.url, at:Date.now(), ...meta });
+    else await backend.upload(pending.blob, meta);
+    $('#sheet').classList.remove('on'); $('#cap').value=''; pending=null;
+    toast('올렸어요');
+    window.scrollTo({top:wallTop(),behavior:'smooth'});
+  }catch(err){ toast('못 올렸어요. 다시 해 주세요'); console.error(err); }
+  btn.disabled=false; btn.textContent='올리기';
+};
+try{ $('#who').value = localStorage.getItem('oh_who')||''; }catch{}
+
+function shrink(file, max, q){
+  return new Promise((res, rej) => {
+    const img = new Image(), u = URL.createObjectURL(file);
+    img.onload = () => {
+      const s = Math.min(1, max/Math.max(img.naturalWidth, img.naturalHeight));
+      const w = Math.round(img.naturalWidth*s), h = Math.round(img.naturalHeight*s);
+      const cv = document.createElement('canvas'); cv.width=w; cv.height=h;
+      cv.getContext('2d').drawImage(img,0,0,w,h);
+      URL.revokeObjectURL(u);
+      cv.toBlob(b => b ? res({blob:b, url:URL.createObjectURL(b), w, h}) : rej(), 'image/jpeg', q);
+    };
+    img.onerror = rej; img.src = u;
+  });
+}
+
+/* ── 저장소 ── */
+async function connect(){
+  const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
+  const sb = createClient(CFG.supabaseUrl, CFG.supabaseKey);
+  const pub = path => sb.storage.from(CFG.bucket).getPublicUrl(path).data.publicUrl;
+  const row = r => ({ id:r.id, url:pub(r.path), w:r.w, h:r.h, who:r.who, cap:r.cap, at:r.created_at });
+  const { data } = await sb.from(CFG.table).select('*').eq('hidden', false).order('created_at', {ascending:true}).limit(1000);
+  (data||[]).forEach(r => add(row(r), false));
+  layout();
+  sb.channel('oh').on('postgres_changes', {event:'INSERT', schema:'public', table:CFG.table},
+    p => { if (!p.new.hidden) add(row(p.new)); }).subscribe();
+  // 실시간이 끊겨도 30초마다 새 사진 확인
+  setInterval(async () => {
+    const last = photos.length ? photos[photos.length-1].at : 0;
+    const { data } = await sb.from(CFG.table).select('*').eq('hidden', false).gt('created_at', new Date(last).toISOString()).order('created_at');
+    (data||[]).forEach(r => add(row(r)));
+  }, 30000);
+  return {
+    async upload(blob, meta){
+      const path = `${new Date().toISOString().slice(0,10)}/${crypto.randomUUID()}.jpg`;
+      const up = await sb.storage.from(CFG.bucket).upload(path, blob, {contentType:'image/jpeg'});
+      if (up.error) throw up.error;
+      const ins = await sb.from(CFG.table).insert({ path, ...meta });
+      if (ins.error) throw ins.error;
+    }
+  };
+}
+
+/* ── 데모: 저장소 없이 모양만 보기 ── */
+function demoPrint(i){
+  const W=600, H=[800,450,750,600,900][i%5];
+  const cv=document.createElement('canvas'); cv.width=W; cv.height=H;
+  const g=cv.getContext('2d');
+  const inks=['#00a0c6','#e5007e','#f6d000','#141414','#d8cfbd'];
+  g.fillStyle=['#efe6d2','#dfe9ec','#f1dde6','#ece6c8','#e4e0d8'][i%5]; g.fillRect(0,0,W,H);
+  g.globalCompositeOperation='multiply';
+  for(let k=0;k<3;k++){
+    g.fillStyle=inks[(i+k)%5];
+    const r=6+((i*7+k*5)%9), ox=(i*37+k*53)%W, oy=(i*29+k*71)%H;
+    for(let y=0;y<H;y+=r*2) for(let x=0;x<W;x+=r*2){
+      const d=Math.hypot(x-ox,y-oy)/Math.max(W,H);
+      const rr=r*Math.max(0,1-d*1.4);
+      if(rr>.6){ g.beginPath(); g.arc(x+(k*r*.6),y+(k*r*.4),rr,0,7); g.fill(); }
+    }
+  }
+  g.globalCompositeOperation='source-over';
+  g.fillStyle='rgba(20,20,20,.75)'; g.font='800 34px Pretendard, sans-serif';
+  g.fillText('사진 자리 '+(i+1), 28, H-34);
+  return new Promise(r=>cv.toBlob(b=>r({url:URL.createObjectURL(b),w:W,h:H}),'image/jpeg',.8));
+}
+const names=['활판 3팀','인쇄소 사장님','라운지','','김OO','시음회','','학생 6팀'];
+const caps=['처음 찍어본 도장','이 기계 40년 됐대요','막걸리 한 잔','','','부스 대기 줄','달력 완성!',''];
+async function demo(){
+  const t0=Date.now()-1000*60*40;
+  const N0=+(params.get('n')||9);
+  for(let i=0;i<N0;i++){ const d=await demoPrint(i); add({id:'d'+i, url:d.url, w:d.w, h:d.h, who:names[i%8], cap:caps[i%8], at:t0+i*240000}, false); }
+  layout();
+  let i=N0;
+  setInterval(async()=>{ if(document.hidden) return; const d=await demoPrint(i); add({id:'d'+i, url:d.url, w:d.w, h:d.h, who:names[i%8], cap:caps[i%8], at:Date.now()}); i++; }, SCREEN?5000:7000);
+}
+
+/* ── 큰 화면 QR ── */
+async function qr(){
+  try{
+    const QR = (await import('https://esm.sh/qrcode@1.5.3')).default;
+    const u = location.href.replace(/[?#].*$/,'');
+    const c = document.createElement('canvas');
+    await QR.toCanvas(c, u, {margin:0, width:120});
+    $('#qrbox').appendChild(c);
+  }catch{ $('#qrbox').textContent = location.host; }
+}
+
+layout();
+if (SCREEN) qr();
+if (DEMO) demo();
+else connect().then(b => backend = b).catch(e => { console.error(e); toast('사진을 불러오지 못했어요'); });
+</script>
+</body>
+</html>
