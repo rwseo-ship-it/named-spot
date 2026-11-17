@@ -13,7 +13,7 @@
   --line:rgba(255,255,255,.16);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--paper);color:var(--ink);font-family:Pretendard,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+html,body{overflow-x:hidden;background:var(--paper);color:var(--ink);font-family:Pretendard,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 body{min-height:100dvh;overflow-x:hidden}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
@@ -37,13 +37,13 @@ nav button.on{color:var(--ink);border-color:var(--ink)}
 .bar{height:4px;display:flex}.bar b{flex:1}
 
 /* 사진 벽 */
-#wall{padding:12px 10px 120px;display:grid;grid-template-columns:repeat(var(--cols,2),1fr);gap:10px;align-items:start}
-.col{display:flex;flex-direction:column;gap:10px}
+#wall{padding:12px 10px 120px;display:grid;grid-template-columns:repeat(var(--cols,2),minmax(0,1fr));gap:10px;align-items:start}
+.col{display:flex;flex-direction:column;gap:10px;min-width:0}
 .print{background:#fff;color:#141414;padding:7px 7px 9px;box-shadow:0 1px 0 rgba(0,0,0,.08),0 6px 14px -8px rgba(0,0,0,.35);position:relative;transform:rotate(var(--r,0deg));transition:transform .3s}
 .print img{display:block;width:100%;height:auto;background:#e9e3d6;aspect-ratio:var(--ar,3/4);object-fit:cover}
 .print .meta{display:flex;justify-content:space-between;align-items:baseline;gap:6px;margin-top:6px;font-size:10px;color:#77746d;font-variant-numeric:tabular-nums}
 .print .meta b{color:#141414;font-weight:800;letter-spacing:.02em}
-.print .cap{font-size:12px;line-height:1.35;margin-top:3px;word-break:keep-all}
+.print .cap{font-size:12px;line-height:1.35;margin-top:3px;word-break:keep-all;overflow-wrap:anywhere}
 .print .who{font-weight:700}
 /* 재단선 */
 .print:before,.print:after{content:"";position:absolute;width:10px;height:10px;border-color:#fff;opacity:.55}
@@ -105,6 +105,14 @@ body.screen .col:nth-child(even){animation-direction:reverse}
 body.screen .qr{display:flex;position:fixed;right:24px;bottom:24px;z-index:40;background:#fff;color:#000;padding:12px;gap:12px;align-items:center;border:3px solid var(--y)}
 .qr canvas,.qr img{width:120px;height:120px}
 .qr p{font-size:18px;font-weight:800;line-height:1.25}
+.more{position:fixed;left:50%;top:104px;transform:translate(-50%,-20px);z-index:25;background:#fff;color:#000;font-size:13px;font-weight:800;padding:9px 16px;border-radius:999px;box-shadow:0 6px 18px -6px rgba(0,0,0,.8);opacity:0;pointer-events:none;transition:.25s}
+.more.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.justin{display:none}
+body.screen .justin{display:block;position:fixed;left:50%;top:50%;z-index:45;background:#fff;color:#000;padding:16px 16px 14px;width:min(46vw,620px);box-shadow:0 30px 80px rgba(0,0,0,.9);opacity:0;transform:translate(-50%,-50%) scale(.7) rotate(-2deg);pointer-events:none;transition:opacity .5s,transform .7s cubic-bezier(.2,.9,.25,1)}
+body.screen .justin.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-1deg)}
+.justin img{display:block;width:100%;max-height:70vh;object-fit:contain;background:#eee}
+.justin figcaption{font-size:20px;margin-top:10px}
+.justin figcaption b{margin-right:6px}
 @media (min-width:700px){#wall{--cols:3}}
 @media (min-width:1100px){#wall{--cols:4}}
 @media (min-width:1500px){#wall{--cols:5}}
@@ -161,6 +169,8 @@ body.screen .qr{display:flex;position:fixed;right:24px;bottom:24px;z-index:40;ba
   <p class="note">다른 사람이 나온 사진은 그분께 먼저 물어봐 주세요.</p>
   <div class="row"><button id="cancel">취소</button><button class="go" id="send">올리기</button></div>
 </div></div>
+<button class="more" id="more"></button>
+<figure class="justin" id="justin"><img alt=""><figcaption></figcaption></figure>
 <div class="toast" id="toast"></div>
 <div class="qr" id="qr"><div id="qrbox"></div><p>찍고<br>바로 올리기</p></div>
 
@@ -189,10 +199,11 @@ new IntersectionObserver(([e]) => $('#hd').classList.toggle('stuck', !e.isInters
 document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
   document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b));
   const w = b.dataset.tab === 'wall';
+  const top = wallTop();
   wall.style.display = w ? '' : 'none';
   $('#info').style.display = w ? 'none' : 'block';
   $('#shoot').style.display = w ? '' : 'none';
-  window.scrollTo(0, $('#hd').offsetTop);
+  window.scrollTo(0, Math.min(scrollY, top));
 });
 (function markNow(){
   const d = new Date(), hm = d.getHours()*60+d.getMinutes();
@@ -207,7 +218,7 @@ document.querySelectorAll('nav button').forEach(b => b.onclick = () => {
 function cols(){ return parseInt(getComputedStyle(wall).getPropertyValue('--cols')) || 2; }
 let colEls = [];
 function layout(){
-  const n = cols();
+  const n = cols(); lastCols = n; waiting = []; if (typeof pill==='function') pill();
   wall.innerHTML = '';
   colEls = [];
   if (!photos.length){ wall.innerHTML = '<div class="empty"><b>첫 장을 기다리는 중</b>아래 버튼으로 찍어서 올리면<br>여기 바로 붙어요.</div>'; return; }
@@ -232,20 +243,47 @@ function card(p, fresh){
 function place(p, fresh){
   if (!colEls.length){ layout(); return; }
   const el = card(p, fresh);
-  const c = fresh && !SCREEN ? colEls[0] : shortest();
-  if (fresh && !SCREEN) { // 새 사진은 가장 낮은 열 맨 위에
-    const tgt = colEls.reduce((a,b)=> a.offsetHeight<=b.offsetHeight?a:b);
-    tgt.prepend(el);
-  } else c.appendChild(el);
+  if (fresh && !SCREEN) shortest().prepend(el);   // 새 사진은 가장 짧은 열 맨 위에
+  else shortest().appendChild(el);
 }
+/* 아래쪽을 보고 있을 때는 화면이 밀리지 않게 모아뒀다가 버튼으로 보여준다 */
+let waiting = [];
+const wallTop = () => wall.offsetTop - $('#hd').offsetHeight;   // 헤더는 sticky라 offsetTop 대신 벽 위치로 계산
+const atTop = () => scrollY < wallTop() + 160;
+function flush(){
+  const list = waiting; waiting = []; pill();
+  list.forEach(p => place(p, true));
+}
+function pill(){
+  const b = $('#more');
+  b.textContent = '새 사진 ' + waiting.length + '장 보기';
+  b.classList.toggle('on', waiting.length > 0);
+}
+addEventListener('scroll', () => { if (waiting.length && atTop()) flush(); }, {passive:true});
 function add(p, fresh=true){
   if (photos.some(x=>x.id===p.id)) return;
   p.n = photos.length + 1;
   photos.push(p);
   $('#cnt').textContent = photos.length;
   if (photos.length===1) { layout(); return; }
-  if (SCREEN) { layout(); return; }
+  if (SCREEN) { if (fresh) screenNew(p); return; }   // 처음 불러오는 사진은 띄우지 않음
+  if (fresh && !atTop()) { waiting.push(p); pill(); return; }
   place(p, fresh);
+}
+/* 큰 화면: 흐르는 벽은 1분마다 다시 짜고, 새 사진은 크게 한 번 띄운다 */
+let screenTimer = null, shows = [], showing = false;
+function screenNew(p){
+  shows.push(p); if (!showing) showNext();
+  if (!screenTimer) screenTimer = setTimeout(() => { screenTimer = null; layout(); }, 60000);
+}
+function showNext(){
+  const p = shows.shift(); if (!p) { showing = false; return; }
+  showing = true;
+  const o = $('#justin');
+  o.querySelector('img').src = p.url;
+  o.querySelector('figcaption').innerHTML = `<b>No.${String(p.n).padStart(3,'0')}</b> ${p.who?esc(p.who)+' ':''}${esc(p.cap||'')}`;
+  o.classList.remove('on'); void o.offsetWidth; o.classList.add('on');
+  setTimeout(() => { o.classList.remove('on'); setTimeout(showNext, 700); }, 5000);
 }
 function loopScreen(){
   // 큰 화면: 각 열을 두 번 이어 붙여 끊김 없이 흐르게
@@ -257,7 +295,13 @@ function loopScreen(){
 const esc = s => String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const hash = s => [...String(s)].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
 function toast(t){ const el=$('#toast'); el.textContent=t; el.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove('on'),2200); }
-let rz; addEventListener('resize',()=>{clearTimeout(rz); rz=setTimeout(layout,200);});
+let rz, lastCols = 0;
+addEventListener('resize',()=>{ clearTimeout(rz); rz=setTimeout(()=>{
+  // 주소창이 접히고 펴지는 높이 변화는 무시하고, 열 개수가 바뀔 때만 다시 짠다
+  const n = cols(); if (n === lastCols) return;
+  const ratio = scrollY / Math.max(1, document.body.scrollHeight);
+  layout(); scrollTo(0, ratio * document.body.scrollHeight);
+},200); });
 
 /* ── 올리기 ── */
 let pending = null;
@@ -270,6 +314,7 @@ $('#file').onchange = async e => {
   $('#preview').src = pending.url;
   $('#sheet').classList.add('on');
 };
+$('#more').onclick = () => { flush(); scrollTo({top:wallTop()}); };
 $('#cancel').onclick = () => { $('#sheet').classList.remove('on'); pending=null; };
 $('#send').onclick = async () => {
   if (!pending) return;
@@ -281,7 +326,7 @@ $('#send').onclick = async () => {
     else await backend.upload(pending.blob, meta);
     $('#sheet').classList.remove('on'); $('#cap').value=''; pending=null;
     toast('올렸어요');
-    window.scrollTo({top:$('#hd').offsetTop,behavior:'smooth'});
+    window.scrollTo({top:wallTop(),behavior:'smooth'});
   }catch(err){ toast('못 올렸어요. 다시 해 주세요'); console.error(err); }
   btn.disabled=false; btn.textContent='올리기';
 };
@@ -356,9 +401,10 @@ const names=['활판 3팀','인쇄소 사장님','라운지','','김OO','시음�
 const caps=['처음 찍어본 도장','이 기계 40년 됐대요','막걸리 한 잔','','','부스 대기 줄','달력 완성!',''];
 async function demo(){
   const t0=Date.now()-1000*60*40;
-  for(let i=0;i<9;i++){ const d=await demoPrint(i); add({id:'d'+i, url:d.url, w:d.w, h:d.h, who:names[i%8], cap:caps[i%8], at:t0+i*240000}, false); }
+  const N0=+(params.get('n')||9);
+  for(let i=0;i<N0;i++){ const d=await demoPrint(i); add({id:'d'+i, url:d.url, w:d.w, h:d.h, who:names[i%8], cap:caps[i%8], at:t0+i*240000}, false); }
   layout();
-  let i=9;
+  let i=N0;
   setInterval(async()=>{ if(document.hidden) return; const d=await demoPrint(i); add({id:'d'+i, url:d.url, w:d.w, h:d.h, who:names[i%8], cap:caps[i%8], at:Date.now()}); i++; }, SCREEN?5000:7000);
 }
 
