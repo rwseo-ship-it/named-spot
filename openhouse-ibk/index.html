@@ -167,12 +167,12 @@ body.screen .qr{display:flex;position:fixed;right:24px;bottom:24px;z-index:40;ba
 <script type="module">
 /* ── 설정: 저장소를 붙이면 여기만 채운다 ── */
 const CFG = {
-  supabaseUrl: '',      // 예: https://xxxx.supabase.co
-  supabaseKey: '',      // anon public key
+  supabaseUrl: 'https://lkrkwkojqxfkgpvvceth.supabase.co',
+  supabaseKey: 'sb_publishable_2fmTzU9PG0_hu9Zr_rqGYQ_2ZzQxqr0',
   bucket: 'photos',
   table: 'photos'
 };
-const DEMO = !CFG.supabaseUrl;
+const DEMO = !CFG.supabaseUrl || new URLSearchParams(location.search).has('demo');
 
 const $ = s => document.querySelector(s);
 const wall = $('#wall');
