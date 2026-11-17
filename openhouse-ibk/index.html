@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#000000">
+<meta property="og:title" content="OPEN HOUSE 사진첩 · PRESS CLUB SEONAM">
+<meta property="og:description" content="11.20 FRI 서남동 인쇄거리. 찍은 사진을 바로 올려 같이 봐요.">
+<meta property="og:image" content="https://rwseo-ship-it.github.io/named-spot/openhouse-ibk/og.jpg">
+<meta property="og:type" content="website">
+<link rel="icon" href="marks.png">
 <title>OPEN HOUSE 사진첩 · PRESS CLUB SEONAM</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
@@ -17,7 +22,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* 상단 */
 header{position:fixed;inset:0 0 auto 0;z-index:20;background:#000}
 .top{display:flex;align-items:center;justify-content:space-between;padding:calc(8px + env(safe-area-inset-top)) 14px 8px;gap:10px}
-.top img{height:30px;width:auto;display:block}
+.top img{height:28px;width:auto;display:block}
 .top nav{display:flex;gap:4px}
 .top nav button{font-size:13px;font-weight:700;padding:7px 11px;border-radius:999px;color:#9a9a9a;border:1.5px solid #333}
 .top nav button.on{color:#000;background:#fff;border-color:#fff}
@@ -26,7 +31,7 @@ header{position:fixed;inset:0 0 auto 0;z-index:20;background:#000}
 @keyframes tick{to{transform:translateX(-100%)}}
 
 /* 캔버스 */
-#stage{position:fixed;left:0;right:0;bottom:0;top:var(--top,72px);overflow:hidden;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+#stage{background-color:#000;background-image:linear-gradient(#1b1b1b 1px,transparent 1px),linear-gradient(90deg,#1b1b1b 1px,transparent 1px);background-size:calc(var(--W)/2) calc(var(--H)/2);position:fixed;left:0;right:0;bottom:0;top:var(--top,72px);overflow:hidden;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
 #stage.drag{cursor:grabbing}
 #layer{position:absolute;left:0;top:0;will-change:transform}
 .cell{position:absolute;width:var(--W);height:var(--H);display:flex;align-items:center;justify-content:center}
@@ -40,10 +45,20 @@ header{position:fixed;inset:0 0 auto 0;z-index:20;background:#000}
 .card.new{animation:press .9s cubic-bezier(.2,.9,.25,1) both}
 @keyframes press{0%{transform:translateY(-30px) scale(1.15) rotate(var(--r));opacity:0}60%{transform:scale(.96) rotate(var(--r));opacity:1}100%{transform:scale(1) rotate(var(--r))}}
 .blank{width:calc(var(--W) - 22px);aspect-ratio:3/4;border:1px dashed #2c2c2c;display:flex;align-items:center;justify-content:center;font-size:11px;color:#555;text-align:center;line-height:1.5}
-.kv{position:absolute;display:flex;flex-direction:column;justify-content:center;padding:14px}
-.kv img{width:100%;height:auto;display:block}
-.kv p{margin-top:10px;font-size:15px;font-weight:800;line-height:1.3}
-.kv p small{display:block;font-size:12px;font-weight:600;color:#9a9a9a;margin-top:3px}
+.kv{position:absolute;display:flex;flex-direction:column;justify-content:center;align-items:stretch;padding:16px}
+.kv .dots{position:absolute;inset:8% 4% 14%;isolation:isolate}
+.kv .dots i{position:absolute;width:58%;aspect-ratio:1;border-radius:50%}
+.kv .dots i:nth-child(1){background:var(--c);left:0;top:12%}
+.kv .dots i:nth-child(2){background:var(--m);right:0;top:0;mix-blend-mode:multiply}
+.kv .dots i:nth-child(3){background:var(--y);left:22%;bottom:0;mix-blend-mode:multiply}
+.kv .logo{position:relative;width:100%;height:auto;display:block;filter:drop-shadow(0 6px 18px rgba(0,0,0,.55))}
+.kv .sub{position:relative;margin-top:14px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
+.kv .sub p{font-size:clamp(14px,4.2vw,20px);font-weight:900;line-height:1.15;color:#000;background:#fff;padding:6px 9px}
+.kv .sub p small{display:block;font-size:11px;font-weight:700;margin-top:3px}
+.kv .sub img{width:38%;height:auto}
+.obj{position:relative;width:calc(var(--W) - 14px);aspect-ratio:1;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.obj:before{content:"";position:absolute;width:74%;aspect-ratio:1;border-radius:50%;background:var(--ink)}
+.obj img{position:relative;width:100%;height:auto;transform:rotate(var(--r));filter:drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff)}
 .hint{white-space:nowrap;position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:15;font-size:12px;font-weight:700;color:#fff;background:rgba(0,0,0,.7);padding:7px 12px;border-radius:999px;transition:opacity .5s;pointer-events:none}
 .hint.off{opacity:0}
 
@@ -121,7 +136,7 @@ body.screen .justin.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(
 <body>
 <header id="hd">
   <div class="top">
-    <img src="kv-logo.png" alt="PRESS CLUB SEONAM" width="900" height="288">
+    <img src="logo-w.png" alt="PRESS CLUB SEONAM">
     <nav><button class="on" data-tab="wall">사진첩</button><button data-tab="info">행사 안내</button></nav>
   </div>
   <div class="tick"><span id="tick" class="mono">NOW PRINTING</span></div>
@@ -225,10 +240,17 @@ function pick(i,j){
   C = Math.max(3, Math.ceil(Math.sqrt(list.length)) + 1);
   return list[mod(i + j*C, list.length)];
 }
+const OBJS = ['mat','books','press'];
+function isObj(i,j){ const h = hash('o'+i+','+j); return h % 9 === 0; }
 function makeCell(i,j){
   const el = document.createElement('div');
   el.className = 'cell';
   el.style.left = (i*W)+'px'; el.style.top = (j*H + colY(i))+'px';
+  if (isObj(i,j)){
+    const h = hash('k'+i+','+j);
+    el.innerHTML = `<div class="obj" style="--ink:${INKS[h%3]};--r:${(h%13)-6}deg"><img src="obj-${OBJS[(h>>3)%3]}.png" alt="" draggable="false"></div>`;
+    return el;
+  }
   const p = pick(i,j);
   if (!p){
     const near = Math.abs(i) < 4 && Math.abs(j) < 4;
@@ -248,7 +270,7 @@ function ensureKV(){
   kvEl = document.createElement('div');
   kvEl.className = 'kv';
   Object.assign(kvEl.style, {left:k.x+'px', top:k.y+'px', width:k.w+'px', height:k.h+'px'});
-  kvEl.innerHTML = `<img src="kv-hero.jpg" alt="PRESS CLUB SEONAM" draggable="false"><p>OPEN HOUSE<small>11.20 FRI 14:00–18:00 · 서남동 인쇄거리</small></p>`;
+  kvEl.innerHTML = `<div class="dots"><i></i><i></i><i></i></div><img class="logo" src="logo-w.png" alt="PRESS CLUB SEONAM" draggable="false"><div class="sub"><p>OPEN HOUSE<small>11.20 FRI 14:00–18:00<br>서남동 인쇄거리</small></p><img src="marks.png" alt="" draggable="false"></div>`;
   layer.appendChild(kvEl);
 }
 function render(){
