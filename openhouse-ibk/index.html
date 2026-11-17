@@ -44,7 +44,7 @@ header{position:fixed;inset:0 0 auto 0;z-index:20;background:#000}
 .card .meta i{font-style:normal;color:#77746d;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .card.new{animation:press .9s cubic-bezier(.2,.9,.25,1) both}
 @keyframes press{0%{transform:translateY(-30px) scale(1.15) rotate(var(--r));opacity:0}60%{transform:scale(.96) rotate(var(--r));opacity:1}100%{transform:scale(1) rotate(var(--r))}}
-.blank{width:calc(var(--W) - 22px);aspect-ratio:3/4;border:1px dashed #2c2c2c;display:flex;align-items:center;justify-content:center;font-size:11px;color:#555;text-align:center;line-height:1.5}
+.blank{width:calc(var(--W) - 22px);aspect-ratio:3/4;border:1.5px dashed #444;display:flex;align-items:center;justify-content:center;font-size:11px;color:#777;text-align:center;line-height:1.6}
 .kv{position:absolute;display:flex;flex-direction:column;justify-content:center;align-items:stretch;padding:16px}
 .kv .dots{position:absolute;inset:8% 4% 14%;isolation:isolate}
 .kv .dots i{position:absolute;width:58%;aspect-ratio:1;border-radius:50%}
@@ -68,6 +68,9 @@ header{position:fixed;inset:0 0 auto 0;z-index:20;background:#000}
 .more{position:fixed;left:50%;top:calc(var(--top,72px) + 12px);transform:translate(-50%,-10px);z-index:25;background:#fff;color:#000;font-size:13px;font-weight:800;padding:9px 16px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;box-shadow:0 6px 18px -6px rgba(0,0,0,.9)}
 .more.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
 #file{display:none}
+.zoom{position:fixed;right:14px;bottom:calc(22px + env(safe-area-inset-bottom));z-index:30;width:52px;height:52px;border-radius:50%;background:#fff;color:#000;font-size:12px;font-weight:800;box-shadow:0 0 0 3px #000}
+.zoom .b{display:none}.zoom.out .a{display:none}.zoom.out .b{display:inline}
+body.screen .zoom{display:none}
 
 /* 크게 보기 */
 .lb{position:fixed;inset:0;z-index:60;background:#000;display:none;flex-direction:column}
@@ -143,7 +146,7 @@ body.screen .justin.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(
 </header>
 
 <div id="stage"><div id="layer"></div></div>
-<div class="hint" id="hint">끌어서 둘러보기 · 누르면 크게</div>
+<div class="hint" id="hint">끌어서 둘러보기 · 두 손가락으로 줌</div>
 
 <section id="info"><div class="in">
   <h2>서남동 인쇄거리에서<br>여는 하루짜리 집들이</h2>
@@ -167,6 +170,7 @@ body.screen .justin.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(
 </div></section>
 
 <button class="more" id="more"></button>
+<button class="zoom" id="zoom" aria-label="전체 보기"><span class="a">전체</span><span class="b">가까이</span></button>
 <button class="shoot" id="shoot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.6"/></svg>사진 올리기</button>
 <input type="file" id="file" accept="image/*">
 
@@ -221,10 +225,11 @@ let list = [];            // 최신 순 (캔버스 배치용)
 let backend = null;
 
 /* ── 캔버스 ── */
-let W=0, H=0, C=4;
-let cam = {x:0, y:0}, vel = {x:0, y:0};
+let W=0, H=0;
+let cam = {x:0, y:0}, vel = {x:0, y:0}, S = 1;          // cam: 화면 왼쪽 위의 판 좌표, S: 확대 배율
+const SMIN = 0.12, SMAX = 1.8;
 const cells = new Map();
-let kvEl = null;
+let kvEl = null, slots = [], slotOf = new Map();
 function dims(){
   const cs = getComputedStyle(document.body);
   W = parseFloat(cs.getPropertyValue('--W')); H = parseFloat(cs.getPropertyValue('--H'));
@@ -235,13 +240,20 @@ function hitsKV(i,j){
   const k = KV(), x = i*W, y = j*H + colY(i);
   return x < k.x+k.w && x+W > k.x && y < k.y+k.h && y+H > k.y;
 }
-function pick(i,j){
-  if (!list.length) return null;
-  C = Math.max(3, Math.ceil(Math.sqrt(list.length)) + 1);
-  return list[mod(i + j*C, list.length)];
-}
 const OBJS = ['mat','books','press'];
-function isObj(i,j){ const h = hash('o'+i+','+j); return h % 9 === 0; }
+const isObj = (i,j) => !hitsKV(i,j) && hash('o'+i+','+j) % 9 === 0 && (Math.abs(i-0.5) > 2 || Math.abs(j-0.5) > 2);
+/* KV 둘레부터 바깥으로 칸 순서를 정해둔다. 사진 n번은 항상 n번째 칸에 간다 */
+function buildSlots(){
+  const R = 34, k = KV(), cx = k.x + k.w/2, cy = k.y + k.h/2, arr = [];
+  for (let i=-R;i<=R;i++) for (let j=-R;j<=R;j++){
+    if (hitsKV(i,j) || isObj(i,j)) continue;
+    const x = i*W + W/2 - cx, y = j*H + colY(i) + H/2 - cy;
+    arr.push({i, j, d: Math.hypot(x/W, y/H), a: Math.atan2(y, x)});
+  }
+  arr.sort((p,q) => (p.d - q.d) || (p.a - q.a));
+  slots = arr; slotOf = new Map(arr.map((c,n) => [c.i+','+c.j, n]));
+}
+const slotCenter = n => { const c = slots[n]; return c ? {x: c.i*W + W/2, y: c.j*H + colY(c.i) + H/2} : null; };
 function makeCell(i,j){
   const el = document.createElement('div');
   el.className = 'cell';
@@ -251,17 +263,18 @@ function makeCell(i,j){
     el.innerHTML = `<div class="obj" style="--ink:${INKS[h%3]};--r:${(h%13)-6}deg"><img src="obj-${OBJS[(h>>3)%3]}.png" alt="" draggable="false"></div>`;
     return el;
   }
-  const p = pick(i,j);
+  const n = slotOf.get(i+','+j);
+  if (n === undefined || n > photos.length + 2) return el;
+  const p = photos[n];
   if (!p){
-    const near = Math.abs(i) < 4 && Math.abs(j) < 4;
-    el.innerHTML = `<div class="blank">${near && mod(i+j,3)===0 ? '이 자리에<br>첫 사진을' : ''}</div>`;
+    el.innerHTML = `<div class="blank">${n === photos.length ? `No.${String(n+1).padStart(3,'0')}<br>다음 사진 자리` : ''}</div>`;
     return el;
   }
-  const h = hash(p.id + i + ',' + j);
-  const r = ((h%9)-4)*0.6;
+  const r = ((hash(p.id)%9)-4)*0.6;
   const ink = INKS[hash(p.id)%3];
   el.dataset.id = p.id;
   el.innerHTML = `<div class="card${p.fresh?' new':''}" style="--r:${r}deg"><div class="ink" style="--ink:${ink};${p.w&&p.h?`--ar:${p.w}/${p.h}`:''}"><img loading="lazy" decoding="async" alt="" src="${p.thumb}" onerror="if(this.src!=='${p.url}')this.src='${p.url}'"></div><div class="meta mono"><b>No.${String(p.n).padStart(3,'0')}</b><i>${esc(p.who||hhmm(p.at))}</i></div></div>`;
+  p.fresh = false;
   return el;
 }
 function ensureKV(){
@@ -275,7 +288,7 @@ function ensureKV(){
 }
 function render(){
   if (!W || !H) return;
-  const vw = stage.clientWidth, vh = stage.clientHeight;
+  const vw = stage.clientWidth / S, vh = stage.clientHeight / S;
   const i0 = Math.floor(cam.x/W)-1, i1 = Math.ceil((cam.x+vw)/W)+1;
   const j0 = Math.floor(cam.y/H)-2, j1 = Math.ceil((cam.y+vh)/H)+1;
   const keep = new Set();
@@ -285,99 +298,158 @@ function render(){
     if (!cells.has(key)){ const el = makeCell(i,j); cells.set(key, el); layer.appendChild(el); }
   }
   for (const [key, el] of cells) if (!keep.has(key)){ el.remove(); cells.delete(key); }
-  layer.style.transform = `translate3d(${-cam.x}px,${-cam.y}px,0)`;
+  layer.style.transform = `translate3d(${-cam.x*S}px,${-cam.y*S}px,0) scale(${S})`;
+  stage.style.backgroundSize = `${W/2*S}px ${H/2*S}px`;
+  stage.style.backgroundPosition = `${-cam.x*S}px ${-cam.y*S}px`;
+  $('#zoom').classList.toggle('out', S < 0.7);
 }
-function rebuild(){
-  for (const el of cells.values()) el.remove();
-  cells.clear(); render();
-  list.forEach(p => p.fresh = false);
+function rebuild(){ for (const el of cells.values()) el.remove(); cells.clear(); render(); }
+function refreshSlots(from, to){
+  for (let n=from; n<=to; n++){
+    const c = slots[n]; if (!c) continue;
+    const key = c.i+','+c.j, el = cells.get(key);
+    if (el){ el.remove(); cells.delete(key); }
+  }
+  render();
 }
-function centerOn(x, y, smooth){
-  const tx = x - stage.clientWidth/2, ty = y - stage.clientHeight/2;
-  if (!smooth || REDUCE){ cam.x = tx; cam.y = ty; render(); return; }
-  const sx = cam.x, sy = cam.y, t0 = performance.now(), d = 700;
-  vel.x = vel.y = 0;
-  (function step(t){
+/* 카메라 이동 */
+let anim = 0;
+function flyTo(x, y, s, smooth){
+  s = Math.min(SMAX, Math.max(SMIN, s));
+  const tx = x - stage.clientWidth/2/s, ty = y - stage.clientHeight/2/s;
+  vel.x = vel.y = 0; cancelAnimationFrame(anim);
+  if (!smooth || REDUCE){ cam.x = tx; cam.y = ty; S = s; render(); return; }
+  const sx = cam.x, sy = cam.y, ss = S, t0 = performance.now(), d = 750;
+  const step = t => {
     const k = Math.min(1, (t - t0)/d), e = 1 - Math.pow(1-k, 3);
-    cam.x = sx + (tx-sx)*e; cam.y = sy + (ty-sy)*e; render();
-    if (k < 1) requestAnimationFrame(step);
-  })(t0);
+    S = ss + (s-ss)*e;
+    // 화면 가운데 기준으로 보간
+    const cxs = sx + stage.clientWidth/2/ss, cys = sy + stage.clientHeight/2/ss;
+    const cx = cxs + (x-cxs)*e, cy = cys + (y-cys)*e;
+    cam.x = cx - stage.clientWidth/2/S; cam.y = cy - stage.clientHeight/2/S; render();
+    if (k < 1) anim = requestAnimationFrame(step);
+  };
+  anim = requestAnimationFrame(step);
 }
-const home = smooth => { const k = KV(); centerOn(k.x + k.w/2, k.y + k.h/2, smooth); };
+const home = smooth => { const k = KV(); flyTo(k.x + k.w/2, k.y + k.h/2, 1, smooth); };
+function fitAll(smooth){
+  const n = Math.max(photos.length, 1), k = KV();
+  let x0 = k.x, y0 = k.y, x1 = k.x + k.w, y1 = k.y + k.h;
+  for (let m=0; m<n+1 && m<slots.length; m++){ const c = slots[m]; x0 = Math.min(x0, c.i*W); x1 = Math.max(x1, c.i*W+W); y0 = Math.min(y0, c.j*H+colY(c.i)); y1 = Math.max(y1, c.j*H+colY(c.i)+H); }
+  const pad = 24, s = Math.min((stage.clientWidth-pad*2)/(x1-x0), (stage.clientHeight-pad*2-80)/(y1-y0), 1);
+  // 큰 화면에서 사진이 너무 작아지면 전체 대신 최신 사진 주변을 보여준다
+  if (SCREEN && s < 0.35 && photos.length){ const c = slotCenter(photos.length-1); flyTo(c.x, c.y, 0.45, smooth); return; }
+  flyTo((x0+x1)/2, (y0+y1)/2, s, smooth);
+}
+function zoomAt(mx, my, ns){
+  ns = Math.min(SMAX, Math.max(SMIN, ns));
+  const wx = cam.x + mx/S, wy = cam.y + my/S;
+  S = ns; cam.x = wx - mx/S; cam.y = wy - my/S; render();
+}
 
-/* 끌기 · 관성 · 휠 */
-let drag = null, lastMove = 0, idleSince = performance.now();
+/* 끌기 · 핀치 · 관성 · 휠 */
+const ptrs = new Map();
+let drag = null, pinch = null, lastMove = 0, idleSince = performance.now();
+const local = e => { const r = stage.getBoundingClientRect(); return {x: e.clientX - r.left, y: e.clientY - r.top}; };
 stage.addEventListener('pointerdown', e => {
-  drag = {x:e.clientX, y:e.clientY, sx:e.clientX, sy:e.clientY, t:performance.now(), moved:0, id:e.pointerId};
-  vel.x = vel.y = 0; stage.classList.add('drag');
+  cancelAnimationFrame(anim);
+  ptrs.set(e.pointerId, local(e));
   try{ stage.setPointerCapture(e.pointerId); }catch{}
+  vel.x = vel.y = 0; stage.classList.add('drag');
+  if (ptrs.size === 1) drag = {...local(e), sx:e.clientX, sy:e.clientY, t:performance.now(), moved:0};
+  if (ptrs.size === 2){
+    const [a,b] = [...ptrs.values()];
+    pinch = {d: Math.hypot(a.x-b.x, a.y-b.y), s: S, mx:(a.x+b.x)/2, my:(a.y+b.y)/2};
+    if (drag) drag.moved = 99;
+  }
 });
 stage.addEventListener('pointermove', e => {
-  if (!drag || e.pointerId !== drag.id) return;
-  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
-  drag.x = e.clientX; drag.y = e.clientY;
-  drag.moved += Math.abs(dx) + Math.abs(dy);
-  cam.x -= dx; cam.y -= dy;
+  if (!ptrs.has(e.pointerId)) return;
+  const p = local(e); ptrs.set(e.pointerId, p);
+  if (pinch && ptrs.size >= 2){
+    const [a,b] = [...ptrs.values()];
+    const mx = (a.x+b.x)/2, my = (a.y+b.y)/2, d = Math.hypot(a.x-b.x, a.y-b.y);
+    cam.x -= (mx - pinch.mx)/S; cam.y -= (my - pinch.my)/S;
+    zoomAt(mx, my, pinch.s * d / pinch.d);
+    pinch.mx = mx; pinch.my = my;
+    hideHint(); return;
+  }
+  if (!drag) return;
+  const dx = p.x - drag.x, dy = p.y - drag.y;
+  drag.x = p.x; drag.y = p.y; drag.moved += Math.abs(dx) + Math.abs(dy);
+  cam.x -= dx/S; cam.y -= dy/S;
   const now = performance.now(), dt = Math.max(1, now - lastMove); lastMove = now;
-  vel.x = 0.75*vel.x + 0.25*(-dx/dt*16); vel.y = 0.75*vel.y + 0.25*(-dy/dt*16);
+  vel.x = 0.75*vel.x + 0.25*(-dx/S/dt*16); vel.y = 0.75*vel.y + 0.25*(-dy/S/dt*16);
   render(); hideHint();
 });
-function endDrag(e){
-  if (!drag) return;
-  const tap = drag.moved < 8 && performance.now() - drag.t < 400;
+function endPtr(e){
+  if (!ptrs.has(e.pointerId)) return;
+  ptrs.delete(e.pointerId);
+  if (ptrs.size < 2 && pinch){ pinch = null; vel.x = vel.y = 0; if (ptrs.size === 1){ const p=[...ptrs.values()][0]; drag = {...p, sx:0, sy:0, t:0, moved:99}; } return; }
+  if (ptrs.size) return;
   stage.classList.remove('drag');
-  if (tap){
+  if (drag && drag.moved < 8 && performance.now() - drag.t < 400){
     vel.x = vel.y = 0;
     const el = document.elementFromPoint(drag.sx, drag.sy)?.closest('.cell');
     if (el?.dataset.id) openLB(el.dataset.id);
   }
   drag = null; idleSince = performance.now();
-  if (pending.length) flushLater();
 }
-stage.addEventListener('pointerup', endDrag);
-stage.addEventListener('pointercancel', endDrag);
-stage.addEventListener('wheel', e => { e.preventDefault(); cam.x += e.deltaX; cam.y += e.deltaY; vel.x=vel.y=0; render(); hideHint(); idleSince = performance.now(); }, {passive:false});
-function loop(){
-  if (!drag){
+stage.addEventListener('pointerup', endPtr);
+stage.addEventListener('pointercancel', endPtr);
+stage.addEventListener('wheel', e => {
+  e.preventDefault(); cancelAnimationFrame(anim); vel.x = vel.y = 0; hideHint(); idleSince = performance.now();
+  if (e.ctrlKey){ const p = local(e); zoomAt(p.x, p.y, S * Math.exp(-e.deltaY*0.01)); }   // 트랙패드 핀치
+  else { cam.x += e.deltaX/S; cam.y += e.deltaY/S; render(); }
+}, {passive:false});
+/* 사파리 제스처 이벤트는 막아서 페이지 전체가 확대되지 않게 */
+['gesturestart','gesturechange','gestureend'].forEach(t => document.addEventListener(t, e => e.preventDefault()));
+let drift = 0;
+function loop(t){
+  if (!drag && !pinch){
     if (Math.abs(vel.x) > .05 || Math.abs(vel.y) > .05){
       cam.x += vel.x; cam.y += vel.y; vel.x *= .94; vel.y *= .94; render();
-    } else if (SCREEN && !REDUCE){
-      cam.x += .35; cam.y += .18; render();
+    } else if (SCREEN && !REDUCE && !anim_busy()){
+      drift += 1/60;                        // 큰 화면: 전체를 보여준 채 아주 천천히 흔들림
+      cam.x += Math.sin(drift/9) * .25 / S; cam.y += Math.cos(drift/11) * .18 / S; render();
     }
   }
   requestAnimationFrame(loop);
 }
+let animUntil = 0; const anim_busy = () => performance.now() < animUntil;
 let hintOff = false;
 function hideHint(){ if (hintOff) return; hintOff = true; $('#hint').classList.add('off'); }
 setTimeout(hideHint, 6000);
-let rz, lastW = innerWidth;
+let rz;
 addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => {
   const oW = W; dims();
-  if (W !== oW){ kvEl?.remove(); kvEl = null; ensureKV(); rebuild(); }
+  if (W !== oW){ kvEl?.remove(); kvEl = null; ensureKV(); buildSlots(); rebuild(); }
   else render();
 }, 150); });
+$('#zoom').onclick = () => { if (S < 0.7) home(true); else fitAll(true); };
 
 /* ── 새 사진 ── */
-let pending = [];
+let lastNew = null;
 function add(p, fresh=true){
   if (photos.some(x => x.id === p.id)) return;
   p.n = photos.length + 1; p.fresh = fresh;
   photos.push(p); list = [...photos].reverse();
   ticker();
+  if (!slots.length) return;
+  refreshSlots(p.n - 1, p.n + 2);
   if (!fresh) return;
-  if (SCREEN){ rebuild(); screenNew(p); return; }
-  pending.push(p);
-  if (drag || performance.now() - idleSince < 2500) { pill(); flushLater(); }
-  else flush();
+  if (SCREEN){ animUntil = performance.now() + 800; fitAll(true); screenNew(p); return; }
+  lastNew = p; pill();
 }
-function flush(){
-  const had = pending.length; pending = []; pill();
-  if (!had) return;
-  rebuild();
+function pill(){
+  const b = $('#more');
+  if (!lastNew){ b.classList.remove('on'); return; }
+  b.textContent = `새 사진 No.${String(lastNew.n).padStart(3,'0')} 보기`;
+  b.classList.add('on');
+  clearTimeout(pill._t); pill._t = setTimeout(() => b.classList.remove('on'), 8000);
 }
-let fl; function flushLater(){ clearTimeout(fl); fl = setTimeout(() => { if (!drag) flush(); else flushLater(); }, 2600); }
-function pill(){ const b=$('#more'); b.textContent = '새 사진 ' + pending.length + '장'; b.classList.toggle('on', pending.length>0); }
-$('#more').onclick = () => { flush(); home(true); };
+$('#more').onclick = () => { if (!lastNew) return; const c = slotCenter(lastNew.n - 1); if (c) flyTo(c.x, c.y, Math.max(S, 1), true); $('#more').classList.remove('on'); };
+const flush = () => {};
 
 function ticker(){
   const n = photos.length, last = photos[n-1];
@@ -455,7 +527,7 @@ $('#send').onclick = async () => {
     if (DEMO) add({ id:'local'+Date.now(), url:up.full.url, thumb:up.thumb.url, at:Date.now(), ...meta });
     else await backend.upload(up.full.blob, up.thumb.blob, meta);
     $('#sheet').classList.remove('on'); $('#cap').value=''; up = null;
-    idleSince = 0; flush(); home(true);
+    const me = photos[photos.length-1]; const c = me && slotCenter(me.n-1); if (c) flyTo(c.x, c.y, 1, true); $('#more').classList.remove('on');
     toast('올렸어요');
   }catch(err){ console.error(err); toast('못 올렸어요. 다시 해 주세요'); }
   btn.disabled = false; btn.textContent = '올리기';
@@ -485,7 +557,7 @@ async function connect(){
   const { data, error } = await sb.from(CFG.table).select('*').eq('hidden', false).order('created_at', {ascending:true}).limit(2000);
   if (error) throw error;
   (data||[]).forEach(r => add(row(r), false));
-  rebuild();
+  rebuild(); if (SCREEN) fitAll(false);
   sb.channel('oh').on('postgres_changes', {event:'INSERT', schema:'public', table:CFG.table}, p => { if (!p.new.hidden) add(row(p.new)); }).subscribe();
   setInterval(async () => {
     const last = photos.length ? photos[photos.length-1].at : 0;
@@ -522,7 +594,7 @@ const caps=['처음 찍어본 도장','이 기계 40년 됐대요','막걸리 �
 async function demo(){
   const N0 = +(params.get('n')||12), t0 = Date.now() - 1000*60*40;
   for (let i=0;i<N0;i++){ const d = await demoPrint(i); add({id:'d'+i, ...d, who:names[i%8], cap:caps[i%8], at:t0+i*120000}, false); }
-  rebuild();
+  rebuild(); if (SCREEN) fitAll(false);
   let i = N0;
   setInterval(async () => { if (document.hidden) return; const d = await demoPrint(i); add({id:'d'+i, ...d, who:names[i%8], cap:caps[i%8], at:Date.now()}); i++; }, SCREEN ? 6000 : 9000);
 }
@@ -538,7 +610,7 @@ async function qr(){
 }
 
 /* ── 시작 ── */
-dims(); ensureKV(); home(false); ticker(); requestAnimationFrame(loop);
+dims(); buildSlots(); ensureKV(); home(false); ticker(); requestAnimationFrame(loop);
 if (SCREEN) qr();
 if (DEMO) demo();
 else connect().then(b => backend = b).catch(e => { console.error(e); toast('사진을 불러오지 못했어요'); });
