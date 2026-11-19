@@ -122,6 +122,8 @@ h3{font-size:15px;margin:22px 0 8px}
 .gt th:first-child,.gt td:first-child{text-align:left}
 .gt th{font-size:12px;color:var(--sub);font-weight:600}
 .gt td.low{color:#c0261b;font-weight:800}
+.gt .gm{min-width:44px;padding:7px 0;border-radius:10px;border:1.5px solid var(--ink);background:#fff;font-weight:800;font-size:15px}
+.gt .gm:active{transform:scale(.94)}
 .gnote{font-size:12px;color:var(--sub);margin-top:8px;line-height:1.5}
 .gundo{margin-top:12px;width:100%;padding:12px;border-radius:12px;border:1.5px dashed var(--sub);font-weight:700;background:#fff}
 .gconn{font-size:12px;color:var(--sub)}
@@ -210,13 +212,13 @@ function viewGoods(){
   h+='<div class="gsp">'+G.spaces.map(function(x){return '<button data-gsp="'+x.k+'" aria-pressed="'+(x.k===sp.k)+'">'+esc(x.n)+'</button>'}).join('')+'</div>';
   h+='<div class="gb">'+G.buttons.filter(function(b){return !b.only||b.only.indexOf(sp.k)>=0}).map(function(b,i){return '<button class="'+(b.main?'main':'')+'" data-gbtn="'+G.buttons.indexOf(b)+'"><b>'+esc(b.n)+'</b><i>'+esc(b.d)+'</i></button>'}).join('')+'</div>';
   if(GS.last)h+='<button class="gundo" id="gundo">방금 누른 "'+esc(GS.last.n)+'" 되돌리기</button>';
-  h+='<h3>'+esc(sp.n)+' · 3일 배정 기준</h3><table class="gt"><tr><th>품목</th><th>배정</th><th>나감</th><th>남음</th><th>전체 남음</th></tr>';
+  h+='<h3>'+esc(sp.n)+' · 3일 배정 기준</h3><table class="gt"><tr><th>품목</th><th>배정</th><th>나감</th><th>남음</th><th>전체 남음</th><th>고치기</th></tr>';
   G.items.forEach(function(it){
     var a=sp.alloc[it.k]||0,u=gUsed(sp.k,it.k),left=a-u,all=it.total-gUsed(null,it.k);
     if(!a&&!u)return;
-    h+='<tr><td>'+esc(it.n)+'</td><td>'+a+'</td><td>'+u+'</td><td class="'+(left<=10?'low':'')+'">'+left+'</td><td class="'+(all<=20?'low':'')+'">'+all+'</td></tr>';
+    h+='<tr><td>'+esc(it.n)+'</td><td>'+a+'</td><td>'+u+'</td><td class="'+(left<=10?'low':'')+'">'+left+'</td><td class="'+(all<=20?'low':'')+'">'+all+'</td><td><button class="gm" data-gminus="'+it.k+'" aria-label="'+esc(it.n)+' 나감 1개 빼기">−1</button></td></tr>';
   });
-  h+='</table><p class="gnote">배정은 굿즈 시트(01. 공통 1-1 표)의 공간별 3일 몫이에요. 공간끼리 옮겼으면 받은 쪽에서 "남음"이 마이너스로 보여도 괜찮아요. 전체 남음이 진짜 재고예요. 빨간 숫자는 거의 떨어진 것.</p>';
+  h+='</table><p class="gnote">잘못 누른 건 "−1"로 몇 번이든 뺄 수 있어요. 배정은 굿즈 시트(01. 공통 1-1 표)의 공간별 3일 몫이에요. 공간끼리 옮겼으면 받은 쪽에서 "남음"이 마이너스로 보여도 괜찮아요. 전체 남음이 진짜 재고예요. 빨간 숫자는 거의 떨어진 것.</p>';
   return h;
 }
 function gTap(b){
@@ -305,6 +307,9 @@ document.addEventListener('click',function(e){
   else if(t.id==='reset'){S.me=null;store('me',null);render()}
   else if(t.dataset.gsp){GS.sp=t.dataset.gsp;store('gsp',GS.sp);GS.last=null;render()}
   else if(t.dataset.gbtn){gTap(G.buttons[+t.dataset.gbtn])}
+  else if(t.dataset.gminus){var k=t.dataset.gminus,it=G.items.filter(function(x){return x.k===k})[0];
+    if(gUsed(GS.sp,k)<=0){toast(it.n+' · 이 공간에서 나간 게 없어요');return}
+    var r=[{space:GS.sp,item:k,qty:-1,dev:(S.me||'').slice(0,40)}];r.forEach(function(x){GL.push(x)});toast(it.n+' 나감 1개 뺐어요');render();gSend(r)}
   else if(t.id==='gundo'&&GS.last){var u=GS.last;GS.last=null;u.rows.forEach(function(r){GL.push(r)});toast('되돌렸어요');render();gSend(u.rows)}
   else if(t.dataset.copy){copy(t.dataset.copy)}
 });
