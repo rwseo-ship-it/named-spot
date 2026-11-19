@@ -218,6 +218,7 @@ function toast(t){ const el=$('#toast'); el.textContent=t; el.classList.add('on'
 /* ── 헤더 높이 ── */
 function setTop(){ document.documentElement.style.setProperty('--top', $('#hd').offsetHeight+'px'); }
 setTop(); addEventListener('resize', setTop);
+try{ new ResizeObserver(() => { setTop(); if (typeof render === 'function') render(); }).observe($('#hd')); }catch{}
 
 /* ── 데이터 ── */
 let photos = [];          // 오래된 순
@@ -231,8 +232,12 @@ const SMIN = 0.12, SMAX = 1.8;
 const cells = new Map();
 let kvEl = null, slots = [], slotOf = new Map();
 function dims(){
+  // 첫 방문 때 인앱 브라우저가 CSS 변수를 늦게 주는 경우가 있어 화면 폭으로 직접 정한다
   const cs = getComputedStyle(document.body);
-  W = parseFloat(cs.getPropertyValue('--W')); H = parseFloat(cs.getPropertyValue('--H'));
+  const w = parseFloat(cs.getPropertyValue('--W')), h = parseFloat(cs.getPropertyValue('--H'));
+  const fw = SCREEN ? 260 : (innerWidth >= 900 ? 220 : 176), fh = SCREEN ? 340 : (innerWidth >= 900 ? 290 : 232);
+  W = w > 0 ? w : fw; H = h > 0 ? h : fh;
+  document.documentElement.style.setProperty('--W', W+'px'); document.documentElement.style.setProperty('--H', H+'px');
 }
 const colY = i => (mod(i,2) ? H/2 : 0);
 const KV = () => ({x:0, y:0, w:W*2, h:H*2});
@@ -351,8 +356,9 @@ function zoomAt(mx, my, ns){
 const ptrs = new Map();
 let drag = null, pinch = null, lastMove = 0, idleSince = performance.now();
 const local = e => { const r = stage.getBoundingClientRect(); return {x: e.clientX - r.left, y: e.clientY - r.top}; };
+let touched = false;
 stage.addEventListener('pointerdown', e => {
-  cancelAnimationFrame(anim);
+  touched = true; cancelAnimationFrame(anim);
   ptrs.set(e.pointerId, local(e));
   try{ stage.setPointerCapture(e.pointerId); }catch{}
   vel.x = vel.y = 0; stage.classList.add('drag');
@@ -478,7 +484,9 @@ let lbi = -1;
 function openLB(id){ lbi = list.findIndex(p => p.id === id); if (lbi < 0) return; showLB(); $('#lb').classList.add('on'); }
 function showLB(){
   const p = list[lbi];
-  $('#lbimg').src = p.url;
+  const im = $('#lbimg');
+  im.src = p.thumb || p.url;                  // 썸네일(이미 받아둔 것)을 먼저 보여주고
+  if (p.thumb && p.thumb !== p.url){ const big = new Image(); big.onload = () => { if (list[lbi] === p) im.src = p.url; }; big.src = p.url; }
   $('#lbn').textContent = `No.${String(p.n).padStart(3,'0')}  ·  ${hhmm(p.at)}`;
   $('#lbcap').innerHTML = (p.who||p.cap) ? `${p.who?`<b>${esc(p.who)}</b>`:''}${esc(p.cap||'')}<small>${lbi+1} / ${list.length}</small>` : `<small>${lbi+1} / ${list.length}</small>`;
   const nx = list[mod(lbi+1, list.length)]; if (nx) new Image().src = nx.url;
@@ -610,7 +618,15 @@ async function qr(){
 }
 
 /* ── 시작 ── */
-dims(); buildSlots(); ensureKV(); home(false); ticker(); requestAnimationFrame(loop);
+function boot(){
+  const oW = W; dims();
+  if (W !== oW || !kvEl){ kvEl?.remove(); kvEl = null; buildSlots(); ensureKV(); rebuild(); }
+  if (!touched){ if (SCREEN && photos.length) fitAll(false); else home(false); }
+}
+boot(); ticker(); requestAnimationFrame(loop);
+// 글꼴·이미지까지 다 받은 뒤, 그리고 잠깐 뒤에 한 번 더 크기를 확인한다
+addEventListener('load', () => { setTop(); boot(); });
+setTimeout(() => { setTop(); boot(); }, 1200);
 if (SCREEN) qr();
 if (DEMO) demo();
 else connect().then(b => backend = b).catch(e => { console.error(e); toast('사진을 불러오지 못했어요'); });
