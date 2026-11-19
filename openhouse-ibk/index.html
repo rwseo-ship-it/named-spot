@@ -87,6 +87,21 @@ body.screen .zoom{display:none}
 .lb .nav{position:absolute;top:50%;width:48px;height:72px;font-size:30px;color:#fff;opacity:.6}
 .lb .prev{left:0}.lb .next{right:0}
 
+/* 관리자 */
+.adm{position:fixed;left:12px;bottom:calc(86px + env(safe-area-inset-bottom));z-index:31;display:none;gap:6px;align-items:center}
+.adm.on{display:flex}
+.adm b{background:#e6007e;color:#fff;font-size:11px;font-weight:800;padding:6px 10px;border-radius:999px}
+.adm button{background:#fff;color:#000;font-size:12px;font-weight:800;padding:6px 10px;border-radius:999px;display:none}
+.adm button.on{display:inline-block}
+.lb .hide{display:none;margin:0 18px 6px;padding:13px;font-size:15px;font-weight:800;background:#e6007e;color:#fff}
+.lb .hide.on{display:block}
+.lb .hide.sure{background:#fff;color:#e6007e;outline:3px solid #e6007e}
+.pin{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center}
+.pin.on{display:flex}
+.pin .box{background:#111;border-top:3px solid #e6007e;padding:20px;width:min(320px,90vw)}
+.pin p{font-size:14px;font-weight:800;margin-bottom:10px}
+.pin input{width:100%;font:inherit;font-size:24px;letter-spacing:.3em;text-align:center;padding:10px;background:#000;color:#fff;border:1.5px solid #555}
+.pin button{width:100%;margin-top:10px;padding:13px;font-weight:800;background:#e6007e;color:#fff}
 /* 올리기 */
 .sheet{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.75);display:none;align-items:flex-end;justify-content:center}
 .sheet.on{display:flex}
@@ -180,6 +195,7 @@ body.screen .justin.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(
   <div class="bar"><span class="mono" id="lbn"></span><button id="lbx" aria-label="닫기">×</button></div>
   <div class="pic" id="lbpic"><img id="lbimg" alt=""></div>
   <div class="cap" id="lbcap"></div>
+  <button class="hide" id="lbhide">이 사진 숨기기</button>
   <button class="nav prev" id="lbp" aria-label="이전">‹</button><button class="nav next" id="lbnx" aria-label="다음">›</button>
 </div>
 
@@ -192,6 +208,8 @@ body.screen .justin.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(
   <p class="note">다른 사람이 나온 사진은 그분께 먼저 물어봐 주세요.</p>
   <div class="row"><button id="cancel">취소</button><button class="go" id="send">올리기</button></div>
 </div></div>
+<div class="adm" id="adm"><b>관리자</b><button id="undo">방금 숨긴 사진 되돌리기</button></div>
+<div class="pin" id="pin"><div class="box"><p>관리자 핀 번호</p><input id="pinin" type="tel" inputmode="numeric" maxlength="6" autocomplete="off"><button id="pinok">확인</button></div></div>
 <div class="toast" id="toast"></div>
 <figure class="justin" id="justin"><img alt=""><figcaption></figcaption></figure>
 <div class="qr" id="qr"><div id="qrbox"></div><p>찍고<br>바로 올리기</p></div>
@@ -494,6 +512,7 @@ addEventListener('popstate', () => {
 });
 const closeLB = () => { if (history.state?.l) history.back(); else $('#lb').classList.remove('on'); };
 function showLB(){
+  $('#lbhide').classList.toggle('on', ADMIN.on); resetHide();
   const p = list[lbi];
   const im = $('#lbimg');
   im.src = p.thumb || p.url;                  // 썸네일(이미 받아둔 것)을 먼저 보여주고
@@ -580,6 +599,32 @@ function shrink(file, max, q){
   });
 }
 
+/* ── 관리자 모드 (?admin) ── */
+const ADMIN = { on: params.has('admin') && !DEMO, pin: '' , last: null };
+if (ADMIN.on){
+  try{ ADMIN.pin = localStorage.getItem('oh_pin') || ''; }catch{}
+  $('#adm').classList.add('on');
+  if (!ADMIN.pin) $('#pin').classList.add('on');
+}
+$('#pinok').onclick = async () => {
+  const v = $('#pinin').value.trim(); if (!v) return;
+  const be = backend || await ready;
+  if (await be.checkPin(v)){ ADMIN.pin = v; try{ localStorage.setItem('oh_pin', v); }catch{} $('#pin').classList.remove('on'); toast('관리자 모드예요'); }
+  else { $('#pinin').value = ''; toast('핀 번호가 달라요'); }
+};
+$('#pinin').addEventListener('keydown', e => { if (e.key === 'Enter') $('#pinok').click(); });
+let sureT = null;
+$('#lbhide').onclick = async () => {
+  const b = $('#lbhide'), p = list[lbi]; if (!p) return;
+  if (!b.classList.contains('sure')){ b.classList.add('sure'); b.textContent = '한 번 더 누르면 모두에게서 사라져요'; clearTimeout(sureT); sureT = setTimeout(resetHide, 3000); return; }
+  resetHide(); b.disabled = true;
+  try{ await (backend || await ready).hide(p.id); ADMIN.last = p.id; $('#undo').classList.add('on'); closeLB(); toast('숨겼어요'); }
+  catch(e){ console.error(e); toast(String(e.message) === 'pin' ? '핀 번호를 다시 넣어 주세요' : '못 숨겼어요. 다시 눌러 주세요'); if (String(e.message) === 'pin'){ try{ localStorage.removeItem('oh_pin'); }catch{} ADMIN.pin=''; $('#pin').classList.add('on'); } }
+  b.disabled = false;
+};
+function resetHide(){ const b = $('#lbhide'); b.classList.remove('sure'); b.textContent = '이 사진 숨기기'; }
+$('#undo').onclick = async () => { if (!ADMIN.last) return; try{ await (backend || await ready).unhide(ADMIN.last); }catch(e){ toast('못 되돌렸어요'); } };
+
 /* ── 저장소 ── */
 async function connect(){
   if (!window.supabase) throw new Error('supabase lib missing');
@@ -606,9 +651,18 @@ async function connect(){
     shows = shows.filter(p => ok.has(p.id));
     $('#lb').classList.remove('on'); ticker(); rebuild();
   }
-  setInterval(prune, SCREEN ? 20000 : 120000);
+  setInterval(prune, SCREEN ? 20000 : 60000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) prune(); });
+  const setHidden = async (id, h) => {
+    const { data, error } = await sb.rpc('set_photo_hidden', { p_id: id, p_hidden: h, p_pin: ADMIN.pin || '' });
+    if (error) throw error;
+    if (!data) throw new Error('pin');
+    await prune();
+  };
   return {
+    checkPin: async pin => { const { data } = await sb.rpc('set_photo_hidden', { p_id: null, p_hidden: true, p_pin: pin }); return data === true; },
+    hide: id => setHidden(id, true),
+    unhide: async id => { await setHidden(id, false); location.reload(); },
     async upload(job, meta){
       if (!job.base) job.base = `${new Date().toISOString().slice(0,10)}/${job.id}`;
       const put = async (name, blob) => {
