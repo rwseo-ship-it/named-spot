@@ -11,11 +11,13 @@
 <meta property="og:type" content="website">
 <link rel="icon" href="marks.png">
 <title>OPEN HOUSE 사진첩 · PRESS CLUB SEONAM</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" media="print" onload="this.media='all'">
 <style>
 :root{--c:#00a0e2;--m:#e6007e;--y:#ffe500;--paper:#f2eee6;--W:176px;--H:232px}
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;background:#000;color:#fff;font-family:Pretendard,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+html{touch-action:manipulation}
+html,body{height:100%;overflow:hidden;background:#000;color:#fff;font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
 button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
 
@@ -27,7 +29,7 @@ header{position:fixed;inset:0 0 auto 0;z-index:20;background:#000}
 .top nav button{font-size:13px;font-weight:700;padding:7px 11px;border-radius:999px;color:#9a9a9a;border:1.5px solid #333}
 .top nav button.on{color:#000;background:#fff;border-color:#fff}
 .tick{background:var(--y);color:#000;overflow:hidden;white-space:nowrap;font-size:12px;font-weight:800;letter-spacing:.03em;height:24px;display:flex;align-items:center}
-.tick span{display:inline-block;padding-left:100%;animation:tick 26s linear infinite}
+.tick span{display:inline-block;padding-left:100%;animation:tick 26s linear infinite;animation-delay:-8s}
 @keyframes tick{to{transform:translateX(-100%)}}
 
 /* 캔버스 */
@@ -89,7 +91,7 @@ body.screen .zoom{display:none}
 .sheet{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.75);display:none;align-items:flex-end;justify-content:center}
 .sheet.on{display:flex}
 .sheet .box{background:#111;width:100%;max-width:520px;padding:18px 16px calc(18px + env(safe-area-inset-bottom));border-top:3px solid var(--y)}
-.sheet img{width:100%;max-height:42dvh;object-fit:contain;background:#1c1c1c;display:block}
+.sheet img{width:100%;max-height:42vh;max-height:42dvh;object-fit:contain;background:#1c1c1c;display:block}
 .sheet label{display:block;font-size:12px;font-weight:700;color:#9a9a9a;margin:12px 0 4px}
 .sheet input{width:100%;font:inherit;font-size:16px;padding:11px 12px;border:1.5px solid #555;background:#000;color:#fff;border-radius:0}
 .sheet .note{font-size:12px;color:#9a9a9a;line-height:1.5;margin-top:10px}
@@ -146,7 +148,7 @@ body.screen .justin.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(
 </header>
 
 <div id="stage"><div id="layer"></div></div>
-<div class="hint" id="hint">끌어서 둘러보기 · 두 손가락으로 줌</div>
+<div class="hint" id="hint">끌어서 둘러보기 · 두 손가락으로 확대</div>
 
 <section id="info"><div class="in">
   <h2>서남동 인쇄거리에서<br>여는 하루짜리 집들이</h2>
@@ -186,7 +188,7 @@ body.screen .justin.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(
   <label for="who">이름 또는 별명 (안 써도 돼요)</label>
   <input id="who" maxlength="20" placeholder="예: 활판 3팀">
   <label for="cap">한 줄 남기기</label>
-  <input id="cap" maxlength="60" placeholder="예: 처음 찍어본 도장">
+  <input id="cap" maxlength="60" enterkeyhint="send" placeholder="예: 처음 찍어본 도장">
   <p class="note">다른 사람이 나온 사진은 그분께 먼저 물어봐 주세요.</p>
   <div class="row"><button id="cancel">취소</button><button class="go" id="send">올리기</button></div>
 </div></div>
@@ -194,6 +196,7 @@ body.screen .justin.on{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(
 <figure class="justin" id="justin"><img alt=""><figcaption></figcaption></figure>
 <div class="qr" id="qr"><div id="qrbox"></div><p>찍고<br>바로 올리기</p></div>
 
+<script src="supabase-2.119.2.js" defer></script>
 <script type="module">
 const CFG = {
   supabaseUrl: 'https://lkrkwkojqxfkgpvvceth.supabase.co',
@@ -228,7 +231,7 @@ let backend = null;
 /* ── 캔버스 ── */
 let W=0, H=0;
 let cam = {x:0, y:0}, vel = {x:0, y:0}, S = 1;          // cam: 화면 왼쪽 위의 판 좌표, S: 확대 배율
-const SMIN = 0.12, SMAX = 1.8;
+const SMIN = SCREEN ? 0.12 : 0.22, SMAX = 1.8;
 const cells = new Map();
 let kvEl = null, slots = [], slotOf = new Map();
 function dims(){
@@ -336,14 +339,14 @@ function flyTo(x, y, s, smooth){
   };
   anim = requestAnimationFrame(step);
 }
-const home = smooth => { const k = KV(); flyTo(k.x + k.w/2, k.y + k.h/2, 1, smooth); };
+const home = smooth => { const k = KV(); flyTo(k.x + k.w/2, k.y + k.h/2, SCREEN ? 1 : Math.min(1, stage.clientWidth/(W*3.1)), smooth); };
 function fitAll(smooth){
   const n = Math.max(photos.length, 1), k = KV();
   let x0 = k.x, y0 = k.y, x1 = k.x + k.w, y1 = k.y + k.h;
   for (let m=0; m<n+1 && m<slots.length; m++){ const c = slots[m]; x0 = Math.min(x0, c.i*W); x1 = Math.max(x1, c.i*W+W); y0 = Math.min(y0, c.j*H+colY(c.i)); y1 = Math.max(y1, c.j*H+colY(c.i)+H); }
   const pad = 24, s = Math.min((stage.clientWidth-pad*2)/(x1-x0), (stage.clientHeight-pad*2-80)/(y1-y0), 1);
   // 큰 화면에서 사진이 너무 작아지면 전체 대신 최신 사진 주변을 보여준다
-  if (SCREEN && s < 0.35 && photos.length){ const c = slotCenter(photos.length-1); flyTo(c.x, c.y, 0.45, smooth); return; }
+  if (SCREEN && s < 0.35){ flyTo((x0+x1)/2, (y0+y1)/2, 0.35, smooth); return; }
   flyTo((x0+x1)/2, (y0+y1)/2, s, smooth);
 }
 function zoomAt(mx, my, ns){
@@ -358,6 +361,7 @@ let drag = null, pinch = null, lastMove = 0, idleSince = performance.now();
 const local = e => { const r = stage.getBoundingClientRect(); return {x: e.clientX - r.left, y: e.clientY - r.top}; };
 let touched = false;
 stage.addEventListener('pointerdown', e => {
+  if (e.isPrimary){ ptrs.clear(); pinch = null; }
   touched = true; cancelAnimationFrame(anim);
   ptrs.set(e.pointerId, local(e));
   try{ stage.setPointerCapture(e.pointerId); }catch{}
@@ -432,7 +436,7 @@ addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => {
   if (W !== oW){ kvEl?.remove(); kvEl = null; ensureKV(); buildSlots(); rebuild(); }
   else render();
 }, 150); });
-$('#zoom').onclick = () => { if (S < 0.7) home(true); else fitAll(true); };
+$('#zoom').onclick = () => { touched = true; if (S < 0.7) home(true); else fitAll(true); };
 
 /* ── 새 사진 ── */
 let lastNew = null;
@@ -440,6 +444,7 @@ function add(p, fresh=true){
   if (photos.some(x => x.id === p.id)) return;
   p.n = photos.length + 1; p.fresh = fresh;
   photos.push(p); list = [...photos].reverse();
+  if ($('#lb').classList.contains('on') && lbi >= 0) lbi++;
   ticker();
   if (!slots.length) return;
   refreshSlots(p.n - 1, p.n + 2);
@@ -454,7 +459,7 @@ function pill(){
   b.classList.add('on');
   clearTimeout(pill._t); pill._t = setTimeout(() => b.classList.remove('on'), 8000);
 }
-$('#more').onclick = () => { if (!lastNew) return; const c = slotCenter(lastNew.n - 1); if (c) flyTo(c.x, c.y, Math.max(S, 1), true); $('#more').classList.remove('on'); };
+$('#more').onclick = () => { touched = true; if (!lastNew) return; const c = slotCenter(lastNew.n - 1); if (c) flyTo(c.x, c.y, Math.max(S, 1), true); $('#more').classList.remove('on'); };
 const flush = () => {};
 
 function ticker(){
@@ -481,7 +486,13 @@ function showNext(){
 
 /* ── 크게 보기 ── */
 let lbi = -1;
-function openLB(id){ lbi = list.findIndex(p => p.id === id); if (lbi < 0) return; showLB(); $('#lb').classList.add('on'); }
+function openLB(id){ lbi = list.findIndex(p => p.id === id); if (lbi < 0) return; showLB(); $('#lb').classList.add('on'); history.pushState({l:1}, ''); }
+/* 안드로이드 뒤로가기: 페이지를 나가지 않고 크게 보기·올리기 창만 닫는다 */
+addEventListener('popstate', () => {
+  if ($('#lb').classList.contains('on')) $('#lb').classList.remove('on');
+  else if ($('#sheet').classList.contains('on') && !$('#send').disabled){ $('#sheet').classList.remove('on'); up = null; }
+});
+const closeLB = () => { if (history.state?.l) history.back(); else $('#lb').classList.remove('on'); };
 function showLB(){
   const p = list[lbi];
   const im = $('#lbimg');
@@ -489,10 +500,10 @@ function showLB(){
   if (p.thumb && p.thumb !== p.url){ const big = new Image(); big.onload = () => { if (list[lbi] === p) im.src = p.url; }; big.src = p.url; }
   $('#lbn').textContent = `No.${String(p.n).padStart(3,'0')}  ·  ${hhmm(p.at)}`;
   $('#lbcap').innerHTML = (p.who||p.cap) ? `${p.who?`<b>${esc(p.who)}</b>`:''}${esc(p.cap||'')}<small>${lbi+1} / ${list.length}</small>` : `<small>${lbi+1} / ${list.length}</small>`;
-  const nx = list[mod(lbi+1, list.length)]; if (nx) new Image().src = nx.url;
+  const nx = list[mod(lbi+1, list.length)]; if (nx) new Image().src = nx.thumb || nx.url;
 }
 const step = d => { if (!list.length) return; lbi = mod(lbi + d, list.length); showLB(); };
-$('#lbx').onclick = () => $('#lb').classList.remove('on');
+$('#lbx').onclick = closeLB;
 $('#lbp').onclick = () => step(-1);
 $('#lbnx').onclick = () => step(1);
 addEventListener('keydown', e => { if (!$('#lb').classList.contains('on')) return; if (e.key==='Escape') $('#lbx').click(); if (e.key==='ArrowLeft') step(-1); if (e.key==='ArrowRight') step(1); });
@@ -506,6 +517,7 @@ document.querySelectorAll('.top nav button').forEach(b => b.onclick = () => {
   const info = b.dataset.tab === 'info';
   $('#info').classList.toggle('on', info);
   $('#shoot').style.display = info ? 'none' : '';
+  $('#zoom').style.display = info ? 'none' : ''; if (info) $('#more').classList.remove('on');
 });
 (function markNow(){
   const d = new Date(); if (d.getMonth()!==10 || d.getDate()!==20) return;
@@ -515,31 +527,43 @@ document.querySelectorAll('.top nav button').forEach(b => b.onclick = () => {
 })();
 
 /* ── 올리기 ── */
-let up = null;
+let up = null, ready = null;
+const uuid = () => crypto.randomUUID ? crypto.randomUUID()
+  : ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c/4).toString(16));
+const withTimeout = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]);
 $('#shoot').onclick = () => $('#file').click();
 $('#file').onchange = async e => {
   const f = e.target.files[0]; e.target.value = '';
   if (!f) return;
-  try { up = { full: await shrink(f, 1600, .82), thumb: await shrink(f, 480, .72) }; }
-  catch { toast('이 사진은 열 수 없어요'); return; }
+  toast('사진 준비 중…');
+  try { const full = await shrink(f, 1600, .82); const thumb = await shrink(full.blob, 480, .72); up = {full, thumb}; }
+  catch { toast('이 사진은 열 수 없어요. 다른 사진을 골라 주세요'); return; }
+  const b = $('#send'); b.disabled = false; b.textContent = '올리기';
+  history.pushState({l:1}, '');
   $('#preview').src = up.full.url;
   $('#sheet').classList.add('on');
 };
-$('#cancel').onclick = () => { $('#sheet').classList.remove('on'); up = null; };
+$('#cancel').onclick = () => { $('#sheet').classList.remove('on'); up = null; const b = $('#send'); b.disabled = false; b.textContent = '올리기'; if (history.state?.l) history.back(); };
 $('#send').onclick = async () => {
-  if (!up) return;
+  if (!up || up.busy) return;
+  const job = up; job.busy = true;
   const btn = $('#send'); btn.disabled = true; btn.textContent = '올리는 중';
   try{
-    const meta = { who:$('#who').value.trim(), cap:$('#cap').value.trim(), w:up.full.w, h:up.full.h };
+    const meta = { who:$('#who').value.trim(), cap:$('#cap').value.trim(), w:job.full.w, h:job.full.h };
     try{ localStorage.setItem('oh_who', meta.who); }catch{}
-    if (DEMO) add({ id:'local'+Date.now(), url:up.full.url, thumb:up.thumb.url, at:Date.now(), ...meta });
-    else await backend.upload(up.full.blob, up.thumb.blob, meta);
-    $('#sheet').classList.remove('on'); $('#cap').value=''; up = null;
-    const me = photos[photos.length-1]; const c = me && slotCenter(me.n-1); if (c) flyTo(c.x, c.y, 1, true); $('#more').classList.remove('on');
+    if (!job.id) job.id = uuid();
+    let mine;
+    if (DEMO) mine = { id:'local'+job.id, url:job.full.url, thumb:job.thumb.url, at:Date.now(), ...meta };
+    else { const be = backend || await withTimeout(ready, 15000); mine = await withTimeout(be.upload(job, meta), 60000); }
+    add(mine);                                   // realtime이 먼저 와도 id로 걸러진다
+    if (up === job){ $('#sheet').classList.remove('on'); $('#cap').value = ''; up = null; if (history.state?.l) history.back(); }
+    const me = photos.find(x => x.id === mine.id), c = me && slotCenter(me.n - 1);
+    touched = true; if (c) flyTo(c.x, c.y, 1, true); $('#more').classList.remove('on');
     toast('올렸어요');
-  }catch(err){ console.error(err); toast('못 올렸어요. 다시 해 주세요'); }
-  btn.disabled = false; btn.textContent = '올리기';
+  }catch(err){ console.error(err); toast('전송이 끊겼어요. 올리기를 한 번 더 눌러 주세요'); }
+  job.busy = false; btn.disabled = false; btn.textContent = '올리기';
 };
+$('#cap').addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); $('#send').click(); } });
 try{ $('#who').value = localStorage.getItem('oh_who')||''; }catch{}
 function shrink(file, max, q){
   return new Promise((res, rej) => {
@@ -558,8 +582,8 @@ function shrink(file, max, q){
 
 /* ── 저장소 ── */
 async function connect(){
-  const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
-  const sb = createClient(CFG.supabaseUrl, CFG.supabaseKey);
+  if (!window.supabase) throw new Error('supabase lib missing');
+  const sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseKey, {auth:{persistSession:false, autoRefreshToken:false, detectSessionInUrl:false}});
   const pub = path => sb.storage.from(CFG.bucket).getPublicUrl(path).data.publicUrl;
   const row = r => ({ id:r.id, url:pub(r.path), thumb:pub(r.path.replace(/\.jpg$/, '_t.jpg')), w:r.w, h:r.h, who:r.who, cap:r.cap, at:r.created_at });
   const { data, error } = await sb.from(CFG.table).select('*').eq('hidden', false).order('created_at', {ascending:true}).limit(2000);
@@ -572,15 +596,30 @@ async function connect(){
     const { data } = await sb.from(CFG.table).select('*').eq('hidden', false).gt('created_at', new Date(last).toISOString()).order('created_at');
     (data||[]).forEach(r => add(row(r)));
   }, 30000);
+  async function prune(){
+    const { data, error } = await sb.from(CFG.table).select('id').eq('hidden', false).limit(2000);
+    if (error || !data) return;
+    const ok = new Set(data.map(r => r.id)), before = photos.length;
+    photos = photos.filter(p => ok.has(p.id) || String(p.id).startsWith('local'));
+    if (photos.length === before) return;
+    photos.forEach((p, i) => p.n = i + 1); list = [...photos].reverse();
+    shows = shows.filter(p => ok.has(p.id));
+    $('#lb').classList.remove('on'); ticker(); rebuild();
+  }
+  setInterval(prune, SCREEN ? 20000 : 120000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) prune(); });
   return {
-    async upload(full, thumb, meta){
-      const base = `${new Date().toISOString().slice(0,10)}/${crypto.randomUUID()}`;
-      const t = await sb.storage.from(CFG.bucket).upload(base + '_t.jpg', thumb, {contentType:'image/jpeg'});
-      if (t.error) throw t.error;
-      const f = await sb.storage.from(CFG.bucket).upload(base + '.jpg', full, {contentType:'image/jpeg'});
-      if (f.error) throw f.error;
-      const ins = await sb.from(CFG.table).insert({ path: base + '.jpg', ...meta });
-      if (ins.error) throw ins.error;
+    async upload(job, meta){
+      if (!job.base) job.base = `${new Date().toISOString().slice(0,10)}/${job.id}`;
+      const put = async (name, blob) => {
+        const r = await sb.storage.from(CFG.bucket).upload(name, blob, {contentType:'image/jpeg', cacheControl:'31536000'});
+        if (r.error && !/exist|duplicate|409/i.test(`${r.error.message} ${r.error.statusCode||''} ${r.error.error||''}`)) throw r.error;
+      };
+      if (!job.t){ await put(job.base + '_t.jpg', job.thumb.blob); job.t = 1; }
+      if (!job.f){ await put(job.base + '.jpg', job.full.blob); job.f = 1; }
+      const ins = await sb.from(CFG.table).insert({ id: job.id, path: job.base + '.jpg', ...meta }).select().single();
+      if (ins.error && ins.error.code !== '23505') throw ins.error;      // 23505: 이미 들어감(응답만 끊김)
+      return row(ins.data || { id: job.id, path: job.base + '.jpg', ...meta, created_at: new Date().toISOString() });
     }
   };
 }
@@ -629,7 +668,12 @@ addEventListener('load', () => { setTop(); boot(); });
 setTimeout(() => { setTop(); boot(); }, 1200);
 if (SCREEN) qr();
 if (DEMO) demo();
-else connect().then(b => backend = b).catch(e => { console.error(e); toast('사진을 불러오지 못했어요'); });
+else ready = start();
+async function start(n = 0){
+  try{ return backend = await connect(); }
+  catch(e){ console.error(e); if (!n) toast('사진을 불러오는 중이에요');
+    await new Promise(r => setTimeout(r, Math.min(15000, 2000*(n+1)))); return start(n+1); }
+}
 </script>
 </body>
 </html>
